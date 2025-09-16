@@ -38,7 +38,7 @@
                         <button class="btn btn-primary w-100 btn-filter">Apply Filters</button>
                     </form>
                 </div>
-                 <div class="d-lg-none mb-4 text-end">
+                <div class="d-lg-none mb-4 text-end">
                     <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilters">
                         <i class="bi bi-funnel-fill me-2"></i> Filter & Sort
                     </button>
@@ -75,7 +75,7 @@
                             </div>
                         </div>
                     </div>
-                    </div>
+                </div>
             </div>
         </div>
     </div>

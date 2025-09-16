@@ -12,8 +12,10 @@
 body {
     background-color: #F8F9FA;
     color: #333333;
-    font-family: 'Poppins', sans-serif; /* Remember to link this font in header.php for it to work */
-    padding-top: 50px; /* Adjust if your header height changes */
+    font-family: 'Poppins', sans-serif;
+    /* Remember to link this font in header.php for it to work */
+    padding-top: 50px;
+    /* Adjust if your header height changes */
 }
 
 a {
@@ -26,25 +28,30 @@ a {
     padding: 0.8rem 0;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
+
 .freshpick-header .navbar-brand {
     font-size: 1.6rem;
     letter-spacing: 1px;
 }
+
 .freshpick-header .nav-link {
     color: #fff;
     font-weight: 500;
     margin: 0 12px;
     transition: color 0.3s, transform 0.3s;
 }
+
 .freshpick-header .nav-link:hover {
     color: var(--accent-yellow);
     transform: translateY(-2px);
 }
+
 .freshpick-header .nav-icon {
     color: #fff;
     font-size: 1.5rem;
     transition: color 0.3s;
 }
+
 .freshpick-header .nav-icon:hover {
     color: var(--accent-yellow);
 }
@@ -57,6 +64,7 @@ a {
     font-weight: 600;
     transition: 0.3s;
 }
+
 .btn-theme:hover {
     background: #FFA000;
     color: #fff;
@@ -80,6 +88,7 @@ a {
     height: 80vh;
     object-fit: cover;
 }
+
 .hero-section .carousel-caption {
     background: rgba(0, 0, 0, 0.4);
     padding: 20px;
@@ -97,6 +106,7 @@ a {
     border: 2px solid rgba(139, 195, 74, 0.125);
     transition: transform 0.3s, box-shadow 0.3s;
 }
+
 .testimonials .shadow-sm:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(76, 175, 80, 0.2);
@@ -106,6 +116,7 @@ a {
 .newsletter input {
     border: 2px solid var(--primary-green);
 }
+
 .newsletter input:focus {
     box-shadow: none;
     border-color: var(--secondary-green);
@@ -117,23 +128,28 @@ a {
     color: #fff;
     padding-top: 50px;
 }
+
 .freshpick-footer h3,
 .freshpick-footer h5 {
     color: #fff;
 }
+
 .freshpick-footer a {
     color: var(--accent-yellow);
     transition: 0.3s;
 }
+
 .freshpick-footer a:hover {
     color: #fff;
 }
+
 .freshpick-footer .social-icons a {
     margin-right: 15px;
     font-size: 1.4rem;
     color: #fff;
     transition: 0.3s;
 }
+
 .freshpick-footer .social-icons a:hover {
     color: var(--accent-yellow);
 }
@@ -145,21 +161,25 @@ a {
     border-radius: 15px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
+
 .filter-sidebar .form-label {
     color: var(--text-dark);
     font-size: 0.9rem;
 }
+
 .filter-sidebar .form-select,
 .filter-sidebar .form-control {
     border-radius: 10px;
     border: 1px solid #ddd;
     transition: border-color 0.3s, box-shadow 0.3s;
 }
+
 .filter-sidebar .form-select:focus,
 .filter-sidebar .form-control:focus {
     border-color: var(--primary-green);
     box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
 }
+
 .btn-filter {
     background: linear-gradient(90deg, var(--secondary-green), var(--primary-green));
     color: white;
@@ -169,6 +189,7 @@ a {
     font-weight: 600;
     transition: transform 0.2s;
 }
+
 .btn-filter:hover {
     color: white;
     transform: scale(1.03);
@@ -183,6 +204,7 @@ a {
     overflow: hidden;
     position: relative;
 }
+
 .product-card:hover {
     transform: translateY(-10px);
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
@@ -191,12 +213,14 @@ a {
 .product-card__image {
     position: relative;
 }
+
 .product-card__image img {
     width: 100%;
     height: 250px;
     object-fit: cover;
     transition: transform 0.4s ease;
 }
+
 .product-card:hover .product-card__image img {
     transform: scale(1.1) rotate(2deg);
 }
@@ -232,6 +256,7 @@ a {
     font-size: 1.2rem;
     transition: all 0.3s;
 }
+
 .product-card__wishlist:hover,
 .product-card__wishlist.active {
     background-color: var(--danger-red);
@@ -250,6 +275,7 @@ a {
 .product-card__details {
     transition: transform 0.4s ease, opacity 0.4s ease;
 }
+
 .product-card:hover .product-card__details {
     transform: translateY(-100%);
     opacity: 0;
@@ -260,6 +286,7 @@ a {
     font-weight: 600;
     transition: color 0.3s;
 }
+
 .product-card__title a:hover {
     color: var(--primary-green);
 }
@@ -269,10 +296,12 @@ a {
     font-size: 0.9rem;
     margin: 5px 0;
 }
+
 .product-card__price .old {
     text-decoration: line-through;
     color: #999;
 }
+
 .product-card__price .new {
     color: var(--primary-green);
     font-size: 1.3rem;
@@ -289,9 +318,11 @@ a {
     transform: translateY(100%);
     transition: transform 0.4s ease;
 }
+
 .product-card:hover .product-card__action-bar {
     transform: translateY(-20px);
 }
+
 .btn-add-cart {
     background-color: var(--primary-green);
     color: white;
@@ -300,7 +331,120 @@ a {
     border-radius: 10px;
     transition: background-color 0.3s;
 }
+
 .btn-add-cart:hover {
     background-color: var(--secondary-green);
     color: white;
+}
+
+/* Service Card */
+.service-card {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Service Icons */
+.service-card .icon {
+    font-size: 3rem;
+    color: #28a745;
+    background: rgba(40, 167, 69, 0.1);
+    width: 90px;
+    height: 90px;
+    line-height: 90px;
+    margin: 0 auto;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.service-card:hover .icon {
+    background: #28a745;
+    color: #fff;
+    transform: scale(1.1);
+}
+
+/* About Hero */
+.about-hero {
+    background: linear-gradient(rgba(0, 128, 0, 0.6), rgba(0, 128, 0, 0.6)),
+        url('https://images.unsplash.com/photo-1506807803488-8eafc15323c7?w=1600') center/cover no-repeat;
+    color: #fff;
+    padding: 100px 0;
+}
+
+/* About Box */
+.about-box {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+}
+
+.about-box:hover {
+    transform: translateY(-10px);
+}
+
+/* Team Card */
+.team-card {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.team-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.team-card img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+}
+
+/* Contact Hero */
+.contact-hero {
+    background: linear-gradient(rgba(0, 128, 0, 0.7), rgba(0, 128, 0, 0.7));
+    padding: 100px 0;
+    color: #fff;
+}
+
+/* Contact Info Box */
+.contact-info {
+    background: #fff;
+    border-radius: 12px;
+}
+
+.contact-info p {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+/* Contact Form */
+.contact-form {
+    background: #fff;
+    border-radius: 12px;
+}
+
+.contact-form input,
+.contact-form textarea {
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.contact-form button {
+    border-radius: 8px;
+    font-size: 18px;
+    padding: 10px;
+    transition: all 0.3s;
+}
+
+.contact-form button:hover {
+    background: #0b7d3e;
 }

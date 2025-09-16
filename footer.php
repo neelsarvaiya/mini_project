@@ -17,9 +17,9 @@
                 <ul class="list-unstyled">
                     <li><a href="index.php">Home</a></li>
                     <li><a href="products.php">Products</a></li>
-                    <li><a href="#">Services</a></li>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="servise.php">Services</a></li>
+                    <li><a href="about.php">About Us</a></li>
+                    <li><a href="contact.php">Contact Us</a></li>
                 </ul>
             </div>
             <div class="col-md-3">

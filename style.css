@@ -1,0 +1,306 @@
+/* --- Root Variables for Easy Theming --- */
+:root {
+    --primary-green: #4CAF50;
+    --secondary-green: #8BC34A;
+    --accent-yellow: #FFC107;
+    --text-dark: #333333;
+    --text-light: #f8f9fa;
+    --danger-red: #e74c3c;
+}
+
+/* --- Global Theme Styles --- */
+body {
+    background-color: #F8F9FA;
+    color: #333333;
+    font-family: 'Poppins', sans-serif; /* Remember to link this font in header.php for it to work */
+    padding-top: 50px; /* Adjust if your header height changes */
+}
+
+a {
+    text-decoration: none;
+}
+
+/* --- Header --- */
+.freshpick-header {
+    background: linear-gradient(90deg, #8BC34A, #4CAF50);
+    padding: 0.8rem 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.freshpick-header .navbar-brand {
+    font-size: 1.6rem;
+    letter-spacing: 1px;
+}
+.freshpick-header .nav-link {
+    color: #fff;
+    font-weight: 500;
+    margin: 0 12px;
+    transition: color 0.3s, transform 0.3s;
+}
+.freshpick-header .nav-link:hover {
+    color: var(--accent-yellow);
+    transform: translateY(-2px);
+}
+.freshpick-header .nav-icon {
+    color: #fff;
+    font-size: 1.5rem;
+    transition: color 0.3s;
+}
+.freshpick-header .nav-icon:hover {
+    color: var(--accent-yellow);
+}
+
+/* --- General Buttons --- */
+.btn-theme {
+    background: var(--accent-yellow);
+    color: var(--text-dark);
+    border: none;
+    font-weight: 600;
+    transition: 0.3s;
+}
+.btn-theme:hover {
+    background: #FFA000;
+    color: #fff;
+}
+
+/* --- Cart Badge --- */
+.cart-badge {
+    position: absolute;
+    top: -6px;
+    right: -10px;
+    background: var(--danger-red);
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 50%;
+}
+
+/* --- Homepage: Hero Section --- */
+.hero-section img {
+    height: 80vh;
+    object-fit: cover;
+}
+.hero-section .carousel-caption {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 20px;
+    border-radius: 12px;
+}
+
+/* --- Homepage: Offer Banner --- */
+.offer-banner {
+    background: linear-gradient(90deg, var(--primary-green), var(--secondary-green));
+    color: white;
+}
+
+/* --- Homepage: Testimonials --- */
+.testimonials .shadow-sm {
+    border: 2px solid rgba(139, 195, 74, 0.125);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.testimonials .shadow-sm:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.2);
+}
+
+/* --- Homepage: Newsletter --- */
+.newsletter input {
+    border: 2px solid var(--primary-green);
+}
+.newsletter input:focus {
+    box-shadow: none;
+    border-color: var(--secondary-green);
+}
+
+/* --- Footer --- */
+.freshpick-footer {
+    background: linear-gradient(90deg, var(--primary-green), var(--secondary-green));
+    color: #fff;
+    padding-top: 50px;
+}
+.freshpick-footer h3,
+.freshpick-footer h5 {
+    color: #fff;
+}
+.freshpick-footer a {
+    color: var(--accent-yellow);
+    transition: 0.3s;
+}
+.freshpick-footer a:hover {
+    color: #fff;
+}
+.freshpick-footer .social-icons a {
+    margin-right: 15px;
+    font-size: 1.4rem;
+    color: #fff;
+    transition: 0.3s;
+}
+.freshpick-footer .social-icons a:hover {
+    color: var(--accent-yellow);
+}
+
+/* --- Product Page: Stylish Filter Sidebar --- */
+.filter-sidebar {
+    background: #fff;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+.filter-sidebar .form-label {
+    color: var(--text-dark);
+    font-size: 0.9rem;
+}
+.filter-sidebar .form-select,
+.filter-sidebar .form-control {
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+.filter-sidebar .form-select:focus,
+.filter-sidebar .form-control:focus {
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+}
+.btn-filter {
+    background: linear-gradient(90deg, var(--secondary-green), var(--primary-green));
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-weight: 600;
+    transition: transform 0.2s;
+}
+.btn-filter:hover {
+    color: white;
+    transform: scale(1.03);
+}
+
+/* --- Product Page: Product Card V3 Stylish Design --- */
+.product-card {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.07);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    position: relative;
+}
+.product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+}
+
+.product-card__image {
+    position: relative;
+}
+.product-card__image img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+.product-card:hover .product-card__image img {
+    transform: scale(1.1) rotate(2deg);
+}
+
+/* Stylish Ribbon Badge */
+.product-card__badge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--danger-red);
+    color: white;
+    padding: 8px 15px 8px 25px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
+}
+
+/* "Glassmorphism" Wishlist Button */
+.product-card__wishlist {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--text-dark);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: all 0.3s;
+}
+.product-card__wishlist:hover,
+.product-card__wishlist.active {
+    background-color: var(--danger-red);
+    color: white;
+    transform: scale(1.1);
+}
+
+.product-card__content {
+    padding: 20px;
+    position: relative;
+    height: 140px;
+    overflow: hidden;
+}
+
+/* This holds the Title, Rating, and Price */
+.product-card__details {
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+.product-card:hover .product-card__details {
+    transform: translateY(-100%);
+    opacity: 0;
+}
+
+.product-card__title a {
+    color: var(--text-dark);
+    font-weight: 600;
+    transition: color 0.3s;
+}
+.product-card__title a:hover {
+    color: var(--primary-green);
+}
+
+.product-card__rating {
+    color: var(--accent-yellow);
+    font-size: 0.9rem;
+    margin: 5px 0;
+}
+.product-card__price .old {
+    text-decoration: line-through;
+    color: #999;
+}
+.product-card__price .new {
+    color: var(--primary-green);
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+/* This is the NEW stylish Add to Cart button */
+.product-card__action-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    transform: translateY(100%);
+    transition: transform 0.4s ease;
+}
+.product-card:hover .product-card__action-bar {
+    transform: translateY(-20px);
+}
+.btn-add-cart {
+    background-color: var(--primary-green);
+    color: white;
+    font-weight: 600;
+    padding: 12px;
+    border-radius: 10px;
+    transition: background-color 0.3s;
+}
+.btn-add-cart:hover {
+    background-color: var(--secondary-green);
+    color: white;
+}

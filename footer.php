@@ -18,8 +18,8 @@
                     <li><a href="index.php">Home</a></li>
                     <li><a href="products.php">Products</a></li>
                     <li><a href="servise.php">Services</a></li>
-                    <li><a href="about.php">About Us</a></li>
                     <li><a href="contact.php">Contact Us</a></li>
+                    <li><a href="about.php">About Us</a></li>
                 </ul>
             </div>
             <div class="col-md-3">
@@ -46,9 +46,6 @@
         </div>
     </div>
 </footer>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="script.js"></script>
 </body>
 
 </html>

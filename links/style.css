@@ -1,3 +1,8 @@
+.error{
+    color: red;
+    font-weight: 500;
+    margin-top: 6px;
+}
 /* --- Root Variables for Easy Theming --- */
 :root {
     --primary-green: #4CAF50;

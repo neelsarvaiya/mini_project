@@ -88,8 +88,9 @@
     <div class="container text-center">
         <h2 class="fw-bold mb-3">Subscribe to Our Newsletter</h2>
         <p class="text-muted mb-4">Get updates on fresh arrivals and exclusive discounts.</p>
-        <form class="d-flex justify-content-center">
-            <input type="email" class="form-control w-50 rounded-start-pill" placeholder="Enter your email">
+        <form action="#" class="d-flex justify-content-center" method="post">
+            <input type="text" class="form-control w-50 rounded-start-pill" name="email" placeholder="Your Name email" data-validation="required email">
+            <div class="error" id="emailError"></div>
             <button class="btn btn-theme rounded-end-pill px-4" type="submit">Subscribe</button>
         </form>
     </div>

@@ -7,12 +7,13 @@ if (isset($_POST['signup_btn'])) {
     $firstName = $_POST['firstname'];
     $lastName = $_POST['lastname'];
     $email = $_POST['email'];
+    $address = $_POST['address'];
     $mobile = $_POST['phone'];
     $password = $_POST['password'];
     $profile_picture = uniqid() . $_FILES['profile_picture']['name'];
     $profile_picture_tmp_name = $_FILES['profile_picture']['tmp_name'];
     $token = uniqid() . time();
-    $insert = "INSERT INTO registration(firstname, lastname, email, mobile, password, profile_picture, role, status,token) VALUES ('$firstName','$lastName','$email','$mobile','$password','$profile_picture','User','Inactive','$token')";
+    $insert = "INSERT INTO registration(firstname, lastname, email,address, mobile, password, profile_picture, role, status,token) VALUES ('$firstName','$lastName','$email','$address','$mobile','$password','$profile_picture','User','Inactive','$token')";
     if ($con->query($insert)) {
         if (!file_exists('images/profile_pictures')) {
             mkdir('images/profile_pictures');

@@ -4,250 +4,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FreshPick Admin</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Admin Panel</title>
+
+    <?php
+    include('db_connect.php');
+    include('mailer.php');
+    ?>
+    <!-- Bootstrap & Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <style>
-        /* Sidebar */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 250px;
-            height: 100vh;
-            background: linear-gradient(180deg, #28a745, #56d879);
-            color: #fff;
-            padding-top: 60px;
-            transition: all 0.3s;
-            z-index: 1000;
-            overflow-y: auto;
-        }
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="links/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="links/bootstrap.min.css" rel="stylesheet">
 
-        .sidebar::-webkit-scrollbar {
-            width: 6px;
-        }
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="links/admin_style.css">
 
-        .sidebar::-webkit-scrollbar-thumb {
-            background-color: rgba(255, 255, 255, 0.3);
-            border-radius: 3px;
-        }
-
-        .sidebar a {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            color: #fff;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s;
-            border-radius: 10px;
-            margin: 5px 10px;
-        }
-
-        .sidebar a i {
-            margin-right: 12px;
-            font-size: 1.2rem;
-        }
-
-        .sidebar a:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.02);
-        }
-
-        .sidebar .sidebar-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 250px;
-            height: 60px;
-            background: #1e7e34;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            font-weight: 700;
-            z-index: 1001;
-            letter-spacing: 1px;
-        }
-
-        /* Topbar */
-        .topbar {
-            position: fixed;
-            top: 0;
-            left: 250px;
-            right: 0;
-            height: 60px;
-            background: #fff;
-            display: flex;
-            align-items: center;
-            padding: 0 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            z-index: 999;
-        }
-
-        .topbar .menu-toggle {
-            display: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            margin-right: 15px;
-        }
-
-        .topbar .topbar-right {
-            margin-left: auto;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .topbar .topbar-right .icon {
-            font-size: 1.2rem;
-            position: relative;
-            cursor: pointer;
-        }
-
-        .topbar .topbar-right .icon span {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: red;
-            color: #fff;
-            font-size: 0.65rem;
-            padding: 1px 5px;
-            border-radius: 50%;
-        }
-
-        .topbar .topbar-right img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .topbar .topbar-right img:hover {
-            transform: scale(1.1);
-        }
-
-        /* Main content */
-        .main-content {
-            margin-left: 250px;
-            padding: 80px 20px 20px 20px;
-            transition: all 0.3s;
-        }
-
-        .dashboard-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .card-dashboard {
-            background: #fff;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s;
-            text-align: center;
-        }
-
-        .card-dashboard:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
-        }
-
-        .card-dashboard h3 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-        }
-
-        .card-dashboard p {
-            color: #6c757d;
-        }
-
-        /* Responsive */
-        @media (max-width: 992px) {
-            .sidebar {
-                left: -250px;
-            }
-
-            .sidebar.active {
-                left: 0;
-            }
-
-            .topbar {
-                left: 0;
-            }
-
-            .topbar .menu-toggle {
-                display: block;
-            }
-
-            .main-content {
-                margin-left: 0;
-            }
-        }
-    </style>
+    <!-- Scripts -->
+    <script src="links/bootstrap.bundle.min.js"></script>
+    <script src="links/jquery-3.7.1.js"></script>
+    <script src="links/validate.js"></script>
 </head>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const hamburger = document.querySelector(".toggle-btn");
+        const toggler = document.querySelector("#icon");
+
+        hamburger.addEventListener("click", function() {
+            document.querySelector("#sidebar").classList.toggle("expand");
+            toggler.classList.toggle("bi-chevron-double-right");
+            toggler.classList.toggle("bi-chevron-double-left");
+        });
+    });
+</script>
 
 <body>
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">FreshPick Admin</div>
-        <a href="#"><i class="bi bi-speedometer2"></i> Dashboard</a>
-        <a href="#"><i class="bi bi-box-seam"></i> Products</a>
-        <a href="#"><i class="bi bi-basket"></i> Orders</a>
-        <a href="#"><i class="bi bi-people"></i> Users</a>
-        <a href="#"><i class="bi bi-tags"></i> Categories</a>
-        <a href="#"><i class="bi bi-gear"></i> Settings</a>
-    </div>
-
-    <div class="topbar">
-        <i class="bi bi-list menu-toggle" id="menu-toggle"></i>
-        <h4>Dashboard</h4>
-        <div class="topbar-right">
-            <div class="icon">
-                <i class="bi bi-bell"></i>
-                <span>3</span>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <aside id="sidebar">
+            <div class="d-flex justify-content-between p-4">
+                <div class="sidebar-logo">
+                    <a href="admin_dashboard.php" class="text-white fs-5 fw-bold">Fresh Pick</a>
+                </div>
+                <button class="toggle-btn border-0" type="button">
+                    <i id="icon" class="bi bi-chevron-double-left"></i>
+                </button>
             </div>
-            <div class="icon">
-                <i class="bi bi-envelope"></i>
-                <span>5</span>
-            </div>
-            <img src="img/admin.jpg" alt="Admin">
-        </div>
-    </div>
 
-    <div class="main-content">
-        <h2>Welcome, Admin</h2>
-        <p>Here’s a quick overview of your FreshPick Dashboard.</p>
+            <ul class="sidebar-nav">
+                <li class="sidebar-item"><a href="admin_dashboard.php" class="sidebar-link"><i class="bi bi-speedometer2"></i><span>Dashboard</span></a></li>
+                <li class="sidebar-item"><a href="admin_user.php" class="sidebar-link"><i class="bi bi-person-circle"></i><span>Users</span></a></li>
+                <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-sliders"></i><span>Slider</span></a></li>
+                <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-box"></i><span>Product</span></a></li>
+                <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-star"></i><span>Review & Rating</span></a></li>
+                <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-gift"></i><span>Offers</span></a></li>
+                <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-cart"></i><span>Orders</span></a></li>
+                <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-tag"></i><span>Brand</span></a></li>
+                <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-info-circle"></i><span>Contact & About</span></a></li>
+                <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-tools"></i><span>Service</span></a></li>
+            </ul>
+        </aside>
 
-        <div class="dashboard-cards mt-4">
-            <div class="card-dashboard">
-                <h3>120</h3>
-                <p>New Orders</p>
-            </div>
-            <div class="card-dashboard">
-                <h3>80</h3>
-                <p>Products</p>
-            </div>
-            <div class="card-dashboard">
-                <h3>45</h3>
-                <p>Users</p>
-            </div>
-            <div class="card-dashboard">
-                <h3>15</h3>
-                <p>Categories</p>
-            </div>
-        </div>
-    </div>
+        <!-- Main Content -->
+        <div class="main">
+            <!-- Top Navbar -->
+            <nav class="top-navbar d-flex justify-content-between align-items-center px-3">
+                <a href="admin_dashboard.php" class="navbar-brand-text">Admin Panel</a>
+                <div class="dropdown">
+                    <button class="btn profile-dropdown-btn d-flex align-items-center" type="button" data-bs-toggle="dropdown">
+                        <img src="images/1.jpg" class="avatar" alt="Admin">
+                        <div class="d-none d-sm-block text-start ms-2">
+                            <div class="profile-name">Admin Name</div>
+                            <div class="profile-role">Administrator</div>
+                        </div>
+                        <i class="bi bi-chevron-down d-none d-sm-block ms-2"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow border-0">
+                        <li>
+                            <h6 class="dropdown-header">My Account</h6>
+                        </li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-person-circle me-2"></i> Profile</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+                    </ul>
+                </div>
+            </nav>
 
-    <script>
-        const toggleBtn = document.getElementById('menu-toggle');
-        const sidebar = document.getElementById('sidebar');
+            <style>
+                /* =================================== */
+                /* ===== TOP NAVBAR STYLES ===== */
+                /* =================================== */
+                .top-navbar {
+                    background-color: #ffffff;
+                    padding: 0.75rem 1.5rem;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    border-bottom: 1px solid #e0e5ec;
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    box-shadow: 0 6px 12px -3px rgba(33, 37, 41, 0.3);
+                }
 
-        toggleBtn.addEventListener('click', () => {
-            sidebar.classList.toggle('active');
-        });
-    </script>
-</body>
+                .navbar-brand-text {
+                    font-size: 1.5rem;
+                    font-weight: 700;
+                    color: #2c3e50;
+                    text-decoration: none;
+                }
 
-</html>
+                .profile-dropdown-btn {
+                    background: transparent;
+                    border: none;
+                    padding: 0;
+                    min-height: 44px;
+                }
+
+                .profile-dropdown-btn:hover {
+                    background-color: transparent;
+                }
+
+                .profile-avatar {
+                    height: 40px;
+                    width: 40px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                    border: 2px solid #fff;
+                    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+                    margin-right: 0.75rem;
+                }
+
+                .profile-name {
+                    font-weight: 600;
+                    color: #2c3e50;
+                    font-size: 0.9rem;
+                    line-height: 1.2;
+                }
+
+                .profile-role {
+                    font-size: 0.75rem;
+                    color: #95a5a6;
+                    line-height: 1.2;
+                }
+
+                .dropdown-menu {
+                    border-radius: 0.75rem;
+                    border: 1px solid #e0e5ec;
+                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                    padding: 0.5rem 0;
+                    margin-top: 0.5rem !important;
+                }
+
+                .dropdown-header {
+                    font-weight: 700;
+                    padding: 0.75rem 1.25rem;
+                    color: #2c3e50;
+                }
+
+                .dropdown-item {
+                    padding: 0.75rem 1.25rem;
+                    font-size: 0.95rem;
+                    color: #566a7f;
+                    transition: all 0.2s ease-in-out;
+                }
+
+                .dropdown-item i {
+                    font-size: 1.1rem;
+                    margin-right: 0.75rem;
+                    width: 20px;
+                    text-align: center;
+                }
+
+                .dropdown-item:hover,
+                .dropdown-item:focus {
+                    background-color: #f4f7fc;
+                    color: #3b7ddd;
+                }
+
+                .dropdown-item:active {
+                    background-color: #e9ecef;
+                }
+
+                .dropdown-divider {
+                    margin: 0.5rem 0;
+                    border-top: 1px solid #e0e5ec;
+                }
+            </style>
+
+            <!-- Scrollable Content -->
+            <div class="main-content-scrollable">

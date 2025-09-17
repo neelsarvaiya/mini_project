@@ -1,3 +1,5 @@
+<?php include_once('db_connect.php') ?>
+<?php include_once('mailer.php') ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -48,7 +50,7 @@
                         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
                             id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="img/1.jpg" alt="User" width="38" height="38" class="rounded-circle border border-2">
-                        </a>    
+                        </a>
                         <ul class="dropdown-menu dropdown-menu-end shadow-lg animate__animated animate__fadeInDown" aria-labelledby="dropdownUser">
                             <li class="dropdown-header text-center">
                                 <h6 class="fw-bold mb-0">John Doe</h6>
@@ -75,3 +77,22 @@
             </div>
         </div>
     </header>
+
+    <?php
+    if (isset($_COOKIE['success'])) {
+    ?>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Success!</strong> <?php echo " " . $_COOKIE['success']; ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php
+    }
+    if (isset($_COOKIE['error'])) {
+    ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Error!</strong><?php echo " " . $_COOKIE['error']; ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php
+    }
+    ?>

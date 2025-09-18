@@ -1,4 +1,47 @@
-<?php include_once('header.php'); ?>
+<?php include_once('db_connect.php') ?>
+
+<?php
+session_start();
+
+if (isset($_POST['login'])) {
+    $email = trim($_POST['email']);
+    $password = trim($_POST['password']);
+
+    $sql = "SELECT * FROM registration WHERE email = '$email' LIMIT 1";
+    $data = mysqli_query($con, $sql);
+
+    if ($data && mysqli_num_rows($data) > 0) {
+        $user = mysqli_fetch_assoc($data);
+
+        if ($user['status'] != 'Active') {
+            $_SESSION['login_error'] = "Inactive Account";
+            header("Location: login.php");
+            exit;
+        }
+
+        if ($user['password'] === $password) {
+
+            if ($user['role'] === 'user') {
+                $_SESSION['user'] = $user['email'];
+                header("Location: index.php");
+            } else {
+                $_SESSION['admin'] = $user['email'];
+                header("Location: admin_dashboard.php");
+            }
+        } else {
+            $_SESSION['login_error'] = "Invalid password!";
+            header("Location: login.php");
+            exit;
+        }
+    } else {
+        $_SESSION['login_error'] = "Invalid email!";
+        header("Location: login.php");
+        exit;
+    }
+}
+
+include_once('header.php');
+?>
 
 <style>
     body {
@@ -82,8 +125,16 @@
                         <h3 class="text-center mb-3">Login to Your Account</h3>
                         <p class="text-center text-muted mb-4">Enter your credentials to access your profile.</p>
 
-                        <form action="login_submit.php" method="POST">
-                            <!-- Email -->
+                        <?php if (isset($_SESSION['login_error'])): ?>
+                            <div class="alert alert-danger text-center">
+                                <?php
+                                echo $_SESSION['login_error'];
+                                unset($_SESSION['login_error']);
+                                ?>
+                            </div>
+                        <?php endif; ?>
+
+                        <form action="login.php" method="POST">
                             <div class="mb-3">
                                 <input type="text" class="form-control" id="email" name="email"
                                     placeholder="Email Address" data-validation="required email">
@@ -104,7 +155,7 @@
 
                             <!-- Submit -->
                             <div class="d-grid mb-3">
-                                <button type="submit" class="btn btn-success w-100">Login</button>
+                                <button type="submit" class="btn btn-success w-100" name="login">Login</button>
                             </div>
                         </form>
 

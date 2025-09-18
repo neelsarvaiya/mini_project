@@ -1,3 +1,13 @@
+<?php
+session_start();
+if (!isset($_SESSION['admin'])) {
+    ?>
+    <script>
+        window.location.href = 'login.php';
+    </script>
+    <?php
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,11 +36,11 @@
     <script src="links/validate.js"></script>
 </head>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         const hamburger = document.querySelector(".toggle-btn");
         const toggler = document.querySelector("#icon");
 
-        hamburger.addEventListener("click", function() {
+        hamburger.addEventListener("click", function () {
             document.querySelector("#sidebar").classList.toggle("expand");
             toggler.classList.toggle("bi-chevron-double-right");
             toggler.classList.toggle("bi-chevron-double-left");
@@ -71,7 +81,8 @@
             <nav class="top-navbar d-flex justify-content-between align-items-center px-3">
                 <a href="admin_dashboard.php" class="navbar-brand-text">Admin Panel</a>
                 <div class="dropdown">
-                    <button class="btn profile-dropdown-btn d-flex align-items-center" type="button" data-bs-toggle="dropdown">
+                    <button class="btn profile-dropdown-btn d-flex align-items-center" type="button"
+                        data-bs-toggle="dropdown">
                         <img src="images/1.jpg" class="avatar" alt="Admin">
                         <div class="d-none d-sm-block text-start ms-2">
                             <div class="profile-name">Admin Name</div>
@@ -87,7 +98,8 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+                        <li><a class="dropdown-item text-danger" href="logout.php"><i class="bi bi-box-arrow-right me-2"></i>
+                                Logout</a></li>
                     </ul>
                 </div>
             </nav>

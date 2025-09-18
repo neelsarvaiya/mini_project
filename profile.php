@@ -1,3 +1,64 @@
+<?php
+include_once('db_connect.php');
+session_start();
+
+
+if (!isset($_SESSION['user'])) {
+    header("Location: login.php");
+    exit;
+}
+
+$user_email = $_SESSION['user'];
+
+// profile update
+
+if (isset($_POST['save_profile'])) {
+    $firstname = mysqli_real_escape_string($con, $_POST['firstname']);
+    $lastname = mysqli_real_escape_string($con, $_POST['lastname']);
+    $mobile = mysqli_real_escape_string($con, $_POST['mobile']);
+    $address = mysqli_real_escape_string($con, $_POST['address']);
+
+    $update_sql = "UPDATE registration SET firstname='$firstname', lastname='$lastname', mobile='$mobile', address='$address'";
+
+    if (!empty($_FILES['profile_picture']['name'])) {
+
+        $filename = time() . "_" . basename($_FILES['profile_picture']['name']);
+        $target = "images/profile_pictures/" . $filename;
+
+
+
+        if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $target)) {
+            $sql = "SELECT profile_picture FROM registration WHERE email = $user_email";
+            $data = mysqli_query($con, $sql);
+            $user = mysqli_fetch_assoc($data);
+
+            if (!empty($user['profile_picture'])) {
+                $old_path = "images/profile_pictures/" . $user['profile_picture'];
+                unlink($old_path);
+            }
+            $update_sql .= ", profile_picture='$filename'";
+        }
+
+
+    }
+
+    $update_sql .= " WHERE email='$user_email'";
+
+    if (mysqli_query($con, $update_sql)) {
+        $_SESSION['success'] = "Profile updated successfully!";
+        header("Location: profile.php");
+        exit;
+    } else {
+        $_SESSION['error'] = "Error updating profile!";
+    }
+
+}
+
+$sql = "SELECT * FROM registration WHERE email = '$user_email' LIMIT 1";
+$result = mysqli_query($con, $sql);
+$user = mysqli_fetch_assoc($result);
+?>
+
 <?php include_once('header.php'); ?>
 
 <style>
@@ -144,52 +205,91 @@
     }
 </style>
 
-<div class="profile-container">
-    <div class="card profile-card">
-        <div class="profile-header">
-            <img src="img/1.jpg" alt="Profile Picture" class="profile-image">
-            <h2>John Doe</h2>
-            <p>john.doe@example.com</p>
-        </div>
+<div class="profile-container py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-4 p-md-5">
 
-        <!-- Profile Body -->
-        <div class="card-body">
-            <form action="update_profile.php" method="post" enctype="multipart/form-data">
+                        <?php if (isset($_SESSION['success'])): ?>
+                            <div class="alert alert-success">
+                                <?php echo $_SESSION['success'];
+                                unset($_SESSION['success']); ?>
+                            </div>
+                        <?php endif; ?>
 
-                <div class="mb-4">
-                    <input type="text" class="form-control" name="fullName" placeholder="Full Name"
-                        value="John" data-validation="required alpha min" data-min="2">
-                    <div class="error" id="fullNameError"></div>
+                        <?php if (isset($_SESSION['error'])): ?>
+                            <div class="alert alert-danger">
+                                <?php echo $_SESSION['error'];
+                                unset($_SESSION['error']); ?>
+                            </div>
+                        <?php endif; ?>
+
+
+                        <div class="text-center mb-4">
+                            <img src="images/profile_pictures/<?php echo !empty($user['profile_picture']) ? $user['profile_picture'] : 'default.jpg'; ?>"
+                                alt="Profile Picture" class="rounded-circle border border-2 shadow-sm mb-3" width="120"
+                                height="120" style="object-fit: cover;">
+                            <h2 class="mb-1">
+                                <?php echo htmlspecialchars($user['firstname'] . ' ' . $user['lastname']); ?>
+                            </h2>
+                            <p class="text-muted fs-6"><?php echo htmlspecialchars($user['email']); ?></p>
+                            <hr class="my-4">
+                        </div>
+
+                        <h5 class="mb-4">Edit Profile Details</h5>
+                        <form action="profile.php" method="post" enctype="multipart/form-data">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="firstname" class="form-label">First Name</label>
+                                    <input type="text" class="form-control" id="firstname" name="firstname"
+                                        value="<?php echo htmlspecialchars($user['firstname']); ?>"
+                                        data-validation="required alpha min" data-min="2">
+                                    <div class="error" id="firstnameError"></div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="lastname" class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" id="lastname" name="lastname"
+                                        value="<?php echo htmlspecialchars($user['lastname']); ?>"
+                                        data-validation="required alpha min" data-min="2">
+                                    <div class="error" id="lastnameError"></div>
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="mobile" class="form-label">Mobile Number</label>
+                                    <input type="text" class="form-control" id="mobile" name="mobile"
+                                        value="<?php echo htmlspecialchars($user['mobile']); ?>"
+                                        data-validation="required numeric min max" data-min="10" data-max="10">
+                                    <div class="error" id="mobileError"></div>
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="address" class="form-label">Address</label>
+                                    <textarea class="form-control" id="address" name="address" rows="3"
+                                        data-validation="required min"
+                                        data-min="5"><?php echo htmlspecialchars($user['address']); ?></textarea>
+                                    <div class="error" id="addressError"></div>
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="profile_picture" class="form-label">Update Profile Picture</label>
+                                    <input type="file" class="form-control" id="profile_picture" name="profile_picture">
+                                </div>
+                            </div>
+
+                            <div class="mt-4 pt-3 border-top d-flex justify-content-end gap-2">
+                                <a href="index.php" class="btn btn-secondary">Cancel</a>
+                                <button type="submit" class="btn btn-primary" name="save_profile">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-
-                <!-- Mobile -->
-                <div class="mb-4">
-                    <input type="text" class="form-control" name="mobile" placeholder="Mobile Number"
-                        value="9876543210" data-validation="required numeric min max" data-min="10" data-max="10">
-                    <div class="error" id="mobileError"></div>
-                </div>
-
-                <!-- Address -->
-                <div class="mb-4">
-                    <textarea class="form-control" name="address" rows="3" placeholder="Your Address"
-                        data-validation="required min" data-min="5"></textarea>
-                    <div class="error" id="addressError"></div>
-                </div>
-
-                <!-- Profile Picture -->
-                <div class="mb-4">
-                    <input type="file" class="form-control" name="profile_picture" data-validation="fileType"
-                        data-allowed="jpg,jpeg,png,gif">
-                    <div class="error" id="profile_pictureError"></div>
-                </div>
-
-                <!-- Buttons -->
-                <div class="d-flex justify-content-end gap-3">
-                    <button type="submit" class="btn btn-custom btn-save">Save Changes</button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
+
 
 <?php include_once('footer.php'); ?>

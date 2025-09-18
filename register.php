@@ -32,7 +32,7 @@ if (isset($_POST['signup_btn'])) {
     }
 ?>
     <script>
-        window.location.href = 'register.php'; 
+        window.location.href = 'register.php';
     </script>
 <?php
 }
@@ -123,8 +123,8 @@ if (isset($_POST['signup_btn'])) {
                                 <div class="col-12"> <input type="text" class="form-control" name="phone" placeholder="Phone Number" value="6352822005" data-validation="required numeric min max" data-min="10" data-max="10">
                                     <div class="error" id="phoneError"></div>
                                 </div>
-                                <div class="col-12"> <input type="file" class="form-control" name="profile_picture" data-validation="required file filesize" data-filesize="">
-                                    <div class="error" id="profileError"></div>
+                                <div class="col-12"> <input type="file" class="form-control" name="profile_picture" data-validation="required file filesize">
+                                    <div class="error" id="profile_pictureError"></div>
                                 </div>
                                 <div class="col-12"> <textarea class="form-control" name="address" rows="3" placeholder="Your Address" data-validation="required min" data-min="5">R.k. University</textarea>
                                     <div class="error" id="addressError"></div>

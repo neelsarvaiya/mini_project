@@ -73,11 +73,6 @@
         color: black;
     }
 
-    .input-group .form-control:focus {
-        border-color: #6610f2;
-        box-shadow: 0 0 0 0.2rem rgba(102, 16, 242, 0.25);
-    }
-
     .pagination .page-item .page-link {
         border-radius: 50px;
         margin: 0 2px;
@@ -95,68 +90,47 @@
         background: #0d6efd;
         color: #fff;
     }
-
-    /* Search input group styling */
-    .input-group .btn-outline-danger {
-        background: linear-gradient(135deg, #6610f2, #0d6efd);
-        color: #fff;
-        border: none;
-        transition: all 0.3s ease;
-    }
-
-    .input-group .btn-outline-danger:hover {
-        background: linear-gradient(135deg, #0d6efd, #6610f2);
-        color: #fff;
-    }
 </style>
 
 <div class="container-fluid py-4">
 
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="mb-0">User Management</h2>
-        <a href="add_user.php" class="btn btn-danger btn-custom">
-            <i class="bi bi-plus-circle"></i> Add New User
+        <h2 class="mb-0">Slider Management</h2>
+        <a href="add_slider.php" class="btn btn-danger btn-custom">
+            <i class="bi bi-plus-circle"></i> Add New Slider
         </a>
     </div>
 
-    <!-- Users Table -->
+    <!-- Sliders Table -->
     <div class="card shadow-sm">
         <div class="card-body p-3">
             <div class="table-responsive">
                 <table class="table table-hover align-middle mb-0">
-                    <thead class="table-light">
+                    <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Profile</th>
-                            <th>Full Name</th>
-                            <th>Email</th>
-                            <th>Phone No.</th>
-                            <th>Role</th>
+                            <th>Sr. No.</th>
+                            <th>Image</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                        $sql = "SELECT * FROM registration";
+                        $sql = "SELECT * FROM slider ORDER BY id DESC";
                         $result = mysqli_query($con, $sql);
 
                         $sr_no = 1;
-                        if ($result->num_rows > 0) {
+                        if ($result && $result->num_rows > 0) {
                             while ($row = $result->fetch_assoc()) {
                         ?>
                                 <tr>
                                     <td><?php echo $sr_no++; ?></td>
                                     <td>
-                                        <img src="images/profile_pictures/<?= $row['profile_picture']; ?>"
-                                            height="80px" width="80px"
-                                            class="rounded-circle shadow-sm">
+                                        <img src="images/<?= $row['slider_image']; ?>"
+                                            height="100px" width="200px"
+                                            class="rounded shadow-sm">
                                     </td>
-                                    <td><?php echo $row['firstname']; ?> <?php echo $row['lastname']; ?></td>
-                                    <td><?php echo $row['email']; ?></td>
-                                    <td><?php echo $row['mobile']; ?></td>
-                                    <td><?php echo ucfirst($row['role']); ?></td>
                                     <td>
                                         <?php if ($row['status'] == 'active') { ?>
                                             <span class="badge badge-status badge-active">Active</span>
@@ -165,46 +139,50 @@
                                         <?php } ?>
                                     </td>
                                     <td>
-                                        <a href="edit_user.php?id=<?= $row['id']; ?>"
-                                            class="btn btn-sm btn-outline-info me-1 editBtn">
+                                        <a href="edit_slider.php?id=<?= $row['id']; ?>"
+                                            class="btn btn-sm btn-outline-info me-1">
                                             Edit
                                         </a>
                                         <form method="post" style="display:inline;">
                                             <input type="hidden" name="id" value="<?= $row['id'] ?>">
-                                            <input type="submit" name="deleteUser" class="btn btn-sm btn-outline-danger" value="Delete" onclick="return confirm('Are you sure you want to delete this user?');">
+                                            <input type="submit" name="deleteSlider"
+                                                class="btn btn-sm btn-outline-danger"
+                                                value="Delete"
+                                                onclick="return confirm('Are you sure you want to delete this slider?');">
                                         </form>
-
-                                        <?php
-                                        if (isset($_POST['deleteUser'])) {
-                                            $userId = $_POST['id'];
-
-                                            $result = mysqli_query($con, "SELECT profile_picture FROM registration WHERE id = $userId");
-                                            $user = mysqli_fetch_assoc($result);
-
-                                            $delete_query = "DELETE FROM registration WHERE id = $userId";
-                                            if (mysqli_query($con, $delete_query)) {
-                                                if (!empty($user['profile_picture'])) {
-                                                    if (file_exists("images/profile_pictures/" . $user['profile_picture'])) {
-                                                        unlink("images/profile_pictures/" . $user['profile_picture']);
-                                                    }
-                                                }
-                                                echo "<script>alert('User deleted successfully');</script>";
-                                            } else {
-                                                echo "<script>alert('Error deleting user');</script>";
-                                            }
-                                            echo "<script>window.location.href='admin_user.php';</script>";
-                                        }
-                                        ?>
                                     </td>
                                 </tr>
                         <?php
                             }
                         } else {
-                            echo "<tr><td colspan='9' class='text-center'>No records found</td></tr>";
+                            echo "<tr><td colspan='4' class='text-center'>No sliders found</td></tr>";
                         }
                         ?>
                     </tbody>
                 </table>
+
+                <?php
+                if (isset($_POST['deleteSlider'])) {
+                    $sliderId = $_POST['id'];
+
+                    $result = mysqli_query($con, "SELECT slider_image FROM slider WHERE id = $sliderId");
+                    $slider = mysqli_fetch_assoc($result);
+
+                    $delete_query = "DELETE FROM slider WHERE id = $sliderId";
+                    if (mysqli_query($con, $delete_query)) {
+                        if (!empty($slider['slider_image'])) {
+                            if (file_exists("images/" . $slider['slider_image'])) {
+                                unlink("images/" . $slider['slider_image']);
+                            }
+                        }
+                        echo "<script>alert('Slider deleted successfully');</script>";
+                    } else {
+                        echo "<script>alert('Error deleting slider');</script>";
+                    }
+                    echo "<script>window.location.href='admin_slider.php';</script>";
+                }
+                ?>
+
             </div>
         </div>
     </div>

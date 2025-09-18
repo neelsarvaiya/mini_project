@@ -54,7 +54,7 @@
             <ul class="sidebar-nav">
                 <li class="sidebar-item"><a href="admin_dashboard.php" class="sidebar-link"><i class="bi bi-speedometer2"></i><span>Dashboard</span></a></li>
                 <li class="sidebar-item"><a href="admin_user.php" class="sidebar-link"><i class="bi bi-person-circle"></i><span>Users</span></a></li>
-                <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-sliders"></i><span>Slider</span></a></li>
+                <li class="sidebar-item"><a href="admin_slider.php" class="sidebar-link"><i class="bi bi-sliders"></i><span>Slider</span></a></li>
                 <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-box"></i><span>Product</span></a></li>
                 <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-star"></i><span>Review & Rating</span></a></li>
                 <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-gift"></i><span>Offers</span></a></li>

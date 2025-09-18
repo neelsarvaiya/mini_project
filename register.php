@@ -142,7 +142,6 @@ if (isset($_POST['signup_btn'])) {
                                         data-validation="required file filesize" data-filesize="">
                                     <div class="error" id="profile_pictureError"></div>
                                 </div>
-                                </div>
                                 <div class="col-12">
                                     <label for="address" class="form-label">Your Address</label>
                                     <textarea class="form-control" id="address" name="address" rows="2"
@@ -150,17 +149,18 @@ if (isset($_POST['signup_btn'])) {
                                         data-min="5"></textarea>
                                     <div class="error" id="addressError"></div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-6">
                                     <label for="password" class="form-label">Password</label>
                                     <input type="password" class="form-control" name="password" id="password"
-                                        placeholder="Password" data-validation="required strongPassword">
+                                        placeholder="Password" data-validation="required strongPassword"
+                                        value="KIri23@#">
                                     <div class="error" id="passwordError"></div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-6">
                                     <label for="confirm_password" class="form-label">Confirm Password</label>
-                                    <input type="password" class="form-control" id="confirm_password"
-                                        name="confirm_password" placeholder="Confirm Password"
-                                        data-validation="required confirmPassword" data-password-id="password">
+                                    <input type="password" class="form-control" name="confirm_password"
+                                        placeholder="Confirm Password" data-validation="required confirmPassword"
+                                        data-password-id="password" value="KIri23@#">
                                     <div class="error" id="confirm_passwordError"></div>
                                 </div>
 
@@ -169,14 +169,15 @@ if (isset($_POST['signup_btn'])) {
                                         Up</button>
                                 </div>
                             </div>
-                        </form>
-                        <p class="text-center mt-4"> Already have an account? <a href="login.php"
-                                class="text-success fw-bold">Login here</a> </p>
                     </div>
+                    </form>
+                    <p class="text-center mt-4"> Already have an account? <a href="login.php"
+                            class="text-success fw-bold">Login here</a> </p>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 <?php
 include_once('footer.php');

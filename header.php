@@ -170,6 +170,14 @@ include_once('mailer.php');
             font-weight: 500;
         }
 
+
+        .navbar-nav .nav-link.active {
+            text-decoration: underline;
+            font-weight: 600;
+            color: #bfe3ca !important;
+        }
+
+
         .product-sec {
             padding: 80px 0;
         }
@@ -574,13 +582,30 @@ include_once('mailer.php');
             </button>
 
             <div class="collapse navbar-collapse" id="navbarNav">
+                <?php $currentPage = basename($_SERVER['PHP_SELF']); ?>
                 <ul class="navbar-nav mx-auto text-center">
-                    <li class="nav-item"><a class="nav-link active" href="index.php">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="products.php">Shop</a></li>
-                    <li class="nav-item"><a class="nav-link" href="servise.php">Services</a></li>
-                    <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
-                    <li class="nav-item"><a class="nav-link" href="about.php">About</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link <?= ($currentPage == 'index.php') ? 'active' : '' ?>"
+                            href="index.php">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?= ($currentPage == 'products.php') ? 'active' : '' ?>"
+                            href="products.php">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?= ($currentPage == 'servise.php') ? 'active' : '' ?>"
+                            href="servise.php">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?= ($currentPage == 'contact.php') ? 'active' : '' ?>"
+                            href="contact.php">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?= ($currentPage == 'about.php') ? 'active' : '' ?>"
+                            href="about.php">About</a>
+                    </li>
                 </ul>
+
 
                 <div class="d-flex align-items-center justify-content-center header-icons">
 
@@ -602,8 +627,8 @@ include_once('mailer.php');
                                 id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false"
                                 style="margin-left: 10px; padding: 1px 0; background-color: var(--theme-light-green)">
 
-                                <img src="images/profile_pictures/<?= $row['profile_picture']; ?>" alt="User"
-                                    width="40" height="38" class="rounded-circle border border-2 me-2">
+                                <img src="images/profile_pictures/<?= $row['profile_picture']; ?>" alt="User" width="40"
+                                    height="38" class="rounded-circle border border-2 me-2">
                                 <span class="fw-semibold"><?= $row['firstname'] . ' ' . $row['lastname'] ?></span>
                             </a>
 

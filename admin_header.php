@@ -64,7 +64,7 @@ if (!isset($_SESSION['admin'])) {
             <ul class="sidebar-nav">
                 <li class="sidebar-item"><a href="admin_dashboard.php" class="sidebar-link"><i class="bi bi-speedometer2"></i><span>Dashboard</span></a></li>
                 <li class="sidebar-item"><a href="admin_user.php" class="sidebar-link"><i class="bi bi-person-circle"></i><span>Users</span></a></li>
-                <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-box"></i><span>Product</span></a></li>
+                <li class="sidebar-item"><a href="admin_product.php" class="sidebar-link"><i class="bi bi-box"></i><span>Product</span></a></li>
                 <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-star"></i><span>Review & Rating</span></a></li>
                 <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-gift"></i><span>Offers</span></a></li>
                 <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-cart"></i><span>Orders</span></a></li>

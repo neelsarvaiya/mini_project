@@ -621,7 +621,7 @@ include_once('mailer.php');
                                 id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false"
                                 style="margin-left: 10px; padding: 1px 0; background-color: var(--theme-light-green)">
 
-                                <img src="img/profile_pictures/<?php $row['profile_picture'] ?>" alt="User"
+                                <img src="images/profile_pictures/<?= $row['profile_picture'] ?>" alt="User"
                                     width="38" height="38" class="rounded-circle border border-2 me-2">
                                 <span class="fw-semibold"><?= $row['firstname'] . ' ' . $row['lastname'] ?></span>
                             </a>

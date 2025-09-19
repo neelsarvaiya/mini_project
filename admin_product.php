@@ -96,6 +96,7 @@
                             <th>Product Name</th>
                             <th>Category</th>
                             <th>Price</th>
+                            <th>Unit</th>
                             <th>Quantity</th>
                             <th>Discount</th>
                             <th>Status</th>
@@ -121,6 +122,7 @@
                                     <td><?php echo $row['product_name']; ?></td>
                                     <td><?php echo $row['category_id']; ?></td>
                                     <td>₹<?php echo number_format($row['price'], 2); ?></td>
+                                    <td><?php echo $row['unit']; ?></td>
                                     <td><?php echo $row['quantity']; ?></td>
                                     <td><?php echo $row['discount']; ?>%</td>
                                     <td>

@@ -65,6 +65,7 @@
                 $product_name = $_POST['product_name'];
                 $category_id  = $_POST['category_id'];
                 $price        = $_POST['price'];
+                $unit        = $_POST['unit'];
                 $quantity     = $_POST['quantity'];
                 $discount     = $_POST['discount'];
                 $status       = $_POST['status'];
@@ -90,6 +91,7 @@
                     main_image   = '$main_image',
                     category_id  = '$category_id',
                     price        = '$price',
+                    unit        = '$unit',
                     description  = '$description',
                     quantity     = '$quantity',
                     status       = '$status',
@@ -137,6 +139,13 @@
                         <input type="number" name="price" class="form-control" data-validation="required"
                             value="<?= $product['price'] ?>">
                             <div class="error" id="priceError"></div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Unit</label>
+                        <input type="text" name="unit" class="form-control" data-validation="required"
+                            value="<?= $product['unit'] ?>">
+                            <div class="error" id="unitError"></div>
                     </div>
 
                     <div class="col-md-6">

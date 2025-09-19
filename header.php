@@ -607,20 +607,23 @@ include_once('mailer.php');
                         <i class="bi bi-cart fs-4"></i>
                         <span class="cart-badge">3</span>
                     </a>
-                    <?php if (isset($_SESSION['user'])): ?>
+                    <?php if (isset($_SESSION['user'])):
 
+                        $email = $_SESSION['user'];
+                        $q = "select * from registration where email='$email'";
+                        $result = $con->query($q);
+                        $row = mysqli_fetch_assoc($result);
+
+                        ?>
                         <div class="dropdown profile-dropdown me-3">
-                            <!-- <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-                                id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="img/profile_pictures/68cab6cdad205_Screenshot 2025-07-01 143502.png" alt="User"
-                                    width="38" height="38" class="rounded-circle border border-2">
-                            </a> -->
                             <a href="#"
                                 class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle px-3 rounded"
-                                id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false" style="margin-left: 10px; padding: 1px 0; background-color: var(--theme-light-green)">
+                                id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false"
+                                style="margin-left: 10px; padding: 1px 0; background-color: var(--theme-light-green)">
 
-                                <img src="img/profile_pictures/68cab6cdad205_Screenshot 2025-07-01 143502.png" alt="User"width="38" height="38" class="rounded-circle border border-2 me-2">
-                                <span class="fw-semibold">John Doe</span>
+                                <img src="img/profile_pictures/<?php $row['profile_picture'] ?>" alt="User"
+                                    width="38" height="38" class="rounded-circle border border-2 me-2">
+                                <span class="fw-semibold"><?= $row['firstname'] . ' ' . $row['lastname'] ?></span>
                             </a>
 
                             <ul class="dropdown-menu dropdown-menu-end shadow-lg animate__animated animate__fadeInDown"

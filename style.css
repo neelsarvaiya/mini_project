@@ -322,20 +322,6 @@
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .filter-sidebar {
     background-color: #ffffff;
     padding: 2rem;
@@ -401,18 +387,6 @@
     object-fit: contain;
 }
 
-.discount-badge {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    background-color: var(--theme-green);
-    color: white;
-    padding: 5px 12px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    border-radius: 50px;
-    z-index: 2;
-}
 
 .product-actions {
     position: absolute;
@@ -429,6 +403,12 @@
 .product-card:hover .product-actions {
     right: 15px;
     opacity: 1;
+}
+
+.price {
+    color: green;
+    font-size: 15px;
+    font-weight: 600;
 }
 
 .action-btn {
@@ -475,7 +455,7 @@
     background-color: var(--theme-light-green-bg);
     color: var(--theme-green);
     padding: 3px 10px;
-    font-size: 0.75rem;
+    font-size: 10px;
     font-weight: 600;
     border-radius: 50px;
 }
@@ -523,15 +503,14 @@
 }
 
 .new-price {
-    font-size: 1.2rem;
+    font-size: 18px;
     font-weight: 700;
     color: var(--theme-green);
 }
 
 .old-price {
-    font-size: 0.9rem;
+    font-size: 12px;
     color: var(--text-light);
-    text-decoration: line-through;
 }
 
 .save-badge {
@@ -541,4 +520,83 @@
     font-size: 0.75rem;
     font-weight: 500;
     border-radius: 5px;
+}
+
+
+.shop-header {
+    margin-bottom: 30px;
+}
+
+.shop-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2f8f3c;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 8px;
+}
+
+.shop-title::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: #37a847;
+    margin: 8px auto 0;
+    border-radius: 2px;
+}
+
+.shop-subtitle {
+    font-size: 15px;
+    color: #666;
+    margin-top: 10px;
+}
+
+
+/* Sidebar Heading */
+.filter-sidebar h4 {
+    font-size: 18px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+}
+
+/* Collapsible Group Header */
+.filter-group-header {
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: color 0.2s ease;
+}
+
+.filter-group-header:hover {
+    color: #37a847;
+}
+
+/* Collapse Body Items */
+.filter-group ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+.filter-group ul li a {
+    display: block;
+    padding: 8px 12px;
+    font-weight: 500;
+    font-size: 14px;
+    color: #555;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.filter-group ul li a:hover {
+    background-color: #f8f9fa;
+    color: #2f8f3c;
 }

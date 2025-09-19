@@ -184,6 +184,42 @@
         </div>
     </section>
 
+    <section class="seasonal-offers-sec">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="title">Your Festive Feast Starts Here!</h2>
+                <p class="subtitle mx-auto mb-5">Celebrate Navratri & Diwali with our hand-picked essentials. Fresh
+                    ingredients for a joyous celebration, with savings you'll love.</p>
+            </div>
+
+            <div class="row g-4">
+
+                <div class="col-lg-6">
+                    <div class="offer-card">
+                        <div class="offer-image" style="background-image: url('img/products/oil-ghee.jpg');">
+                        </div>
+                        <div class="offer-content">
+                            <h4>Flat 20% OFF on Ghee & Oils</h4>
+                            <a href="#" class="btn mt-3">Shop Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="offer-card">
+                        <div class="offer-image" style="background-image: url('img/products/product-img-3.png');">
+                        </div>
+                        <div class="offer-content">
+                            <h4>Special discount Dairy products</h4>
+                            <a href="#" class="btn mt-3">Explore Now</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
     <section class="farmer-section">
         <div class="container">
             <div class="row align-items-center g-5">
@@ -225,42 +261,6 @@
                         Learn Our Story <i class="bi bi-arrow-right ms-2"></i>
                     </a>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="seasonal-offers-sec">
-        <div class="container">
-            <div class="text-center">
-                <h2 class="title">Your Festive Feast Starts Here!</h2>
-                <p class="subtitle mx-auto mb-5">Celebrate Navratri & Diwali with our hand-picked essentials. Fresh
-                    ingredients for a joyous celebration, with savings you'll love.</p>
-            </div>
-
-            <div class="row g-4">
-
-                <div class="col-lg-6">
-                    <div class="offer-card">
-                        <div class="offer-image" style="background-image: url('img/products/oil-ghee.jpg');">
-                        </div>
-                        <div class="offer-content">
-                            <h4>Flat 20% OFF on Ghee & Oils</h4>
-                            <a href="#" class="btn mt-3">Shop Now</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-6">
-                    <div class="offer-card">
-                        <div class="offer-image" style="background-image: url('img/products/product-img-3.png');">
-                        </div>
-                        <div class="offer-content">
-                            <h4>Special discount Dairy products</h4>
-                            <a href="#" class="btn mt-3">Explore Now</a>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
     </section>

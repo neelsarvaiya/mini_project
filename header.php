@@ -223,6 +223,7 @@ include_once('mailer.php');
             padding: 5px 12px;
             font-size: 0.8rem;
             font-weight: 600;
+            border-radius: 3px;
             z-index: 2;
         }
 
@@ -281,15 +282,8 @@ include_once('mailer.php');
             width: 100%;
         }
 
-        .top-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
-
         .product-info-new .category {
-            font-size: 0.75rem;
+            font-size: 12px;
             font-weight: 500;
             color: var(--text-light);
             text-transform: uppercase;
@@ -347,25 +341,12 @@ include_once('mailer.php');
             gap: 0.5rem;
         }
 
-        .product-info-new .new-price {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--theme-green);
-        }
-
-        .product-info-new .old-price {
-            font-size: 1rem;
-            color: var(--text-light);
-            text-decoration: line-through;
-        }
-
         .product-info-new .save-badge {
             background-color: var(--theme-green);
             color: white;
             padding: 4px 8px;
             font-size: 0.75rem;
             font-weight: 500;
-            border-radius: 5px;
         }
     </style>
 
@@ -595,7 +576,7 @@ include_once('mailer.php');
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mx-auto text-center">
                     <li class="nav-item"><a class="nav-link active" href="index.php">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="products.php">Products</a></li>
+                    <li class="nav-item"><a class="nav-link" href="products.php">Shop</a></li>
                     <li class="nav-item"><a class="nav-link" href="servise.php">Services</a></li>
                     <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.php">About</a></li>
@@ -621,8 +602,8 @@ include_once('mailer.php');
                                 id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false"
                                 style="margin-left: 10px; padding: 1px 0; background-color: var(--theme-light-green)">
 
-                                <img src="images/profile_pictures/<?= $row['profile_picture'] ?>" alt="User"
-                                    width="38" height="38" class="rounded-circle border border-2 me-2">
+                                <img src="images/profile_pictures/<?= $row['profile_picture']; ?>" alt="User"
+                                    width="40" height="38" class="rounded-circle border border-2 me-2">
                                 <span class="fw-semibold"><?= $row['firstname'] . ' ' . $row['lastname'] ?></span>
                             </a>
 

@@ -76,6 +76,15 @@ include_once('mailer.php');
             color: white;
         }
 
+        .dropdown-item {
+            transition: color 0.3s ease, transform 0.1s ease;
+        }
+
+        .dropdown-item:hover {
+            color: var(--theme-green-darker);
+            font-weight: 700;
+        }
+
         .cart-badge {
             position: absolute;
             top: -5px;
@@ -595,11 +604,21 @@ include_once('mailer.php');
                     <?php if (isset($_SESSION['user'])): ?>
 
                         <div class="dropdown profile-dropdown me-3">
-                            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+                            <!-- <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
                                 id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="img/1.jpg" alt="User" width="38" height="38" class="rounded-circle border border-2">
+                                <img src="img/profile_pictures/68cab6cdad205_Screenshot 2025-07-01 143502.png" alt="User"
+                                    width="38" height="38" class="rounded-circle border border-2">
+                            </a> -->
+                            <a href="#"
+                                class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle px-3 rounded"
+                                id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false" style="margin-left: 10px; padding: 1px 0; background-color: var(--theme-light-green)">
+
+                                <img src="img/profile_pictures/68cab6cdad205_Screenshot 2025-07-01 143502.png" alt="User"width="38" height="38" class="rounded-circle border border-2 me-2">
+                                <span class="fw-semibold">John Doe</span>
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-end shadow-lg animate__animated animate__fadeInDown" aria-labelledby="dropdownUser">
+
+                            <ul class="dropdown-menu dropdown-menu-end shadow-lg animate__animated animate__fadeInDown"
+                                aria-labelledby="dropdownUser">
                                 <li class="dropdown-header text-center">
                                     <h6 class="fw-bold mb-0"></h6>
                                     <small class="text-muted"></small>
@@ -607,14 +626,19 @@ include_once('mailer.php');
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" href="profile.php"><i class="bi bi-person me-2"></i> My Profile</a></li>
-                                <li><a class="dropdown-item" href="change_password.php"><i class="bi bi-key me-2"></i> Change Password</a></li>
-                                <li><a class="dropdown-item" href="wishlist.php"><i class="bi bi-heart me-2"></i> Wishlist</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-receipt me-2"></i> Orders</a></li>
+                                <li><a class="dropdown-item mb-2" href="profile.php"><i class="bi bi-person me-2"></i> My
+                                        Profile</a></li>
+                                <li><a class="dropdown-item mb-2" href="change_password.php"><i class="bi bi-key me-2"></i>
+                                        Change Password</a></li>
+                                <li><a class="dropdown-item mb-2" href="wishlist.php"><i class="bi bi-heart me-2"></i>
+                                        Wishlist</a></li>
+                                <li><a class="dropdown-item mb-2" href="#"><i class="bi bi-receipt me-2"></i> Orders</a>
+                                </li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item text-danger" href="logout.php"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+                                <li><a class="dropdown-item text-danger" href="logout.php"><i
+                                            class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
                             </ul>
                         </div>
                     <?php else: ?>
@@ -633,19 +657,19 @@ include_once('mailer.php');
 
     <?php
     if (isset($_COOKIE['success'])) {
-    ?>
+        ?>
         <div class="alert alert-success alert-dismissible mt-5 fade show" role="alert">
             <strong>Success!</strong> <?php echo " " . $_COOKIE['success']; ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    <?php
+        <?php
     }
     if (isset($_COOKIE['error'])) {
-    ?>
+        ?>
         <div class="alert alert-danger alert-dismissible mt-5 fade show" role="alert">
             <strong>Error!</strong><?php echo " " . $_COOKIE['error']; ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    <?php
+        <?php
     }
     ?>

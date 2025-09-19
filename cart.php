@@ -1,4 +1,15 @@
-<?php include_once('header.php') ?>
+<?php include_once('header.php');
+
+if (!isset($_SESSION['user'])) {
+    setcookie('error', 'Please Login first...', time() + 2, '/');
+?>
+    <script>
+        window.location.href = 'login.php';
+    </script>
+<?php
+}
+
+?>
 
 <style>
     body {

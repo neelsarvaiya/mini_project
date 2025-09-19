@@ -171,7 +171,7 @@
                                         </a>
                                         <form method="post" style="display:inline;">
                                             <input type="hidden" name="id" value="<?= $row['id'] ?>">
-                                            <input type="submit" name="deleteUser" class="btn btn-sm btn-outline-danger" value="Delete" onclick="return confirm('Are you sure you want to delete this user?');">
+                                            <input type="submit" name="deleteUser" class="btn btn-sm btn-outline-danger" value="Delete">
                                         </form>
 
                                         <?php
@@ -188,11 +188,20 @@
                                                         unlink("images/profile_pictures/" . $user['profile_picture']);
                                                     }
                                                 }
-                                                echo "<script>alert('User deleted successfully');</script>";
+                                                setcookie('success', 'User Deleted successfully.', time() + 2, '/');
+                                        ?>
+                                                <script>
+                                                    window.location.href = 'admin_user.php';
+                                                </script>
+                                            <?php
                                             } else {
-                                                echo "<script>alert('Error deleting user');</script>";
+                                                setcookie('error', 'Failed to Delete User.', time() + 2, '/');
+                                            ?>
+                                                <script>
+                                                    window.location.href = 'admin_user.php';
+                                                </script>
+                                        <?php
                                             }
-                                            echo "<script>window.location.href='admin_user.php';</script>";
                                         }
                                         ?>
                                     </td>

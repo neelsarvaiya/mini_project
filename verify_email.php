@@ -11,13 +11,29 @@ if (isset($_GET['email']) && isset($_GET['token'])) {
     if ($result->num_rows > 0) {
         $update = "UPDATE registration SET status='Active' WHERE email='$email'";
         if ($con->query($update)) {
-            echo "<h2 style='color:green; text-align:center;'>✅ Your account has been verified successfully. You can now <a href='login.php'>login</a>.</h2>";
+            setcookie('success', 'Your account has been verified successfully. You can now login.', time() + 2, '/');
         } else {
-            echo "<h2 style='color:red; text-align:center;'>❌ Something went wrong. Please try again later.</h2>";
+            setcookie('error', 'Something went wrong. Please try again later.', time() + 2, '/');
         }
+?>
+        <script>
+            window.location.href = 'login.php';
+        </script>
+    <?php
     } else {
-        echo "<h2 style='color:red; text-align:center;'>⚠️ Invalid or expired verification link.</h2>";
+        setcookie('error', 'Invalid or expired verification link.', time() + 2, '/');
+    ?>
+        <script>
+            window.location.href = 'login.php';
+        </script>
+    <?php
     }
 } else {
-    echo "<h2 style='color:red; text-align:center;'>❌ Invalid request.</h2>";
+    setcookie('error', 'Invalid request.', time() + 2, '/');
+    ?>
+    <script>
+        window.location.href = 'login.php';
+    </script>
+<?php
 }
+?>

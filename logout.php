@@ -1,6 +1,14 @@
 <?php
 session_start();
-session_unset();
-session_destroy();
-header('location: login.php');
+
+if (isset($_SESSION["user"])) {
+    unset($_SESSION['user']);
+}
+
+if (isset($_SESSION["admin"])) {
+    unset($_SESSION['admin']);
+}
 ?>
+<script>
+    window.location.href = "login.php";
+</script>

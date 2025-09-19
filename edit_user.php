@@ -65,10 +65,15 @@ if (isset($_POST['edit_user_btn'])) {
     $result = mysqli_query($con, $update);
 
     if ($result) {
-        echo "<script> alert('User Updated Successfull.'); window.location.href = 'admin_user.php';</script>";
+        setcookie('success', 'User Updated Successfull.', time() + 2, '/');
     } else {
-        echo "<script> alert('Error updating user details!'); window.location.href = 'admin_user.php';</script>";
+        setcookie('error', 'Error updating user details!', time() + 2, '/');
     }
+    ?>
+        <script>
+            window.location.href = 'admin_user.php';
+        </script>
+    <?php
 }
 
 ?>

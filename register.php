@@ -23,18 +23,23 @@ if (isset($_POST['signup_btn'])) {
         $body = "<div style='background-color: #f8f9fa; padding: 20px; border-radius: 5px;'> <h2 style='color: #dc3545; text-align: center;'>Account Verification</h2> <p style='text-align: center;'>Click on the button below to verify your account</p> <a href='" . $link . "' style='display: block; width: 200px; margin: 0 auto; text-align: center; background-color: #dc3545; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>Verify Account</a> </div>";
         $subject = "Account Verification Mail";
         if (sendEmail($email, $subject, $body, "")) {
-            echo "<script> alert('Registration Successfull. Account verification link has been sent to your email. Verify your email to login.'); </script>";
+            setcookie('success', 'Registration Successfull. Account verification link has been sent to your email. Verify your email to login.', time() + 2, '/');
         } else {
-            echo "<script> alert('Failed to send the registration link'); </script>";
+            setcookie('error', 'Failed to send the registration link', time() + 2, '/');
         }
+?>
+        <script>
+            window.location.href = 'register.php';
+        </script>
+    <?php
     } else {
-        echo "<script> alert('Registration Failed'); </script>";
+        setcookie('error', 'Registration Failed', time() + 2, '/');
     }
     ?>
     <script>
         window.location.href = 'register.php';
     </script>
-    <?php
+<?php
 }
 ?>
 <?php include_once('header.php'); ?>

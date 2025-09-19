@@ -1,11 +1,12 @@
 <?php
+include_once('db_connect.php');
 session_start();
 if (!isset($_SESSION['admin'])) {
-    ?>
+?>
     <script>
         window.location.href = 'login.php';
     </script>
-    <?php
+<?php
 }
 ?>
 <!DOCTYPE html>
@@ -15,11 +16,6 @@ if (!isset($_SESSION['admin'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
-
-    <?php
-    include('db_connect.php');
-    include('mailer.php');
-    ?>
     <!-- Bootstrap & Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
@@ -36,11 +32,11 @@ if (!isset($_SESSION['admin'])) {
     <script src="links/validate.js"></script>
 </head>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function() {
         const hamburger = document.querySelector(".toggle-btn");
         const toggler = document.querySelector("#icon");
 
-        hamburger.addEventListener("click", function () {
+        hamburger.addEventListener("click", function() {
             document.querySelector("#sidebar").classList.toggle("expand");
             toggler.classList.toggle("bi-chevron-double-right");
             toggler.classList.toggle("bi-chevron-double-left");
@@ -49,6 +45,10 @@ if (!isset($_SESSION['admin'])) {
 </script>
 
 <body>
+    <?php
+    include('db_connect.php');
+    include('mailer.php');
+    ?>
     <div class="wrapper">
         <!-- Sidebar -->
         <aside id="sidebar">
@@ -83,10 +83,18 @@ if (!isset($_SESSION['admin'])) {
                 <div class="dropdown">
                     <button class="btn profile-dropdown-btn d-flex align-items-center" type="button"
                         data-bs-toggle="dropdown">
-                        <img src="images/1.jpg" class="avatar" alt="Admin">
+                        <?php
+                        if (isset($_SESSION['admin'])) {
+                            $email = $_SESSION['admin'];
+                            $q = "select * from registration where email='$email'";
+                            $result = $con->query($q);
+                            $row = mysqli_fetch_assoc($result);
+                        }
+                        ?>
+                        <img src="images/profile_pictures/<?= $row['profile_picture'] ?>" class="avatar" alt="Admin">
                         <div class="d-none d-sm-block text-start ms-2">
-                            <div class="profile-name">Admin Name</div>
-                            <div class="profile-role">Administrator</div>
+                            <div class="profile-name"><?= $row['firstname'] . ' ' . $row['lastname'] ?></div>
+                            <div class="profile-role"><?= $row['email'] ?></div>
                         </div>
                         <i class="bi bi-chevron-down d-none d-sm-block ms-2"></i>
                     </button>
@@ -94,7 +102,8 @@ if (!isset($_SESSION['admin'])) {
                         <li>
                             <h6 class="dropdown-header">My Account</h6>
                         </li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-person-circle me-2"></i> Profile</a></li>
+                        <li><a class="dropdown-item" href="admin_profile.php"><i class="bi bi-person-circle me-2"></i> Profile</a></li>
+                        <li><a class="dropdown-item" href="admin_change_password.php"><i class="bi bi-key me-2"></i> Chnage password</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
@@ -208,3 +217,21 @@ if (!isset($_SESSION['admin'])) {
 
             <!-- Scrollable Content -->
             <div class="main-content-scrollable">
+                <?php
+                if (isset($_COOKIE['success'])) {
+                ?>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Success!</strong> <?php echo $_COOKIE['success']; ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php
+                }
+                if (isset($_COOKIE['error'])) {
+                ?>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Error!</strong><?php echo $_COOKIE['error']; ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php
+                }
+                ?>

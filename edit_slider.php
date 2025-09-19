@@ -45,13 +45,6 @@
     $sliderId = $_GET['id'];
     $query = "SELECT * FROM slider WHERE id = $sliderId";
     $result = mysqli_query($con, $query);
-
-    if (!$result || mysqli_num_rows($result) == 0) {
-        echo "<div class='alert alert-danger'>Slider not found</div>";
-        include_once('admin_footer.php');
-        exit;
-    }
-
     $slider = mysqli_fetch_assoc($result);
 
     if (isset($_POST['updateSlider'])) {
@@ -68,7 +61,12 @@
                 }
                 $newImage = $imageName;
             } else {
-                echo "<script>alert('Error uploading new image');</script>";
+                setcookie('error', 'Error uploading new image', time() + 2, '/');
+    ?>
+                <script>
+                    window.location.href = 'admin.php';
+                </script>
+    <?php
             }
         }
 

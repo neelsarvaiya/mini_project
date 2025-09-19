@@ -1,4 +1,15 @@
-<?php include_once('header.php'); ?>
+<?php include_once('header.php');
+
+if (!isset($_SESSION['user'])) {
+    setcookie('error', 'Please Login first...', time() + 2, '/');
+?>
+    <script>
+        window.location.href = 'login.php';
+    </script>
+<?php
+}
+
+?>
 
 <style>
     .profile-container {
@@ -73,7 +84,7 @@
 
     .btn-save {
         border: 2px solid #28a745;
-        color: #28a745; 
+        color: #28a745;
     }
 
     .btn-save:hover {
@@ -100,7 +111,7 @@
         </div>
 
         <div class="card-body">
-            <form action="change_password_submit.php" method="post">
+            <form action="change_password.php" method="post">
 
                 <!-- Current Password -->
                 <div class="mb-4">
@@ -129,7 +140,7 @@
 
                 <!-- Buttons -->
                 <div class="d-flex justify-content-end">
-                    <button type="submit" class="btn btn-custom btn-save">Update Password</button>
+                    <button type="submit" class="btn btn-custom btn-save" name="change_pwd_btn">Update Password</button>
                 </div>
 
             </form>
@@ -137,4 +148,34 @@
     </div>
 </div>
 
-<?php include_once('footer.php'); ?>
+<?php include_once('footer.php');
+
+if (isset($_POST['change_pwd_btn'])) {
+    $current_password = $_POST['current_password'];
+    $new_password = $_POST['new_password'];
+    $email = $_SESSION['user'];
+
+    $q = "select * from registration where email='$email'";
+    $result = $con->query($q);
+    $row = mysqli_fetch_assoc($result);
+
+    if ($row['password'] == $current_password) {
+        $q = "UPDATE registration SET `password`='$new_password' WHERE `email`='$email'";
+        if ($con->query($q)) {
+            setcookie('success', 'Password updated successfully', time() + 2,'/');
+?>
+            <script>
+                window.location.href = 'change_password.php';
+            </script>
+        <?php
+        }
+    } else {
+        setcookie('error', 'Old Password is Incorrect.', time() + 2, '/');
+        ?>
+        <script>
+            window.location.href = 'change_password.php';
+        </script>
+<?php
+    }
+}
+?>

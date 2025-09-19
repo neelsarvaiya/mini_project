@@ -164,6 +164,12 @@ include_once('mailer.php');
     <style>
         /* product */
 
+        .error {
+            color: red;
+            margin-top: 3px;
+            font-weight: 500;
+        }
+
         .product-sec {
             padding: 80px 0;
         }
@@ -644,7 +650,7 @@ include_once('mailer.php');
                     <?php else: ?>
                         <div class="auth-buttons d-flex">
                             <a href="login.php" class="btn btn-login me-2">Log in</a>
-                            <a href="signup.php" class="btn btn-signup">Sign up</a>
+                            <a href="register.php" class="btn btn-signup">Sign up</a>
                         </div>
                     <?php endif; ?>
 

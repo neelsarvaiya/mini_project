@@ -77,12 +77,6 @@
         box-shadow: 0 7px 20px rgba(40, 167, 69, 0.5);
     }
 
-    .error {
-        font-size: 0.85rem;
-        color: #ff4d6d;
-        margin-top: 5px;
-    }
-
     @media (max-width: 768px) {
         .card-body {
             padding: 1.5rem;

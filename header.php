@@ -170,6 +170,16 @@ include_once('mailer.php');
             font-weight: 500;
         }
 
+        .new-price {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--theme-green);
+        }
+
+        .old-price {
+            font-size: 12px;
+            color: var(--text-light);
+        }
 
         .navbar-nav .nav-link.active {
             font-weight: 600;

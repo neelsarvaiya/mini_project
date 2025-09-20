@@ -223,8 +223,8 @@ $res = $con->query($category);
                                                 </span>
 
                                                 <?php if ($discountPercent > 0): ?>
-                                                    <span class="old-price text-muted text-decoration-line-through">M.R.P
-                                                        ₹<?= round($originalPrice); ?></span>
+                                                    <span class="text-muted" style="font-size: 11px;">M.R.P</span> 
+                                                    <span class="old-price text-muted text-decoration-line-through">₹<?= round($originalPrice); ?></span>
                                                 <?php endif; ?>
                                             </div>
 

@@ -172,7 +172,6 @@ include_once('mailer.php');
 
 
         .navbar-nav .nav-link.active {
-            text-decoration: underline;
             font-weight: 600;
             color: #bfe3ca !important;
         }

@@ -12,7 +12,7 @@ if (isset($_GET['category'])) {
 
     $sql = "SELECT p.*, c.category_name AS category_name 
         FROM products p
-        JOIN categories c ON p.category_id = c.id WHERE product_name LIKE '%$searchQuery%'";
+        JOIN categories c ON p.category_id = c.id WHERE product_name LIKE '%$searchQuery%' AND status = 'active'";
 
     $result = $con->query($sql);
 
@@ -23,13 +23,44 @@ if (isset($_GET['category'])) {
     $result = $con->query($sql);
 }
 
+if (isset($_GET['sort'])) {
+
+    $sort = $_GET['sort'];
+
+    $orderBy = 'id DESC';
+
+    switch ($sort) {
+        case 'price_asc':
+            $orderBy = 'price ASC';
+            break;
+        case 'price_desc':
+            $orderBy = 'price DESC';
+            break;
+        case 'top_rated':
+            $orderBy = 'rating DESC';
+            break;
+    }
+
+    $sql = "SELECT p.*, c.category_name AS category_name 
+        FROM products p
+        JOIN categories c ON p.category_id = c.id WHERE status = 'active' ORDER BY $orderBy";
+    $result = $con->query($sql);
+}
+
+
 $colors = [
-    'Fresh Meat' => 'text-danger',
-    'Vegetables' => 'text-success',
-    'Fruits & Nut Gifts' => 'text-warning',
-    'Butter & Eggs' => 'text-primary',
-    'Ocean Foods' => 'text-info'
+    'Fruits' => 'text-danger',          // red 🍎
+    'Vegetables' => 'text-success',     // green 🥦
+    'Dairy' => 'text-primary',          // blue 🥛
+    'Eggs' => 'text-warning',           // yellow 🥚
+    'Bakery' => 'text-brown',           // brown 🍞 (Bootstrap doesn’t have text-brown, you can use custom CSS)
+    'Beverages' => 'text-info',         // light blue 🥤
+    'Grains & Pulses' => 'text-secondary', // gray 🌾
+    'Oils & Spices' => 'text-orange',   // orange 🌶️ (custom CSS if needed)
+    'Meat & Seafood' => 'text-danger',  // red 🥩🐟
+    'Household Essentials' => 'text-dark' // black 🧹
 ];
+
 
 $category = "SELECT id,category_name as name, icon FROM categories WHERE category_status = 'active' ORDER BY id ASC";
 $res = $con->query($category);
@@ -100,18 +131,19 @@ $res = $con->query($category);
 
                         <div class="collapse show mt-2" id="collapseSort">
                             <ul class="list-unstyled mb-0">
-                                <li><a href="?sort=rating-high" class="d-block"> Price: High to Low</a></li>
-                                <li><a href="?sort=rating-low" class="d-block"> Price: Low to High</a></li>
-                                <li><a href="?sort=top-rated" class="d-block"> Top Rated</a></li>
+                                <li><a href="products.php?sort=price_desc" class="d-block">Price: High to Low</a></li>
+                                <li><a href="products.php?sort=price_asc" class="d-block">Price: Low to High</a></li>
+                                <li><a href="products.php?sort=top_rated" class="d-block">Top Rated</a></li>
                             </ul>
+
                         </div>
                     </div>
 
                     <form action="products.php" method="post">
                         <div class="mb-4 mt-4">
                             <div class="d-flex align-items-center gap-2">
-                                <input type="text" id="q" name="q" class="form-control"
-                                    data-validation="required alpha" placeholder="e.g. Organic Apples">
+                                <input type="text" id="q" name="q" class="form-control" data-validation="required alpha"
+                                    placeholder="e.g. Organic Apples">
                                 <button class="btn btn-success" type="submit">
                                     <i class="bi bi-search"></i>
                                 </button>
@@ -158,7 +190,7 @@ $res = $con->query($category);
                                     </div>
 
                                     <div class="product-image">
-                                        <img src="img/products/<?= $product['main_image'] ?>"
+                                        <img src="/images/products/<?= $product['main_image'] ?>"
                                             alt="<?= $product['product_name'] ?>">
                                     </div>
 

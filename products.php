@@ -23,39 +23,32 @@ if (isset($_GET['category'])) {
     $result = $con->query($sql);
 }
 
+
+
 if (isset($_GET['sort'])) {
-
-    $sort = $_GET['sort'];
-
-    $orderBy = 'id DESC';
-
-    switch ($sort) {
-        case 'price_asc':
-            $orderBy = 'price ASC';
-            break;
-        case 'price_desc':
-            $orderBy = 'price DESC';
-            break;
-        case 'top_rated':
-            $orderBy = 'rating DESC';
-            break;
+    if ($_GET['sort'] == 1) {
+        $orderBy = "(p.price - (p.price * p.discount / 100)) DESC";
+    } else {
+        $orderBy = "(p.price - (p.price * p.discount / 100)) ASC";
     }
 
-    $sql = "SELECT p.*, c.category_name AS category_name 
+    $sql = "SELECT p.*, c.category_name 
         FROM products p
-        JOIN categories c ON p.category_id = c.id WHERE status = 'active' ORDER BY $orderBy";
+        JOIN categories c ON p.category_id = c.id 
+        WHERE p.status = 'active' 
+        ORDER BY $orderBy";
+
     $result = $con->query($sql);
 }
 
 
+
 $colors = [
-    'Fruits' => 'text-danger',          // red 🍎
-    'Vegetables' => 'text-success',     // green 🥦
-    'Dairy' => 'text-primary',          // blue 🥛
-    'Eggs' => 'text-warning',           // yellow 🥚
-    'Bakery' => 'text-brown',           // brown 🍞 (Bootstrap doesn’t have text-brown, you can use custom CSS)
-    'Beverages' => 'text-info',         // light blue 🥤
-    'Grains & Pulses' => 'text-secondary', // gray 🌾
+    'Fruits' => 'text-danger',
+    'Vegetables' => 'text-success',
+    'Dairy' => 'text-primary',
+    'Eggs' => 'text-warning',
+    'Bakery' => 'text-brown',
     'Oils & Spices' => 'text-orange',   // orange 🌶️ (custom CSS if needed)
     'Meat & Seafood' => 'text-danger',  // red 🥩🐟
     'Household Essentials' => 'text-dark' // black 🧹
@@ -89,20 +82,6 @@ $res = $con->query($category);
                         </div>
 
                         <div class="collapse show mt-2" id="collapseCategory">
-                            <!-- <ul class="list-unstyled mb-0">
-
-                                    <li><a href="#" class="d-flex align-items-center"><i
-                                                class="bi bi-basket-fill me-2 text-danger"></i> Fresh Meat</a></li>
-                                    <li><a href="#" class="d-flex align-items-center"><i
-                                                class="bi bi-basket me-2 text-success"></i> Vegetables</a></li>
-                                    <li><a href="#" class="d-flex align-items-center"><i
-                                                class="bi bi-basket2-fill me-2 text-warning"></i> Fruits & Nut Gifts</a>
-                                    </li>
-                                    <li><a href="#" class="d-flex align-items-center"><i
-                                                class="bi bi-egg-fried me-2 text-primary"></i> Butter & Eggs</a></li>
-                                    <li><a href="#" class="d-flex align-items-center"><i
-                                                class="bi bi-droplet me-2 text-info"></i> Ocean Foods</a></li>
-                                </ul> -->
                             <ul class="list-unstyled mb-0">
                                 <?php if ($res->num_rows > 0): ?>
                                     <?php while ($category = $res->fetch_assoc()): ?>
@@ -131,8 +110,8 @@ $res = $con->query($category);
 
                         <div class="collapse show mt-2" id="collapseSort">
                             <ul class="list-unstyled mb-0">
-                                <li><a href="products.php?sort=price_desc" class="d-block">Price: High to Low</a></li>
-                                <li><a href="products.php?sort=price_asc" class="d-block">Price: Low to High</a></li>
+                                <li><a href="products.php?sort=1" class="d-block">Price: High to Low</a></li>
+                                <li><a href="products.php?sort=0" class="d-block">Price: Low to High</a></li>
                                 <li><a href="products.php?sort=top_rated" class="d-block">Top Rated</a></li>
                             </ul>
 
@@ -170,6 +149,7 @@ $res = $con->query($category);
 
                             if ($discountPercent > 0 && $originalPrice > 0) {
                                 $finalPrice = $originalPrice - (($originalPrice * $discountPercent) / 100);
+                                $discountedPrice[] = round($finalPrice);
                                 $save = $originalPrice - $finalPrice;
                             }
                             ?>
@@ -223,8 +203,9 @@ $res = $con->query($category);
                                                 </span>
 
                                                 <?php if ($discountPercent > 0): ?>
-                                                    <span class="text-muted" style="font-size: 11px;">M.R.P</span> 
-                                                    <span class="old-price text-muted text-decoration-line-through">₹<?= round($originalPrice); ?></span>
+                                                    <span class="text-muted" style="font-size: 11px;">M.R.P</span>
+                                                    <span
+                                                        class="old-price text-muted text-decoration-line-through">₹<?= round($originalPrice); ?></span>
                                                 <?php endif; ?>
                                             </div>
 
@@ -251,39 +232,4 @@ $res = $con->query($category);
     </div>
 </section>
 
-<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasFilters" aria-labelledby="offcanvasFiltersLabel">
-    <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasFiltersLabel">Filter & Sort</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-        <form>
-            <div class="mb-4">
-                <label for="categorySelectMobile" class="form-label fw-bold">Category</label>
-                <select id="categorySelectMobile" class="form-select">
-                    <option selected>All Categories</option>
-                    <option>Vegetables</option>
-                    <option>Fruits</option>
-                    <option>Dairy</option>
-                    <option>Staples</option>
-                    <option>Snacks</option>
-                </select>
-            </div>
-            <div class="mb-4">
-                <label for="sortSelectMobile" class="form-label fw-bold">Sort by</label>
-                <select id="sortSelectMobile" class="form-select">
-                    <option selected>Popularity</option>
-                    <option>Price: Low to High</option>
-                    <option>Price: High to Low</option>
-                    <option>By Rating</option>
-                </select>
-            </div>
-            <div class="mb-4">
-                <label for="searchInputMobile" class="form-label fw-bold">Search</label>
-                <input type="text" id="searchInputMobile" class="form-control" placeholder="e.g. Organic Apples">
-            </div>
-            <button type="submit" class="btn btn-primary w-100 btn-filter">Apply Filters</button>
-        </form>
-    </div>
-</div>
 <?php include 'footer.php'; ?>

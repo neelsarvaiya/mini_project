@@ -9,6 +9,10 @@ if (!isset($_SESSION['user'])) {
 <?php
 }
 
+$email = $_SESSION['user'];
+$wishlist = "select * from wishlist where email='$email'";
+$wishlist_result1 = mysqli_query($con, $wishlist);
+$wishlist_rows = mysqli_num_rows($wishlist_result1);
 ?>
 
 <style>
@@ -130,50 +134,58 @@ if (!isset($_SESSION['user'])) {
 <div class="wishlist-container">
     <h2 class="wishlist-title">My Wishlist</h2>
     <div class="wishlist-grid">
-
         <div class="row">
-            <div class="col-md-4 col-sm-6">
-                <div class="wishlist-card">
-                    <img src="images/product1.jpg" alt="Product" class="wishlist-image">
-                    <div class="wishlist-body">
-                        <h5>Stylish Headphones</h5>
-                        <p>Wireless over-ear headphones with crystal clear sound.</p>
-                        <div class="price">$120</div>
-                        <div class="wishlist-actions">
-                            <button class="btn-cart"><i class="bi bi-cart-plus me-1"></i> Move to Cart</button>
-                            <button class="btn-remove"><i class="bi bi-trash me-1"></i> Remove</button>
+            <?php
+            if ($wishlist_rows > 0) {
+
+                while ($wishlist_result = $wishlist_result1->fetch_assoc()) {
+                    $product_id = $wishlist_result['product_id'];
+                    $product_data = "select * from products where id='$product_id'";
+                    $product_result = mysqli_fetch_assoc(mysqli_query($con, $product_data));
+            ?>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="wishlist-card">
+                            <img src="img/products/<?= $product_result['main_image'] ?>" alt="Product" class="wishlist-image">
+                            <div class="wishlist-body">
+                                <h5><?= $product_result['product_name'] ?></h5>
+                                <p><?= $product_result['description'] ?></p>
+                                <div class="price">₹<?= round($product_result['price']); ?><?= $product_result['unit']; ?></div>
+                                <div class="wishlist-actions d-flex gap-2 mt-2">
+                                    <a href="add_to_cart.php?id=<?= $product_result['id'] ?>" class="btn btn-primary btn-sm">
+                                        <i class="bi bi-cart-plus me-1"></i> Move to Cart
+                                    </a>
+                                    <a href="remove_from_wishlist.php?id=<?= $product_result['id'] ?>" class="btn btn-danger btn-sm">
+                                        <i class="bi bi-trash me-1"></i> Remove
+                                    </a>
+                                </div>
+
+
+                                <style>
+                                    .wishlist-actions .btn {
+                                        border-radius: 8px;
+                                        font-weight: 500;
+                                        text-decoration: none !important;
+                                        transition: all 0.2s ease-in-out;
+                                    }
+
+                                    .wishlist-actions .btn:hover {
+                                        transform: translateY(-2px);
+                                        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+                                    }
+                                </style>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6">
-                <div class="wishlist-card">
-                    <img src="images/product1.jpg" alt="Product" class="wishlist-image">
-                    <div class="wishlist-body">
-                        <h5>Stylish Headphones</h5>
-                        <p>Wireless over-ear headphones with crystal clear sound.</p>
-                        <div class="price">$120</div>
-                        <div class="wishlist-actions">
-                            <button class="btn-cart"><i class="bi bi-cart-plus me-1"></i> Move to Cart</button>
-                            <button class="btn-remove"><i class="bi bi-trash me-1"></i> Remove</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6">
-                <div class="wishlist-card">
-                    <img src="images/product1.jpg" alt="Product" class="wishlist-image">
-                    <div class="wishlist-body">
-                        <h5>Stylish Headphones</h5>
-                        <p>Wireless over-ear headphones with crystal clear sound.</p>
-                        <div class="price">$120</div>
-                        <div class="wishlist-actions">
-                            <button class="btn-cart"><i class="bi bi-cart-plus me-1"></i> Move to Cart</button>
-                            <button class="btn-remove"><i class="bi bi-trash me-1"></i> Remove</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+            <?php
+                }
+            }
+            else {
+                ?>
+                   <h2>No Product Fond in Whishlist</h2> 
+                <?php
+            }
+            ?>
         </div>
     </div>
 </div>

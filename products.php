@@ -161,11 +161,11 @@ $res = $con->query($category);
 
                                     <div class="product-actions">
                                         <?php if ($product['quantity'] > 0): ?>
-                                            <a href="#" class="action-btn" title="Add to Cart">
+                                            <a href="cart.php" class="action-btn" title="Add to Cart">
                                                 <i class="bi bi-cart-plus"></i>
                                             </a>
                                         <?php endif; ?>
-                                        <a href="#" class="action-btn" title="Add to Wishlist"><i class="bi bi-heart"></i></a>
+                                        <a href="add_to_wishlist.php?id=<?= $product['id'] ?>" class="action-btn" title="Add to Wishlist"><i class="bi bi-heart"></i></a>
                                         <a href="#" class="action-btn" title="Quick View"><i class="bi bi-eye"></i></a>
                                     </div>
 
@@ -199,7 +199,7 @@ $res = $con->query($category);
                                         <div class="price-container">
                                             <div class="prices">
                                                 <span class="new-price text-success">
-                                                    ₹<?= round($finalPrice); ?>/<?= $product['unit']; ?>
+                                                    ₹<?= round($finalPrice); ?><?= $product['unit']; ?>
                                                 </span>
 
                                                 <?php if ($discountPercent > 0): ?>

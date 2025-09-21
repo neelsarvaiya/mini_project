@@ -68,7 +68,7 @@ if (!isset($_SESSION['admin'])) {
                 <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-star"></i><span>Review & Rating</span></a></li>
                 <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-gift"></i><span>Offers</span></a></li>
                 <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-cart"></i><span>Orders</span></a></li>
-                <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-tag"></i><span>Brand</span></a></li>
+                <li class="sidebar-item"><a href="admin_category.php" class="sidebar-link"><i class="bi bi-tag"></i><span>Category</span></a></li>
                 <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-info-circle"></i><span>Contact & About</span></a></li>
                 <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-tools"></i><span>Service</span></a></li>
             </ul>

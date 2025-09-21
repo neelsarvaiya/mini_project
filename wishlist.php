@@ -143,47 +143,82 @@ $wishlist_rows = mysqli_num_rows($wishlist_result1);
                     $product_data = "select * from products where id='$product_id'";
                     $product_result = mysqli_fetch_assoc(mysqli_query($con, $product_data));
             ?>
-                    <div class="col-md-4 col-sm-6">
-                        <div class="wishlist-card">
-                            <img src="img/products/<?= $product_result['main_image'] ?>" alt="Product" class="wishlist-image">
-                            <div class="wishlist-body">
-                                <h5><?= $product_result['product_name'] ?></h5>
-                                <p><?= $product_result['description'] ?></p>
-                                <div class="price">₹<?= round($product_result['price']); ?><?= $product_result['unit']; ?></div>
-                                <div class="wishlist-actions d-flex gap-2 mt-2">
-                                    <a href="add_to_cart.php?id=<?= $product_result['id'] ?>" class="btn btn-primary btn-sm">
-                                        <i class="bi bi-cart-plus me-1"></i> Move to Cart
-                                    </a>
-                                    <a href="remove_from_wishlist.php?id=<?= $product_result['id'] ?>" class="btn btn-danger btn-sm">
-                                        <i class="bi bi-trash me-1"></i> Remove
-                                    </a>
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="product-card">
+                            <?php
+                            $originalPrice = $product_result['price'];
+                            $finalPrice = $product_result['price']; // adjust if you have discount logic
+                            $discountPercent = ($originalPrice > $finalPrice) ? round((($originalPrice - $finalPrice) / $originalPrice) * 100) : 0;
+                            $save = $originalPrice - $finalPrice;
+                            ?>
+
+                            <?php if ($discountPercent > 0): ?>
+                                <span class="discount-badge">-<?= $discountPercent ?>% Off</span>
+                            <?php endif; ?>
+
+                            <div class="product-actions">
+                                <a href="add_to_cart.php?id=<?= $product_result['id'] ?>" class="action-btn" title="Move to Cart">
+                                    <i class="bi bi-cart-plus"></i>
+                                </a>
+                                <a href="remove_from_wishlist.php?id=<?= $product_result['id'] ?>" class="action-btn" title="Remove">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </div>
+
+                            <div class="product-image">
+                                <img src="images/products/<?= $product_result['main_image'] ?>" alt="<?= $product_result['product_name'] ?>">
+                            </div>
+
+                            <div class="product-info-new">
+                                <div class="top-meta">
+                                    <span class="category"><?= $product_result['category_name'] ?? '' ?></span>
+                                    <span class="<?= ($product_result['quantity'] > 0) ? 'text-success' : 'text-danger'; ?>"
+                                        style="font-size: 12px; font-weight: 600;">
+                                        <?= ($product_result['quantity'] > 0) ? "In Stock" : "Out of Stock"; ?>
+                                    </span>
                                 </div>
 
+                                <h5><a href="#" class="title"><?= $product_result['product_name'] ?></a></h5>
 
-                                <style>
-                                    .wishlist-actions .btn {
-                                        border-radius: 8px;
-                                        font-weight: 500;
-                                        text-decoration: none !important;
-                                        transition: all 0.2s ease-in-out;
-                                    }
+                                <div class="rating">
+                                    <span class="stars">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-half"></i>
+                                    </span>
+                                    <span class="review-count">(reviews 125)</span>
+                                </div>
 
-                                    .wishlist-actions .btn:hover {
-                                        transform: translateY(-2px);
-                                        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-                                    }
-                                </style>
+                                <div class="price-container">
+                                    <div class="prices">
+                                        <span class="new-price text-success">
+                                            ₹<?= $product_result['discounted_price']  ?><?= $product_result['unit']; ?>
+                                        </span>
+
+                                        <?php if ($discountPercent > 0): ?>
+                                            <span class="text-muted" style="font-size: 11px;">M.R.P</span>
+                                            <span class="old-price text-muted text-decoration-line-through">
+                                                ₹<?= round($originalPrice); ?>
+                                            </span>
+                                        <?php endif; ?>
+                                    </div>
+
+                                    <?php if ($save > 0): ?>
+                                        <span class="save-badge">Save ₹<?= round($save); ?></span>
+                                    <?php endif; ?>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-            <?php
-                }
-            }
-            else {
-                ?>
-                   <h2>No Product Fond in Whishlist</h2> 
                 <?php
+                }
+            } else {
+                ?>
+                <h2>No Product Fond in Whishlist</h2>
+            <?php
             }
             ?>
         </div>

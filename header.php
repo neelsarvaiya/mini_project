@@ -618,9 +618,23 @@ include_once('mailer.php');
 
                 <div class="d-flex align-items-center justify-content-center header-icons">
 
-                    <a href="cart.php" class="header-icon-link me-3">
+                    <?php
+
+                    $cart_count = 0;
+                    if (isset($_SESSION['user'])) {
+                        $email = $_SESSION['user'];
+                        $result = mysqli_query($con, "SELECT * FROM cart WHERE email='$email'");
+                        $row = mysqli_fetch_assoc($result);
+                        $cart_count = mysqli_num_rows( $result );
+                    }
+                    ?>
+                    <a href="cart.php" class="header-icon-link me-3 position-relative">
                         <i class="bi bi-cart fs-4"></i>
-                        <span class="cart-badge">3</span>
+                        <?php if ($cart_count > 0): ?>
+                            <span class="cart-badge position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                <?= $cart_count ?>
+                            </span>
+                        <?php endif; ?>
                     </a>
                     <?php if (isset($_SESSION['user'])):
 
@@ -629,7 +643,7 @@ include_once('mailer.php');
                         $result = $con->query($q);
                         $row = mysqli_fetch_assoc($result);
 
-                        ?>
+                    ?>
                         <div class="dropdown profile-dropdown me-3">
                             <a href="#"
                                 class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle px-3 rounded"
@@ -681,19 +695,19 @@ include_once('mailer.php');
 
     <?php
     if (isset($_COOKIE['success'])) {
-        ?>
+    ?>
         <div class="alert alert-success alert-dismissible mt-5 fade show" role="alert">
             <strong>Success!</strong> <?php echo " " . $_COOKIE['success']; ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-        <?php
+    <?php
     }
     if (isset($_COOKIE['error'])) {
-        ?>
+    ?>
         <div class="alert alert-danger alert-dismissible mt-5 fade show" role="alert">
             <strong>Error!</strong><?php echo " " . $_COOKIE['error']; ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-        <?php
+    <?php
     }
     ?>

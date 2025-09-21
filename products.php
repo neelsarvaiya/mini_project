@@ -161,7 +161,7 @@ $res = $con->query($category);
 
                                     <div class="product-actions">
                                         <?php if ($product['quantity'] > 0): ?>
-                                            <a href="cart.php" class="action-btn" title="Add to Cart">
+                                            <a href="add_to_cart.php?id=<?= $product['id'] ?>" class="action-btn" title="Add to Cart">
                                                 <i class="bi bi-cart-plus"></i>
                                             </a>
                                         <?php endif; ?>
@@ -170,7 +170,7 @@ $res = $con->query($category);
                                     </div>
 
                                     <div class="product-image">
-                                        <img src="/images/products/<?= $product['main_image'] ?>"
+                                        <img src="images/products/<?= $product['main_image'] ?>"
                                             alt="<?= $product['product_name'] ?>">
                                     </div>
 

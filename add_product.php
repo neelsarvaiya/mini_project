@@ -53,17 +53,18 @@
                 $discount     = $_POST['discount'];
                 $status       = $_POST['status'];
                 $description  = $_POST['description'];
+                $discounted_price = $price - ($discount * $price / 100);
+
 
                 $main_image = "";
                 if (!empty($_FILES['main_image']['name'])) {
-                    $targetDir = "img/products/";
                     $main_image = time() . "_" . basename($_FILES['main_image']['name']);
-                    $targetFile = $targetDir . $main_image;
+                    $targetFile = "images/products/" . $main_image;
                     move_uploaded_file($_FILES['main_image']['tmp_name'], $targetFile);
                 }
 
-                $sql = "INSERT INTO products (product_name, main_image, category_id, price, unit, description, quantity, status, discount)
-                        VALUES ('$product_name', '$main_image', '$category_id', '$price','$unit', '$description', '$quantity', '$status', '$discount')";
+                $sql = "INSERT INTO products (product_name, main_image, category_id, price, unit, description, quantity, status, discount,discounted_price)
+                        VALUES ('$product_name', '$main_image', '$category_id', '$price','$unit', '$description', '$quantity', '$status', '$discount',$discounted_price)";
 
                 if (mysqli_query($con, $sql)) {
             ?>
@@ -107,7 +108,7 @@
                     <div class="col-md-6">
                         <label class="form-label">Unit</label>
                         <input type="text" name="unit" class="form-control" data-validation="required">
-                            <div class="error" id="unitError"></div>
+                        <div class="error" id="unitError"></div>
                     </div>
 
                     <div class="col-md-6">

@@ -99,6 +99,7 @@
                             <th>Unit</th>
                             <th>Quantity</th>
                             <th>Discount</th>
+                            <th>Discounted Price</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
@@ -115,7 +116,7 @@
                                 <tr>
                                     <td><?php echo $sr_no++; ?></td>
                                     <td>
-                                        <img src="img/products/<?= $row['main_image']; ?>"
+                                        <img src="images/products/<?= $row['main_image']; ?>"
                                             height="80px" width="80px"
                                             class="rounded shadow-sm">
                                     </td>
@@ -125,6 +126,7 @@
                                     <td><?php echo $row['unit']; ?></td>
                                     <td><?php echo $row['quantity']; ?></td>
                                     <td><?php echo $row['discount']; ?>%</td>
+                                    <td>₹<?php echo $row['discounted_price']; ?></td>
                                     <td>
                                         <?php if ($row['status'] == 'active') { ?>
                                             <span class="badge badge-status badge-active">Active</span>

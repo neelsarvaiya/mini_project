@@ -1,7 +1,7 @@
 <?php include 'header.php'; ?>
 
 
-<section class="banner-sec mt-3" style="background-image: url(img/header-bg.png);">
+<section class="banner-sec mt-3" style="background-image: url(images/header-bg.png);">
     <div class="container">
         <div class="header-main-text">
             <h3>FLAT ₹20 OFF On Your First Order</h3>

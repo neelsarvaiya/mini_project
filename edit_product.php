@@ -70,17 +70,19 @@
                 $discount     = $_POST['discount'];
                 $status       = $_POST['status'];
                 $description  = $_POST['description'];
+                $discounted_price = $price - ($discount * $price / 100);
+
 
                 $main_image = $product['main_image'];
 
                 if (!empty($_FILES['main_image']['name'])) {
-                    $targetDir = "img/products/";
+                    $targetDir = "images/products/";
                     $newImage = time() . "_" . basename($_FILES['main_image']['name']);
                     $targetFile = $targetDir . $newImage;
 
                     if (move_uploaded_file($_FILES['main_image']['tmp_name'], $targetFile)) {
-                        if (!empty($product['main_image']) && file_exists("img/products/" . $product['main_image'])) {
-                            unlink("img/products/" . $product['main_image']);
+                        if (!empty($product['main_image']) && file_exists("images/products/" . $product['main_image'])) {
+                            unlink("images/products/" . $product['main_image']);
                         }
                         $main_image = $newImage;
                     }
@@ -96,6 +98,7 @@
                     quantity     = '$quantity',
                     status       = '$status',
                     discount     = '$discount',
+                    discounted_price     = '$discounted_price',
                     updated_at   = NOW()
                     WHERE id = $id";
 
@@ -118,7 +121,7 @@
                         <label class="form-label">Product Name</label>
                         <input type="text" name="product_name" class="form-control" data-validation="required alpha"
                             value="<?= $product['product_name'] ?>">
-                            <div class="error" id="product_nameError"></div>
+                        <div class="error" id="product_nameError"></div>
                     </div>
 
                     <div class="col-md-6">
@@ -138,21 +141,21 @@
                         <label class="form-label">Price</label>
                         <input type="number" name="price" class="form-control" data-validation="required"
                             value="<?= $product['price'] ?>">
-                            <div class="error" id="priceError"></div>
+                        <div class="error" id="priceError"></div>
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label">Unit</label>
                         <input type="text" name="unit" class="form-control" data-validation="required"
                             value="<?= $product['unit'] ?>">
-                            <div class="error" id="unitError"></div>
+                        <div class="error" id="unitError"></div>
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label">Quantity</label>
                         <input type="number" name="quantity" class="form-control" data-validation="required numeric"
                             value="<?= $product['quantity'] ?>">
-                            <div class="error" id="quantityError"></div>
+                        <div class="error" id="quantityError"></div>
 
                     </div>
 
@@ -160,7 +163,7 @@
                         <label class="form-label">Discount (%)</label>
                         <input type="number" name="discount" class="form-control" data-validation="required numeric"
                             value="<?= $product['discount'] ?>">
-                            <div class="error" id="discountError"></div>
+                        <div class="error" id="discountError"></div>
                     </div>
 
                     <div class="col-md-6">
@@ -182,7 +185,7 @@
                         <input type="file" name="main_image" class="form-control" data-validation="file file2">
                         <div class="error" id="main_imageError"></div>
                         <?php if (!empty($product['main_image'])) { ?>
-                            <img src="img/products/<?= $product['main_image'] ?>" class="preview-img mt-2">
+                            <img src="images/products/<?= $product['main_image'] ?>" class="preview-img mt-2">
                         <?php } ?>
                     </div>
                 </div>

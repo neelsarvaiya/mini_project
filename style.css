@@ -443,14 +443,6 @@
     margin-bottom: 0.5rem;
 }
 
-.product-info-new .category {
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--text-light);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
 .stock-status {
     background-color: var(--theme-light-green-bg);
     color: var(--theme-green);
@@ -590,3 +582,7 @@
     background-color: #f8f9fa;
     color: #2f8f3c;
 }
+
+
+
+

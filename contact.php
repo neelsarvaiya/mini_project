@@ -1,6 +1,6 @@
 <?php include 'header.php' ?>
 
-<section class="contact-hero py-5 text-center text-white">
+<section class="contact-hero py-5 text-center">
     <div class="container">
         <h1 class="fw-bold">Contact Us</h1>
         <p>We’re here to help! Reach out for any queries or support.</p>

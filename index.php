@@ -1,7 +1,15 @@
 <?php include 'header.php'; ?>
 
+<?php
 
-<section class="banner-sec mt-3" style="background-image: url(images/header-bg.png);">
+$sql = "SELECT p.* FROM products p LIMIT 6";
+
+$result = $con->query($sql);
+
+?>
+
+
+<section class="banner-sec mt-3" style="background-image: url(images/products/header-bg.png);">
     <div class="container">
         <div class="header-main-text">
             <h3>FLAT ₹20 OFF On Your First Order</h3>
@@ -13,9 +21,7 @@
     </div>
 </section>
 
-
 <main>
-
 
     <section class="product-sec">
         <div class="container">
@@ -26,159 +32,94 @@
             </div>
 
             <div class="row g-4">
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product-card">
-                        <span class="discount-badge">10% off</span>
-                        <div class="product-actions">
-                            <a href="#" class="action-btn" title="Add to Cart"><i class="bi bi-cart-plus"></i></a>
-                            <a href="#" class="action-btn" title="Add to Wishlist"><i class="bi bi-heart"></i></a>
-                            <a href="#" class="action-btn" title="Quick View"><i class="bi bi-eye"></i></a>
-                        </div>
-                        <div class="product-image">
-                            <img src="img/products/product-img-1.png" alt="Amul Gold Milk">
-                        </div>
-                        <div class="product-info-new">
-                            <div class="top-meta">
-                                <span class="category">Dairy</span>
-                                <span class="stock-status">In Stock</span>
-                            </div>
-                            <h5><a href="#" class="title">Amul Gold Milk</a></h5>
-                            <div class="rating">
-                                <span class="stars">
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-half"></i>
-                                </span>
-                                <span class="review-count">(125 reviews)</span>
-                            </div>
 
-                            <div class="price-container">
-                                <div class="prices">
-                                    <span class="new-price">₹33</span>
-                                    <span class="old-price">₹36</span>
+                <?php
+                if ($result->num_rows > 0) {
+                    while ($product = $result->fetch_assoc()) {
+                        $originalPrice = $product['price'];
+                        $discountPercent = $product['discount'];
+                        $finalPrice = $originalPrice;
+                        $save = 0;
+
+                        if ($discountPercent > 0 && $originalPrice > 0) {
+                            $finalPrice = $originalPrice - (($originalPrice * $discountPercent) / 100);
+                            $discountedPrice[] = round($finalPrice);
+                            $save = $originalPrice - $finalPrice;
+                        }
+                        ?>
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                            <div class="product-card">
+                                <?php if ($discountPercent > 0): ?>
+                                    <span class="discount-badge">-<?= $discountPercent ?>% Off</span>
+                                <?php endif; ?>
+
+                                <div class="product-actions">
+                                    <?php if ($product['quantity'] > 0): ?>
+                                        <a href="add_to_cart.php?id=<?= $product['id'] ?>" class="action-btn" title="Add to Cart">
+                                            <i class="bi bi-cart-plus"></i>
+                                        </a>
+                                    <?php endif; ?>
+                                    <a href="add_to_wishlist.php?id=<?= $product['id'] ?>" class="action-btn"
+                                        title="Add to Wishlist"><i class="bi bi-heart"></i></a>
+                                    <a href="#" class="action-btn" title="Quick View"><i class="bi bi-eye"></i></a>
                                 </div>
-                                <span class="save-badge">You Save ₹3</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product-card">
-                        <span class="discount-badge">10% off</span>
-                        <div class="product-actions">
-                            <a href="#" class="action-btn" title="Add to Cart"><i class="bi bi-cart-plus"></i></a>
-                            <a href="#" class="action-btn" title="Add to Wishlist"><i class="bi bi-heart"></i></a>
-                            <a href="#" class="action-btn" title="Quick View"><i class="bi bi-eye"></i></a>
-                        </div>
-                        <div class="product-image">
-                            <img src="img/products/product-img-1.png" alt="Amul Gold Milk">
-                        </div>
-                        <div class="product-info-new">
-                            <div class="top-meta">
-                                <span class="category">Dairy</span>
-                                <span class="stock-status">In Stock</span>
-                            </div>
-                            <h5><a href="#" class="title">Amul Gold Milk</a></h5>
-                            <div class="rating">
-                                <span class="stars">
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-half"></i>
-                                </span>
-                                <span class="review-count">(125 reviews)</span>
-                            </div>
 
-                            <div class="price-container">
-                                <div class="prices">
-                                    <span class="new-price">₹33</span>
-                                    <span class="old-price">₹36</span>
+                                <div class="product-image">
+                                    <img src="images/products/<?= $product['main_image'] ?>"
+                                        alt="<?= $product['product_name'] ?>">
                                 </div>
-                                <span class="save-badge">You Save ₹3</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product-card">
-                        <span class="discount-badge">10% off</span>
-                        <div class="product-actions">
-                            <a href="#" class="action-btn" title="Add to Cart"><i class="bi bi-cart-plus"></i></a>
-                            <a href="#" class="action-btn" title="Add to Wishlist"><i class="bi bi-heart"></i></a>
-                            <a href="#" class="action-btn" title="Quick View"><i class="bi bi-eye"></i></a>
-                        </div>
-                        <div class="product-image">
-                            <img src="img/products/product-img-1.png" alt="Amul Gold Milk">
-                        </div>
-                        <div class="product-info-new">
-                            <div class="top-meta">
-                                <span class="category">Dairy</span>
-                                <span class="stock-status">In Stock</span>
-                            </div>
-                            <h5><a href="#" class="title">Amul Gold Milk</a></h5>
-                            <div class="rating">
-                                <span class="stars">
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-half"></i>
-                                </span>
-                                <span class="review-count">(125 reviews)</span>
-                            </div>
 
-                            <div class="price-container">
-                                <div class="prices">
-                                    <span class="new-price">₹33</span>
-                                    <span class="old-price">₹36</span>
+                                <div class="product-info-new">
+                                    <div class="top-meta">
+                                        <span class="category"><?= $product['category_name'] ?></span>
+                                        <span class="<?= ($product['quantity'] > 0) ? 'text-success' : 'text-danger'; ?>"
+                                            style="font-size: 12px; font-weight: 600;">
+                                            <?= ($product['quantity'] > 0) ? "In Stock" : "Out of Stock"; ?>
+                                        </span>
+                                    </div>
+
+                                    <h5><a href="#" class="title"><?= $product['product_name'] ?></a></h5>
+                                    <p class="text-success" style="font-size: 13px;"><?= $product['description'] ?></p>
+
+                                    <div class="rating">
+                                        <span class="stars">
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-half"></i>
+                                        </span>
+                                        <span class="review-count">(reviews 125)</span>
+                                    </div>
+
+                                    <div class="price-container">
+                                        <div class="prices">
+                                            <span class="new-price text-success">
+                                                ₹<?= round($finalPrice); ?>/<?= $product['unit']; ?>
+                                            </span>
+
+                                            <?php if ($discountPercent > 0): ?>
+                                                <span class="text-muted" style="font-size: 11px;">M.R.P</span>
+                                                <span
+                                                    class="old-price text-muted text-decoration-line-through">₹<?= round($originalPrice); ?></span>
+                                            <?php endif; ?>
+                                        </div>
+
+                                        <?php if ($save > 0): ?>
+                                            <span class="save-badge">
+                                                Save ₹<?= round($save); ?>
+                                            </span>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
-                                <span class="save-badge">You Save ₹3</span>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product-card">
-                        <span class="discount-badge">10% off</span>
-                        <div class="product-actions">
-                            <a href="#" class="action-btn" title="Add to Cart"><i class="bi bi-cart-plus"></i></a>
-                            <a href="#" class="action-btn" title="Add to Wishlist"><i class="bi bi-heart"></i></a>
-                            <a href="#" class="action-btn" title="Quick View"><i class="bi bi-eye"></i></a>
-                        </div>
-                        <div class="product-image">
-                            <img src="img/products/product-img-1.png" alt="Amul Gold Milk">
-                        </div>
-                        <div class="product-info-new">
-                            <div class="top-meta">
-                                <span class="category">Dairy</span>
-                                <span class="stock-status">In Stock</span>
-                            </div>
-                            <h5><a href="#" class="title">Amul Gold Milk</a></h5>
-                            <div class="rating">
-                                <span class="stars">
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-half"></i>
-                                </span>
-                                <span class="review-count">(125 reviews)</span>
-                            </div>
-
-                            <div class="price-container">
-                                <div class="prices">
-                                    <span class="new-price">₹33</span>
-                                    <span class="old-price">₹36</span>
-                                </div>
-                                <span class="save-badge">You Save ₹3</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                        <?php
+                    }
+                } else {
+                    echo "<p class='text-center mt-5 fw-600'>No products found in this category.</p>";
+                }
+                ?>
 
             </div>
         </div>
@@ -194,27 +135,46 @@
 
             <div class="row g-4">
 
-                <div class="col-lg-6">
-                    <div class="offer-card">
-                        <div class="offer-image" style="background-image: url('img/products/oil-ghee.jpg');">
-                        </div>
-                        <div class="offer-content">
-                            <h4>Flat 20% OFF on Ghee & Oils</h4>
-                            <a href="#" class="btn mt-3">Shop Now</a>
-                        </div>
-                    </div>
-                </div>
+                <?php
+                $today = date('Y-m-d');
+                $offer_query = "SELECT o.*, c.category_name 
+                        FROM offers o
+                    JOIN categories c ON o.category_id = c.id
+                        WHERE o.status='active'
+                    AND (o.start_date IS NULL OR o.start_date <= '$today')
+                    AND (o.end_date IS NULL OR o.end_date >= '$today') ";
 
-                <div class="col-lg-6">
-                    <div class="offer-card">
-                        <div class="offer-image" style="background-image: url('img/products/product-img-3.png');">
-                        </div>
-                        <div class="offer-content">
-                            <h4>Special discount Dairy products</h4>
-                            <a href="#" class="btn mt-3">Explore Now</a>
+                $offer_result = mysqli_query($con, $offer_query);
+
+                while ($offer = mysqli_fetch_assoc($offer_result)) {
+                    ?>
+                    <div class="col-lg-6">
+                        <div class="offer-card">
+                            <div class="offer-image"
+                                style="background-image: url('images/products/<?= $offer['image']; ?>');">
+                            </div>
+                            <div class="offer-content">
+                                <h4><?php echo $offer['title']; ?></h4>
+                                <?php
+                                if (!empty($offer['end_date'])) {
+                                    $today = new DateTime();
+                                    $end_date = new DateTime($offer['end_date']);
+                                    $interval = $today->diff($end_date);
+
+                                    if ($interval->invert == 0) { 
+                                        echo "<p class='text-white mt-3'>Only {$interval->days} day(s) left!</p>";
+                                    } else {
+                                        echo "<p class='text-muted'>Offer expired</p>";
+                                    }
+                                }
+                                ?>
+                                <a href="products.php?category=<?= $offer['category_id'] ?>" class="btn mt-3">Shop Now</a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                    <?php
+                }
+                ?>
 
             </div>
         </div>

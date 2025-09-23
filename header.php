@@ -28,7 +28,6 @@ include_once('mailer.php');
             --theme-light-green: #d0e7d8;
             --theme-green: #37a847;
             --theme-green-darker: #2f8f3c;
-            --theme-light-green: #d0e7d8;
             --star-color: #ffc107;
             --theme-light-green-bg: #f0f8f2;
             --text-dark: #2c3e50;
@@ -92,14 +91,13 @@ include_once('mailer.php');
             background-color: white;
             color: var(--theme-green);
             border-radius: 50%;
-            width: 20px;
-            height: 20px;
+            width: 16px;
+            height: 16px;
             font-size: 12px;
             font-weight: bold;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 2px solid var(--theme-green);
         }
 
         .auth-buttons .btn {
@@ -160,7 +158,6 @@ include_once('mailer.php');
 
 
     <!-- product -->
-
     <style>
         /* product */
 
@@ -300,7 +297,7 @@ include_once('mailer.php');
         }
 
         .product-info-new .category {
-            font-size: 12px;
+            font-size: 10px;
             font-weight: 500;
             color: var(--text-light);
             text-transform: uppercase;
@@ -367,6 +364,271 @@ include_once('mailer.php');
         }
     </style>
 
+    <!-- About Hero Section -->
+    <style>
+        .about-hero {
+            background-color: var(--theme-light-green);
+            padding: 100px 0;
+        }
+
+        .about-hero h1 {
+            font-size: 3rem;
+            color: var(--theme-green-darker);
+        }
+
+        .about-hero p {
+            font-size: 1.2rem;
+            color: var(--theme-green);
+        }
+        
+        /* About Content */
+        section.py-5 {
+            padding-top: 60px;
+            padding-bottom: 60px;
+        }
+        
+        section.py-5 h2 {
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+        
+        section.py-5 p {
+            color: var(--theme-green);
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        /* Image styling */
+        .about-content img {
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .about-content img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Mission & Vision Boxes */
+        .about-box {
+            background-color: var(--theme-light-green-bg);
+            border-radius: 12px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .about-box i {
+            color: var(--theme-green);
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .about-box:hover i {
+            color: var(--theme-green-darker);
+            transform: scale(1.2);
+        }
+
+        .about-box h4 {
+            color: var(--text-dark);
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+
+        .about-box p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* Section background */
+        .bg-light {
+            background-color: var(--theme-light-green-bg);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 991px) {
+            .about-hero {
+                padding: 70px 0;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .about-hero h1 {
+                font-size: 2rem;
+            }
+
+            .about-hero p {
+                font-size: 1rem;
+            }
+
+            .about-box {
+                padding: 20px;
+            }
+        }
+    </style>
+
+    <!-- Contact Hero Section -->
+    <style>
+        .contact-hero {
+            background-color: var(--theme-light-green);
+            color: #555;
+            padding: 100px 0;
+        }
+
+        .contact-hero h1 {
+            font-size: 3rem;
+            color: var(--theme-green-darker);
+        }
+
+        .contact-hero p {
+            font-size: 1.2rem;
+            color: var(--theme-green);
+        }
+
+        /* Contact Info Box */
+        .contact-info {
+            background-color: var(--theme-light-green-bg);
+            border-left: 5px solid var(--theme-green);
+            transition: all 0.3s ease;
+        }
+
+        .contact-info:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Contact Info Icons */
+        .contact-info i {
+            font-size: 1.2rem;
+            margin-right: 10px;
+            color: var(--theme-green);
+        }
+
+        /* Contact Form Box */
+        .contact-form {
+            background-color: #fff;
+            border-left: 5px solid var(--theme-green-darker);
+            transition: all 0.3s ease;
+        }
+
+        .contact-form:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Form Inputs */
+        .contact-form .form-control {
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            padding: 12px 15px;
+            transition: border 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .contact-form .form-control:focus {
+            border-color: var(--theme-green);
+            box-shadow: 0 0 5px var(--theme-green);
+        }
+
+        /* Error Messages */
+        .error {
+            color: red;
+            font-size: 0.85rem;
+            margin-top: 3px;
+        }
+
+        /* Submit Button */
+        .contact-form .btn {
+            background-color: var(--theme-green);
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .contact-form .btn:hover {
+            background-color: var(--theme-green-darker);
+        }
+
+        /* Map Section */
+        .map-section iframe {
+            border: none;
+            border-radius: 8px;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 991px) {
+            .contact-hero {
+                padding: 70px 0;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .contact-hero h1 {
+                font-size: 2rem;
+            }
+
+            .contact-hero p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+
+    <!-- /* Service Card Styles */ -->
+    <style>
+        .service-card {
+            background-color: var(--theme-light-green-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-color: var(--theme-green);
+        }
+
+        /* Icon Styles */
+        .service-card .icon {
+            font-size: 48px;
+            color: var(--theme-green);
+            transition: color 0.3s ease;
+        }
+
+        .service-card:hover .icon {
+            color: var(--theme-green-darker);
+        }
+
+        /* Heading Styles */
+        .service-card h5 {
+            color: var(--text-dark);
+        }
+
+        /* Paragraph Styles */
+        .service-card p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* Page Header */
+        section.bg-light {
+            background-color: var(--theme-light-green);
+        }
+
+        section.bg-light h1 {
+            color: var(--theme-green-darker);
+        }
+
+        section.bg-light p {
+            color: var(--text-light);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 767px) {
+            .service-card {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
 
     <!-- Seasonal Offers Section  -->
     <style>
@@ -411,7 +673,6 @@ include_once('mailer.php');
 
         .offer-card:hover .offer-image {
             transform: scale(1.05);
-            /* Zoom effect on hover */
         }
 
         /* Content half of the card */
@@ -425,8 +686,8 @@ include_once('mailer.php');
         }
 
         .offer-content h4 {
-            font-weight: 700;
-            font-size: 1.75rem;
+            font-weight: 600;
+            font-size: 20px;
             line-height: 1.3;
             color: #ffffff;
         }
@@ -625,13 +886,14 @@ include_once('mailer.php');
                         $email = $_SESSION['user'];
                         $result = mysqli_query($con, "SELECT * FROM cart WHERE email='$email'");
                         $row = mysqli_fetch_assoc($result);
-                        $cart_count = mysqli_num_rows( $result );
+                        $cart_count = mysqli_num_rows($result);
                     }
                     ?>
                     <a href="cart.php" class="header-icon-link me-3 position-relative">
                         <i class="bi bi-cart fs-4"></i>
                         <?php if ($cart_count > 0): ?>
-                            <span class="cart-badge position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            <span
+                                class="cart-badge position-absolute top-0 start-100 translate-middle badge rounded-pill bg-white">
                                 <?= $cart_count ?>
                             </span>
                         <?php endif; ?>
@@ -643,7 +905,7 @@ include_once('mailer.php');
                         $result = $con->query($q);
                         $row = mysqli_fetch_assoc($result);
 
-                    ?>
+                        ?>
                         <div class="dropdown profile-dropdown me-3">
                             <a href="#"
                                 class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle px-3 rounded"
@@ -695,19 +957,19 @@ include_once('mailer.php');
 
     <?php
     if (isset($_COOKIE['success'])) {
-    ?>
+        ?>
         <div class="alert alert-success alert-dismissible mt-5 fade show" role="alert">
             <strong>Success!</strong> <?php echo " " . $_COOKIE['success']; ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    <?php
+        <?php
     }
     if (isset($_COOKIE['error'])) {
-    ?>
+        ?>
         <div class="alert alert-danger alert-dismissible mt-5 fade show" role="alert">
             <strong>Error!</strong><?php echo " " . $_COOKIE['error']; ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    <?php
+        <?php
     }
     ?>

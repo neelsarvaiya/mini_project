@@ -1,47 +1,44 @@
 <?php include 'header.php';
 
+$categoryId = isset($_GET['category']) ? (int) $_GET['category'] : null;
+$searchQuery = isset($_POST['q']) ? trim($_POST['q']) : null;
+$sort = isset($_GET['sort']) ? $_GET['sort'] : null;
 
-if (isset($_GET['category'])) {
-    $sql = "SELECT p.*, c.category_name AS category_name 
+$sql = "SELECT p.*, c.category_name 
         FROM products p
-        JOIN categories c ON p.category_id = c.id WHERE category_id = $_GET[category] AND status = 'active'";
-    $result = $con->query($sql);
+        JOIN categories c ON p.category_id = c.id
+        WHERE p.status='active'";
 
-} elseif (isset($_POST['q']) && !empty(trim($_POST['q']))) {
-    $searchQuery = $_POST['q'];
+if ($categoryId) {
+    $sql .= " AND p.category_id=$categoryId";
+}
 
-    $sql = "SELECT p.*, c.category_name AS category_name 
-        FROM products p
-        JOIN categories c ON p.category_id = c.id WHERE product_name LIKE '%$searchQuery%' AND status = 'active'";
+if ($searchQuery) {
+    $searchQueryEscaped = $con->real_escape_string($searchQuery);
+    $sql .= " AND p.product_name LIKE '%$searchQueryEscaped%'";
+}
 
-    $result = $con->query($sql);
-
+if ($sort == 1) {
+    $sql .= " ORDER BY (p.price - (p.price * p.discount / 100)) DESC";
+} elseif ($sort == 0) {
+    $sql .= " ORDER BY (p.price - (p.price * p.discount / 100)) ASC";
 } else {
-    $sql = "SELECT p.*, c.category_name AS category_name 
-        FROM products p
-        JOIN categories c ON p.category_id = c.id WHERE status = 'active' order by id DESC";
-    $result = $con->query($sql);
+    $sql .= " ORDER BY p.id DESC";
 }
 
+$result = $con->query($sql);
 
+$today = date('Y-m-d');
+$offer_query = "SELECT * FROM offers 
+                WHERE status='active' 
+                AND (start_date IS NULL OR start_date <= '$today')
+                AND (end_date IS NULL OR end_date >= '$today')";
+$offer_result = $con->query($offer_query);
 
-if (isset($_GET['sort'])) {
-    if ($_GET['sort'] == 1) {
-        $orderBy = "(p.price - (p.price * p.discount / 100)) DESC";
-    } else {
-        $orderBy = "(p.price - (p.price * p.discount / 100)) ASC";
-    }
-
-    $sql = "SELECT p.*, c.category_name 
-        FROM products p
-        JOIN categories c ON p.category_id = c.id 
-        WHERE p.status = 'active' 
-        ORDER BY $orderBy";
-
-    $result = $con->query($sql);
+$active_offers = [];
+while ($offer = $offer_result->fetch_assoc()) {
+    $active_offers[$offer['category_id']] = $offer;
 }
-
-
 
 $colors = [
     'Fruits' => 'text-danger',
@@ -49,15 +46,12 @@ $colors = [
     'Dairy' => 'text-primary',
     'Eggs' => 'text-warning',
     'Bakery' => 'text-brown',
-    'Oils & Spices' => 'text-orange',   // orange 🌶️ (custom CSS if needed)
-    'Meat & Seafood' => 'text-danger',  // red 🥩🐟
-    'Household Essentials' => 'text-dark' // black 🧹
+    'Oils & Spices' => 'text-orange',
+    'Meat & Seafood' => 'text-danger',
+    'Household Essentials' => 'text-dark'
 ];
 
-
-$category = "SELECT id,category_name as name, icon FROM categories WHERE category_status = 'active' ORDER BY id ASC";
-$res = $con->query($category);
-
+$categoryRes = $con->query("SELECT id, category_name AS name, icon FROM categories WHERE category_status='active' ORDER BY id ASC");
 ?>
 
 <section class="py-5">
@@ -75,28 +69,22 @@ $res = $con->query($category);
 
                     <div class="filter-group mb-3">
                         <div class="filter-group-header d-flex justify-content-between align-items-center"
-                            data-bs-toggle="collapse" data-bs-target="#collapseCategory" aria-expanded="true"
-                            role="button">
+                            data-bs-toggle="collapse" data-bs-target="#collapseCategory" aria-expanded="true">
                             <span class="fw-bold">Category</span>
                             <i class="bi bi-chevron-down"></i>
                         </div>
-
                         <div class="collapse show mt-2" id="collapseCategory">
                             <ul class="list-unstyled mb-0">
-                                <?php if ($res->num_rows > 0): ?>
-                                    <?php while ($category = $res->fetch_assoc()): ?>
-                                        <?php
-                                        $colorClass = $colors[$category['name']] ?? 'text-dark';
-                                        ?>
-                                        <li>
-                                            <a href="products.php?category=<?= $category['id'] ?>"
-                                                class="d-flex align-items-center">
-                                                <i class="bi <?= $category['icon'] ?> me-2 <?= $colorClass ?>"></i>
-                                                <?= $category['name'] ?>
-                                            </a>
-                                        </li>
-                                    <?php endwhile; ?>
-                                <?php endif; ?>
+                                <?php while ($category = $categoryRes->fetch_assoc()):
+                                    $colorClass = $colors[$category['name']] ?? 'text-dark'; ?>
+                                    <li>
+                                        <a href="products.php?category=<?= $category['id'] ?>"
+                                            class="d-flex align-items-center">
+                                            <i class="bi <?= $category['icon'] ?> me-2 <?= $colorClass ?>"></i>
+                                            <?= $category['name'] ?>
+                                        </a>
+                                    </li>
+                                <?php endwhile; ?>
                             </ul>
                         </div>
                     </div>
@@ -135,37 +123,48 @@ $res = $con->query($category);
             </div>
 
 
-
             <div class="col-lg-9">
                 <div class="row g-4">
-
                     <?php
-                    if ($result->num_rows > 0) {
-                        while ($product = $result->fetch_assoc()) {
+                    if ($result->num_rows > 0):
+                        while ($product = $result->fetch_assoc()):
                             $originalPrice = $product['price'];
-                            $discountPercent = $product['discount'];
+                            $productDiscount = $product['discount'];
                             $finalPrice = $originalPrice;
                             $save = 0;
 
-                            if ($discountPercent > 0 && $originalPrice > 0) {
-                                $finalPrice = $originalPrice - (($originalPrice * $discountPercent) / 100);
-                                $discountedPrice[] = round($finalPrice);
+                            // Product-level discount
+                            if ($productDiscount > 0) {
+                                $finalPrice -= ($finalPrice * $productDiscount / 100);
                                 $save = $originalPrice - $finalPrice;
                             }
+
+                            // Category offer
+                            $catDiscount = 0;
+                            $offerEndDate = null;
+                            if (isset($active_offers[$product['category_id']])) {
+                                $catDiscount = $active_offers[$product['category_id']]['discount'];
+                                $finalPrice -= ($finalPrice * $catDiscount / 100);
+                                $save = $originalPrice - $finalPrice;
+                                $offerEndDate = $active_offers[$product['category_id']]['end_date'];
+                            }
                             ?>
+
                             <div class="col-lg-4 col-md-6 col-sm-6">
                                 <div class="product-card">
-                                    <?php if ($discountPercent > 0): ?>
-                                        <span class="discount-badge">-<?= $discountPercent ?>% Off</span>
+                                    <?php if ($productDiscount > 0 || $catDiscount > 0): ?>
+                                        <span class="discount-badge">-<?= $productDiscount + $catDiscount ?>% Off</span>
                                     <?php endif; ?>
 
                                     <div class="product-actions">
                                         <?php if ($product['quantity'] > 0): ?>
-                                            <a href="add_to_cart.php?id=<?= $product['id'] ?>" class="action-btn" title="Add to Cart">
+                                            <a href="add_to_cart.php?id=<?= $product['id'] ?>" class="action-btn"
+                                                title="Add to Cart">
                                                 <i class="bi bi-cart-plus"></i>
                                             </a>
                                         <?php endif; ?>
-                                        <a href="add_to_wishlist.php?id=<?= $product['id'] ?>" class="action-btn" title="Add to Wishlist"><i class="bi bi-heart"></i></a>
+                                        <a href="add_to_wishlist.php?id=<?= $product['id'] ?>" class="action-btn"
+                                            title="Add to Wishlist"><i class="bi bi-heart"></i></a>
                                         <a href="#" class="action-btn" title="Quick View"><i class="bi bi-eye"></i></a>
                                     </div>
 
@@ -184,13 +183,12 @@ $res = $con->query($category);
                                         </div>
 
                                         <h5><a href="#" class="title"><?= $product['product_name'] ?></a></h5>
+                                        <p class="text-success" style="font-size: 13px;"><?= $product['description'] ?></p>
 
                                         <div class="rating">
                                             <span class="stars">
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
+                                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
                                                 <i class="bi bi-star-half"></i>
                                             </span>
                                             <span class="review-count">(reviews 125)</span>
@@ -198,33 +196,34 @@ $res = $con->query($category);
 
                                         <div class="price-container">
                                             <div class="prices">
-                                                <span class="new-price text-success">
-                                                    ₹<?= round($finalPrice); ?><?= $product['unit']; ?>
-                                                </span>
-
-                                                <?php if ($discountPercent > 0): ?>
+                                                <span
+                                                    class="new-price text-success">₹<?= round($finalPrice); ?>/<?= $product['unit']; ?></span>
+                                                <?php if ($save > 0): ?>
                                                     <span class="text-muted" style="font-size: 11px;">M.R.P</span>
                                                     <span
                                                         class="old-price text-muted text-decoration-line-through">₹<?= round($originalPrice); ?></span>
                                                 <?php endif; ?>
                                             </div>
-
                                             <?php if ($save > 0): ?>
-                                                <span class="save-badge">
-                                                    Save ₹<?= round($save); ?>
-                                                </span>
+                                                <span class="save-badge">Save ₹<?= round($save); ?></span>
                                             <?php endif; ?>
+                                        </div>
+                                        <div class="mt-3 text-center">
+                                            <?php if ($offerEndDate):
+                                                $todayDT = new DateTime();
+                                                $endDT = new DateTime($offerEndDate);
+                                                $interval = $todayDT->diff($endDT);
+                                                if ($interval->invert == 0): ?>
+                                                    <span class="text-danger" style="font-weight: 700;">Only <?= $interval->days ?> day(s) left!</span>
+                                                <?php endif; endif; ?>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <?php
-                        }
-                    } else {
-                        echo "<p class='text-center mt-5 fw-600'>No products found in this category.</p>";
-                    }
-                    ?>
-
+                        <?php endwhile;
+                    else: ?>
+                        <p class='text-center mt-5 fw-600'>No products found in this category.</p>
+                    <?php endif; ?>
                 </div>
             </div>
 

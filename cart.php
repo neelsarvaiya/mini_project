@@ -3,11 +3,11 @@ include 'header.php';
 
 if (!isset($_SESSION['user'])) {
     setcookie('error', 'Please Login first...', time() + 2, '/');
-    ?>
+?>
     <script>
         window.location.href = 'login.php';
     </script>
-    <?php
+<?php
 }
 
 
@@ -198,7 +198,7 @@ $cart_result = mysqli_query($con, $q);
                     $in_stock = $product_data['quantity'] > 0;
 
                     $sub_total += $cart_data['total_price'];
-                    ?>
+            ?>
                     <div class="card cart-item mb-3 <?php echo !$in_stock ? 'out-of-stock' : ''; ?>">
                         <div class="card-body">
                             <div class="row align-items-center">
@@ -267,7 +267,7 @@ $cart_result = mysqli_query($con, $q);
                             </div>
                         </div>
                     </div>
-                    <?php
+            <?php
                 }
             }
             ?>
@@ -297,7 +297,18 @@ $cart_result = mysqli_query($con, $q);
                         <strong class="text-success">₹<?= round($sub_total + $shipping_cost) ?></strong>
                     </div>
 
-                    <a href="checkout.php" class="btn btn-success w-100 mb-3">Proceed to Checkout</a>
+                    <?php
+                    if (mysqli_num_rows($cart_result) == 0) {
+                    ?>
+                        <a href="checkout.php" class="btn btn-secondary w-100 mb-3 disabled" tabindex="-1"
+                            aria-disabled="true">Proceed to Checkout</a>
+                    <?php } else {
+                    ?>
+                        <a href="checkout.php" class="btn btn-success w-100 mb-3">Proceed to Checkout</a>
+                    <?php
+                    }
+                    ?>
+
                     <a href="products.php" class="btn btn-success w-100">Continue Shopping</a>
                 </div>
             </div>

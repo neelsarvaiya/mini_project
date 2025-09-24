@@ -932,7 +932,7 @@ include_once('mailer.php');
                                         Change Password</a></li>
                                 <li><a class="dropdown-item mb-2" href="wishlist.php"><i class="bi bi-heart me-2"></i>
                                         Wishlist</a></li>
-                                <li><a class="dropdown-item mb-2" href="#"><i class="bi bi-receipt me-2"></i> Orders</a>
+                                <li><a class="dropdown-item mb-2" href="order_history.php"><i class="bi bi-receipt me-2"></i> Orders</a>
                                 </li>
                                 <li>
                                     <hr class="dropdown-divider">

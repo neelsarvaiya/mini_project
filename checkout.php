@@ -150,7 +150,6 @@ if (!isset($_SESSION['user'])) {
 <?php include_once('footer.php') ?>
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <script>
     function makePayment() {

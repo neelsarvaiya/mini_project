@@ -2,11 +2,11 @@
 
 if (!isset($_SESSION['user'])) {
     setcookie('error', 'Please Login first...', time() + 2, '/');
-    ?>
+?>
     <script>
         window.location.href = 'login.php';
     </script>
-    <?php
+<?php
 }
 
 ?>
@@ -112,24 +112,24 @@ if (!isset($_SESSION['user'])) {
                                 <h5 class='text-center text-secondary flex align-item-center' style="align-items:center;">
                                     Your Cart is Empty
                                 </h5>
-                            <?php } else {
+                                <?php } else {
                                 while ($cart_data = mysqli_fetch_assoc($result)) {
                                     $product_id = $cart_data['product_id'];
                                     $product_data = "select * from products where id='$product_id'";
                                     $product_data = mysqli_fetch_assoc(mysqli_query($con, $product_data));
                                     $product_image = $product_data['main_image'];
-                                    ?>
-                            <li class="summary-product-item d-flex align-items-center justify-content-between">
-                                <div class="d-flex align-items-center">
-                                    <img src="images/products/<?= $product_image ?>" alt="Product" width="50" class="me-2">
-                                    <div class="item-details">
-                                        <h6 class="my-0"><?= $product_data['product_name'] ?></h6>
-                                        <small class="text-muted">Qty: <?= $cart_data['quantity'] ?></small>
-                                    </div>
-                                </div>
-                                <span class="text-muted">₹ <?= round($cart_data['total_price']) ?></span>
-                            </li>
-                            <?php
+                                ?>
+                    <li class="summary-product-item d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <img src="images/products/<?= $product_image ?>" alt="Product" width="50" class="me-2">
+                            <div class="item-details">
+                                <h6 class="my-0"><?= $product_data['product_name'] ?></h6>
+                                <small class="text-muted">Qty: <?= $cart_data['quantity'] ?></small>
+                            </div>
+                        </div>
+                        <span class="text-muted">₹ <?= round($cart_data['total_price']) ?></span>
+                    </li>
+            <?php
                                 }
                             } ?>
 
@@ -169,7 +169,7 @@ if (!isset($_SESSION['user'])) {
             description: 'Order Payment',
             image: 'your_logo_url',
 
-            handler: function (response) {
+            handler: function(response) {
                 const formData = new URLSearchParams();
                 formData.append('payment_id', response.razorpay_payment_id);
                 formData.append('firstname', firstname);
@@ -178,19 +178,23 @@ if (!isset($_SESSION['user'])) {
                 formData.append('address', address);
 
                 fetch('order.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: formData.toString()
-                })
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: formData.toString()
+                    })
                     .then(res => res.text())
                     .then(data => {
-                        alert('Payment successful! Payment ID: ' + response.razorpay_payment_id);
+                        <?php
+                        setcookie("success", "🎉 Thank you, ! Your order  has been placed successfully. A copy of your invoice has been sent to Your Eamil. 🚚✨", time() + 2, '/');
+                        ?>
                         window.location.href = 'index.php';
                     });
-            },   
+            },
 
             prefill: {
-                name: firstname + ' ' + lastname, 
+                name: firstname + ' ' + lastname,
                 email: email
             },
             theme: {

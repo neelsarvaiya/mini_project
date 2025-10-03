@@ -24,7 +24,7 @@
             <div class="col-lg-7">
                 <div class="contact-form p-4 shadow-sm rounded">
                     <h3 class="fw-bold mb-4">Send Us a Message</h3>
-                    <form action="send_message.php" method="post">
+                    <form method="post">
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <input type="text" class="form-control" name="name" placeholder="Your Name" data-validation="required alpha min" data-min="2">
@@ -35,6 +35,10 @@
                                 <div class="error" id="emailError"></div>
                             </div>
                             <div class="col-12">
+                                <input type="text" class="form-control" name="mobile" placeholder="Mobile Number" data-validation="required numeric min max" data-min="10" data-max="10">
+                                <div class="error" id="mobileError"></div>
+                            </div>
+                            <div class="col-12">
                                 <input type="text" class="form-control" name="subject" placeholder="Subject" data-validation="required">
                                 <div class="error" id="subjectError"></div>
                             </div>
@@ -43,10 +47,35 @@
                                 <div class="error" id="messageError"></div>
                             </div>
                             <div class="col-12">
-                                <button class="btn btn-success w-100">Send Message</button>
+                                <button class="btn btn-success w-100" name="store_inquery">Send Message</button>
                             </div>
                         </div>
                     </form>
+                    <?php
+
+                    if (isset($_POST['store_inquery'])) {
+                        $name    = $_POST['name'];
+                        $email   =  $_POST['email'];
+                        $mobile  = $_POST['mobile'];
+                        $subject = $_POST['subject'];
+                        $message = $_POST['message'];
+
+                        $sql = "INSERT INTO contact_inquiry (name, email, mobile, subject, message) 
+            VALUES ('$name', '$email', '$mobile', '$subject', '$message')";
+
+                        if (mysqli_query($con, $sql)) {
+                            setcookie("success", "Message sent successfully!", time() + 3, "/");
+                            header("Location: contact.php"); // redirect back to contact page
+                            exit();
+                        } else {
+                            // Error
+                            setcookie("error", "Failed to send message. Try again.", time() + 3, "/");
+                            header("Location: contact.php");
+                            exit();
+                        }
+                    }
+
+                    ?>
                 </div>
             </div>
         </div>

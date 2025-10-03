@@ -65,11 +65,11 @@ if (!isset($_SESSION['admin'])) {
                 <li class="sidebar-item"><a href="admin_dashboard.php" class="sidebar-link"><i class="bi bi-speedometer2"></i><span>Dashboard</span></a></li>
                 <li class="sidebar-item"><a href="admin_user.php" class="sidebar-link"><i class="bi bi-person-circle"></i><span>Users</span></a></li>
                 <li class="sidebar-item"><a href="admin_product.php" class="sidebar-link"><i class="bi bi-box"></i><span>Product</span></a></li>
-                <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-star"></i><span>Review & Rating</span></a></li>
+                <li class="sidebar-item"><a href="admin_review_rating.php" class="sidebar-link"><i class="bi bi-star"></i><span>Review & Rating</span></a></li>
                 <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-gift"></i><span>Offers</span></a></li>
                 <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-cart"></i><span>Orders</span></a></li>
                 <li class="sidebar-item"><a href="admin_category.php" class="sidebar-link"><i class="bi bi-tag"></i><span>Category</span></a></li>
-                <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-info-circle"></i><span>Contact & About</span></a></li>
+                <li class="sidebar-item"><a href="admin_contact_query.php" class="sidebar-link"><i class="bi bi-info-circle"></i><span>Contact Query</span></a></li>
                 <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-tools"></i><span>Service</span></a></li>
                 <li class="sidebar-item"><a href="sale_report.php" class="sidebar-link"><i class="fa-solid fa-chart-line"></i><span>Product Sales Report</span></a></li>
             </ul>

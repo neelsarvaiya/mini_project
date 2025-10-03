@@ -131,8 +131,8 @@ $orders = mysqli_query($con, "SELECT * FROM orders WHERE user_id='$user_id' ORDE
             <div class="order-body">
                 <div class="order-info mb-3">
                     <p><strong>Total:</strong> ₹<?= number_format($order['total_amount'], 2) ?> |
-                        <strong>Status:</strong> 
-                        <span class="badge bg-<?= $order['order_status']=='Delivered' ? 'success' : 'warning' ?>">
+                        <strong>Status:</strong>
+                        <span class="badge bg-<?= $order['order_status'] == 'Delivered' ? 'success' : 'warning' ?>">
                             <?= $order['order_status'] ?>
                         </span>
                     </p>
@@ -154,7 +154,24 @@ $orders = mysqli_query($con, "SELECT * FROM orders WHERE user_id='$user_id' ORDE
                             <strong><?= $product['product_name'] ?></strong>
                             <p>Qty: <?= $item['quantity'] ?> | Price: ₹<?= $item['price'] ?></p>
                         </div>
-                        <a href="review_rating.php" class="review-btn">Review</a>
+                        <?php
+                        $query = "SELECT id FROM reviews WHERE user_id = ? AND product_id = ?";
+                        $stmt = $con->prepare($query);
+                        $stmt->bind_param("ii", $user_id, $pid);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+
+                        if ($result->num_rows == 0) {
+                        ?>
+                            <a href="review_rating.php?p_id=<?= $pid ?>" class="review-btn">Review</a>
+                        <?php
+
+                        } else {
+                        ?>
+                            <p class="text-success">You already reviewed this product.</p>
+                        <?php
+                        }
+                        ?>
                     </div>
                 <?php } ?>
             </div>

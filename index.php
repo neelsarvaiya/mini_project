@@ -2,7 +2,10 @@
 
 <?php
 
-$sql = "SELECT p.* FROM products p LIMIT 6";
+$sql = "SELECT p.*,c.category_name FROM products p 
+        JOIN categories c ON p.category_id = c.id 
+        WHERE p.status='active' AND c.category_status = 'active' AND
+        p.product_name IN('Banana (Robusta)','Potato','Mango (Alphonso)','Amul Milk (Toned)','Croissant','Tata Salt')";
 
 $result = $con->query($sql);
 
@@ -136,7 +139,16 @@ $result = $con->query($sql);
             <div class="row g-4">
 
                 <?php
+
                 $today = date('Y-m-d');
+
+                $deactive_offer = "SELECT end_date FROM offers WHERE end_date <= '$today'";
+                $res = mysqli_query($con, $deactive_offer);
+
+                if($res->num_rows > 0){
+                    mysqli_query($con, "UPDATE offers SET status = 'inactive' WHERE end_date <= '$today'");
+                }
+
                 $offer_query = "SELECT o.*, c.category_name 
                         FROM offers o
                     JOIN categories c ON o.category_id = c.id
@@ -161,7 +173,7 @@ $result = $con->query($sql);
                                     $end_date = new DateTime($offer['end_date']);
                                     $interval = $today->diff($end_date);
 
-                                    if ($interval->invert == 0) { 
+                                    if ($interval->invert == 0) {
                                         echo "<p class='text-white mt-3'>Only {$interval->days} day(s) left!</p>";
                                     } else {
                                         echo "<p class='text-muted'>Offer expired</p>";

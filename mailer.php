@@ -4,53 +4,41 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
 
-require('PHPMailer\PHPMailer.php');
-require('PHPMailer\SMTP.php');
-require('PHPMailer\Exception.php');
+require('PHPMailer/PHPMailer.php');
+require('PHPMailer/SMTP.php');
+require('PHPMailer/Exception.php');
 
-function sendEmail($to, $subject, $body, $file)
+function sendEmail($to, $subject, $body, $pdfData = null)
 {
-    $mail = new PHPMailer(true); // Enable exceptions
+    $mail = new PHPMailer(true);
 
     try {
-        $headers = 'X-Mailer: PHP/' . phpversion();
-        $headers .= "MIME-Version: 1.0\r\n";
-        $headers .= "Content-type: text/html; charset=iso-8859-1\r\n";
-
         // SMTP Configuration
-        $mail->IsSMTP(); // telling the class to use SMTP
-        // $mail->SMTPDebug  = 2;                // enables SMTP debug information (for testing)
-        $mail->SMTPOptions = array(
-            'ssl' => array(
-                'verify_peer' => false,
-                'verify_peer_name' => false,
-                'allow_self_signed' => true
-            )
-        );
-        $mail->SMTPAuth = true;
-        $mail->SMTPSecure = "tls";                 // sets the prefix to the servier
-        $mail->Host       = 'smtp.gmail.com';      // sets GMAIL as the SMTP server
-        $mail->Port       = 587;                   // set the SMTP port for the GMAIL server
-        $mail->Username   = "kkanjariya630@rku.ac.in";  // GMAIL username(from)
-        $mail->Password   = "yvhprhctdcqnzjeo";            // GMAIL password(from)
-        $mail->SetFrom('kiritkanjariya69@gmail.com', 'Student Demo Website'); //from
-        $mail->AddReplyTo("kiritkanjariya69@gmail.com", "Student Demo Website"); //to
-        $mail->Subject    = $subject;
-        $mail->AltBody    = "To view the message, please use an HTML compatible email viewer!";
-        if ($file) {
-            $mail->AddAttachment($file);
-        }
-        $mail->MsgHTML($body);
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = "kkanjariya630@rku.ac.in";  // Gmail username
+        $mail->Password   = "yvhprhctdcqnzjeo";         // Gmail app password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;
 
-        $mail->AddAddress($to);
+        // Sender & Recipient
+        $mail->setFrom('kiritkanjariya69@gmail.com', 'Student Demo Website');
+        $mail->addReplyTo("kiritkanjariya69@gmail.com", "Student Demo Website");
+        $mail->addAddress($to);
+
+        // Email Content
+        $mail->isHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body    = $body;
+
+        // Attach PDF if exists
+        if ($pdfData) {
+            $mail->addStringAttachment($pdfData, 'invoice.pdf');
+        }
+
         $mail->SMTPDebug = 0;
-        $mail->Debugoutput = 'html';
-
-        // Send email
-        if ($mail->Send()) {
-            return true;
-        }
-        // return "Email sent successfully!";
+        return $mail->send();
     } catch (Exception $e) {
         return "Email failed: " . $mail->ErrorInfo;
     }

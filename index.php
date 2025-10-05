@@ -36,6 +36,19 @@ GROUP BY
 $result = $con->query($sql);
 
 
+$testimonialQuery  = "SELECT 
+                r.*,
+                rg.firstname,
+                rg.lastname,
+                rg.address,
+                rg.profile_picture AS image
+            FROM reviews r
+                JOIN registration rg ON r.user_id = rg.id
+            ORDER BY r.created_at DESC
+            LIMIT 5";
+
+$testimonialResult  = $con->query($testimonialQuery );
+
 ?>
 
 
@@ -257,41 +270,67 @@ $result = $con->query($sql);
             <h2 class="fw-bold mb-3 section-title">Trusted by Families in Rajkot</h2>
             <p class="lead section-subtitle mx-auto">Here’s what our happy customers have to say about our
                 commitment to freshness.</p>
+
             <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <div class="testimonial-card">
-                            <img src="https://uifaces.co/our-content/donated/xP_YIYn2.jpg" class="testimonial-img"
-                                alt="Priya S.">
-                            <div class="rating-stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                    class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                    class="bi bi-star-fill"></i></div>
-                            <p>"The quality is consistently amazing and the service is always so quick!"</p>
-                            <h6 class="customer-name">- Priya S.</h6><small class="customer-location">University
-                                Road, Rajkot</small>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="testimonial-card">
-                            <img src="https://randomuser.me/api/portraits/men/32.jpg" class="testimonial-img"
-                                alt="Rohan P.">
-                            <div class="rating-stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                    class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                    class="bi bi-star-fill"></i></div>
-                            <p>"FreshPick is a lifesaver. Their Navratri essentials I ordered were top-notch. Highly
-                                recommended!"</p>
-                            <h6 class="customer-name">- Rohan P.</h6><small class="customer-location">Kalawad Road,
-                                Rajkot</small>
-                        </div>
-                    </div>
+                    <?php
+                    if ($testimonialResult  && $testimonialResult ->num_rows > 0) {
+                        $isActive = true;
+                        while ($row = $testimonialResult ->fetch_assoc()):
+
+                            $rating = isset($row['rating']) ? (int) $row['rating'] : 0;
+                            $firstname = isset($row['firstname']) ? $row['firstname'] : '';
+                            $lastname = isset($row['lastname']) ? $row['lastname'] : '';
+                            $address = isset($row['address']) ? $row['address'] : '';
+                            $review_text = isset($row['review_text']) ? $row['review_text'] : '';
+                            $image = isset($row['image']) && !empty($row['image']) ? 'images/profile_pictures/' . $row['image'] : 'images/default-user.png';
+
+                            $stars = '';
+                            for ($i = 1; $i <= 5; $i++) {
+                                $stars .= $i <= $rating ? '<i class="bi bi-star-fill text-warning"></i>' : '<i class="bi bi-star text-muted"></i>';
+                            }
+
+                            $userFullName = htmlspecialchars($firstname . ' ' . $lastname);
+                            $userAddress = htmlspecialchars($address);
+                            $reviewText = htmlspecialchars($review_text);
+                            ?>
+                            <div class="carousel-item <?= $isActive ? 'active' : '' ?>">
+                                <div class="testimonial-card text-center p-3">
+                                    <img src="<?= $image ?>" class="testimonial-img rounded-circle mb-3"
+                                        alt="<?= $userFullName ?>" width="100" height="100">
+
+                                    <div class="rating-stars mb-2 mt-5">
+                                        <?= $stars ?>
+                                    </div>
+
+                                    <p class="fst-italic">"<?= $reviewText ?>"</p>
+
+                                    <h6 class="customer-name">- <?= $userFullName ?></h6>
+                                    <small class="customer-location text-muted"><?= $userAddress ?></small>
+                                </div>
+                            </div>
+                            <?php
+                            $isActive = false;
+                        endwhile;
+                    } else {
+                        echo "<div class='carousel-item active text-center p-3'><p>No testimonials available yet.</p></div>";
+                    }
+                    ?>
                 </div>
+
                 <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel"
-                    data-bs-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span
-                        class="visually-hidden">Previous</span></button>
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+
                 <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel"
-                    data-bs-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span><span
-                        class="visually-hidden">Next</span></button>
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
+
         </div>
     </section>
 

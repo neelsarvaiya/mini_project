@@ -4,6 +4,14 @@ ob_start();
 
 include_once('db_connect.php');
 include_once('mailer.php');
+date_default_timezone_set('Asia/Kolkata');
+$current_time = date("Y-m-d H:i:s");
+$q = "UPDATE password_token 
+SET otp_attempts = 0 
+WHERE TIMESTAMPDIFF(HOUR, last_resend, NOW()) >= 24";
+$con->query($q);
+$remove_otp = "update password_token set otp=NULL WHERE expires_at < '$current_time'";
+$con->query($remove_otp);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -380,18 +388,18 @@ include_once('mailer.php');
             font-size: 1.2rem;
             color: var(--theme-green);
         }
-        
+
         /* About Content */
         section.py-5 {
             padding-top: 60px;
             padding-bottom: 60px;
         }
-        
+
         section.py-5 h2 {
             color: var(--text-dark);
             margin-bottom: 20px;
         }
-        
+
         section.py-5 p {
             color: var(--theme-green);
             font-size: 1rem;
@@ -905,7 +913,7 @@ include_once('mailer.php');
                         $result = $con->query($q);
                         $row = mysqli_fetch_assoc($result);
 
-                        ?>
+                    ?>
                         <div class="dropdown profile-dropdown me-3">
                             <a href="#"
                                 class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle px-3 rounded"
@@ -957,19 +965,19 @@ include_once('mailer.php');
 
     <?php
     if (isset($_COOKIE['success'])) {
-        ?>
+    ?>
         <div class="alert alert-success alert-dismissible mt-5 fade show" role="alert">
             <strong>Success!</strong> <?php echo " " . $_COOKIE['success']; ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-        <?php
+    <?php
     }
     if (isset($_COOKIE['error'])) {
-        ?>
+    ?>
         <div class="alert alert-danger alert-dismissible mt-5 fade show" role="alert">
             <strong>Error!</strong><?php echo " " . $_COOKIE['error']; ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-        <?php
+    <?php
     }
     ?>

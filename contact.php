@@ -1,4 +1,9 @@
-<?php include 'header.php' ?>
+<?php include 'header.php';
+
+$contact_query = "SELECT * FROM contact_us LIMIT 1";
+$contact_result = mysqli_query($con, $contact_query);
+$contact = mysqli_fetch_assoc($contact_result);
+?>
 
 <section class="contact-hero py-5 text-center">
     <div class="container">
@@ -14,9 +19,9 @@
             <div class="col-lg-5">
                 <div class="contact-info p-4 shadow-sm rounded">
                     <h3 class="fw-bold mb-4">Get in Touch</h3>
-                    <p><i class="bi bi-geo-alt-fill text-success"></i> 123 Fresh Street, Green City, India</p>
-                    <p><i class="bi bi-envelope-fill text-success"></i> support@freshpick.com</p>
-                    <p><i class="bi bi-telephone-fill text-success"></i> +91 98765 43210</p>
+                    <p><i class="bi bi-geo-alt-fill text-success"></i> <?php echo $contact['address']; ?></p>
+                    <p><i class="bi bi-envelope-fill text-success"></i> <?php echo $contact['email']; ?></p>
+                    <p><i class="bi bi-telephone-fill text-success"></i> <?php echo $contact['mobile']; ?></p>
                     <p><i class="bi bi-clock-fill text-success"></i> Mon - Sat: 8:00 AM - 9:00 PM</p>
                 </div>
             </div>
@@ -51,30 +56,28 @@
                             </div>
                         </div>
                     </form>
-                    <?php
 
+                    <?php
                     if (isset($_POST['store_inquery'])) {
                         $name    = $_POST['name'];
-                        $email   =  $_POST['email'];
+                        $email   = $_POST['email'];
                         $mobile  = $_POST['mobile'];
                         $subject = $_POST['subject'];
                         $message = $_POST['message'];
 
                         $sql = "INSERT INTO contact_inquiry (name, email, mobile, subject, message) 
-            VALUES ('$name', '$email', '$mobile', '$subject', '$message')";
+                                VALUES ('$name', '$email', '$mobile', '$subject', '$message')";
 
                         if (mysqli_query($con, $sql)) {
                             setcookie("success", "Message sent successfully!", time() + 3, "/");
-                            header("Location: contact.php"); // redirect back to contact page
+                            header("Location: contact.php");
                             exit();
                         } else {
-                            // Error
                             setcookie("error", "Failed to send message. Try again.", time() + 3, "/");
                             header("Location: contact.php");
                             exit();
                         }
                     }
-
                     ?>
                 </div>
             </div>
@@ -84,9 +87,8 @@
 
 <section class="map-section">
     <div class="container-fluid px-0">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2262.337439794505!2d-0.17372283040636402!3d51.52959061706136!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48761abba8d10fe3%3A0xe65b82528dff9446!2sLord&#39;s%20Cricket%20Ground!5e1!3m2!1sen!2sin!4v1758040737636!5m2!1sen!2sin"
-            width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        <?php echo $contact['maps']; ?>
     </div>
 </section>
 
-<?php include 'footer.php'; ?>
+<?php include 'footer.php' ?>

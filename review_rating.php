@@ -3,7 +3,7 @@ include_once('header.php');
 include_once('db_connect.php');
 
 if (!isset($_SESSION['user'])) {
-    setcookie('error', 'Please Login first...', time() + 2, '/');
+    setcookie('error', 'Please log in to access this page.', time() + 2, '/');
 ?>
     <script>
         window.location.href = 'login.php';

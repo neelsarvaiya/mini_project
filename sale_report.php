@@ -38,6 +38,7 @@ $sql = "SELECT items FROM orders $where ORDER BY created_at DESC";
 $result = mysqli_query($con, $sql);
 
 $sales = [];
+$totalSales = 0;
 while ($row = mysqli_fetch_assoc($result)) {
     $items = json_decode($row['items'], true);
     if (!$items)
@@ -57,18 +58,20 @@ while ($row = mysqli_fetch_assoc($result)) {
             ];
         }
         $sales[$pid]['qty'] += $qty;
-        $sales[$pid]['total'] += $qty * $price;
+        $sales[$pid]['total'] += $price;
+
+        round($totalSales += $price);
     }
 }
 
-// ---------- EXCEL EXPORT (must be BEFORE any HTML output) ----------
 if (isset($_GET['export']) && $_GET['export'] === 'excel') {
     header("Content-Type: application/vnd.ms-excel");
-    header("Content-Disposition: attachment; filename=sales_report.xls");
-    echo "Product\tQuantity Sold\tTotal Sales\n";
+    header("Content-Disposition: attachment; filename=product_sales_report.xls");
+    echo "Product\tQuantity Sold\tTotal Sales\n\n";
     foreach ($sales as $s) {
         echo "{$s['name']}\t{$s['qty']}\t{$s['total']}\n";
     }
+    echo "\nTotal\t       -\t{$totalSales}\n";
     exit;
 }
 
@@ -131,6 +134,11 @@ include_once('admin_header.php');
                         <td><?= round($s['total']) ?></td>
                     </tr>
                 <?php endforeach; ?>
+                <tr>
+                    <td class="fw-bold">Total</td>
+                    <td class="fw-bold">-</td>
+                    <td class="fw-bold"><?=$totalSales?></td>
+                </tr>
             <?php endif; ?>
         </tbody>
     </table>

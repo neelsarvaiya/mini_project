@@ -2,12 +2,52 @@
 
 <?php
 
-$sql = "SELECT p.*,c.category_name FROM products p 
-        JOIN categories c ON p.category_id = c.id 
-        WHERE p.status='active' AND c.category_status = 'active' AND
-        p.product_name IN('Banana (Robusta)','Potato','Mango (Alphonso)','Amul Milk (Toned)','Croissant','Tata Salt')";
+$sql = "SELECT 
+    p.id, 
+    p.product_name, 
+    p.price, 
+    p.discount, 
+    p.main_image, 
+    p.quantity, 
+    p.unit,
+    p.description,
+    p.category_id,
+    c.category_name,
+    AVG(r.rating) AS avg_rating,
+    COUNT(r.id) AS total_reviews
+FROM products p
+JOIN categories c ON p.category_id = c.id
+LEFT JOIN reviews r ON p.id = r.product_id
+WHERE p.status = 'active' 
+    AND p.product_name IN('Banana (Robusta)', 'Potato', 'Mango (Alphonso)', 'Amul Milk (Toned)', 'Croissant', 'Tata Salt')
+GROUP BY 
+    p.id, 
+    p.product_name, 
+    p.price, 
+    p.discount, 
+    p.main_image, 
+    p.quantity, 
+    p.unit, 
+    p.description, 
+    p.category_id, 
+    c.category_name";
+
 
 $result = $con->query($sql);
+
+
+$testimonialQuery  = "SELECT 
+                r.*,
+                rg.firstname,
+                rg.lastname,
+                rg.address,
+                rg.profile_picture AS image
+            FROM reviews r
+                JOIN registration rg ON r.user_id = rg.id
+            ORDER BY r.created_at DESC
+            LIMIT 5";
+
+$testimonialResult  = $con->query($testimonialQuery );
 
 ?>
 
@@ -49,6 +89,9 @@ $result = $con->query($sql);
                             $discountedPrice[] = round($finalPrice);
                             $save = $originalPrice - $finalPrice;
                         }
+
+                        $avgRating = round($product['avg_rating'] ?? 0, 1);
+                        $totalReviews = $product['total_reviews'] ?? 0;
                         ?>
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="product-card">
@@ -64,7 +107,8 @@ $result = $con->query($sql);
                                     <?php endif; ?>
                                     <a href="add_to_wishlist.php?id=<?= $product['id'] ?>" class="action-btn"
                                         title="Add to Wishlist"><i class="bi bi-heart"></i></a>
-                                    <a href="#" class="action-btn" title="Quick View"><i class="bi bi-eye"></i></a>
+                                    <a href="details.php?id=<?= $product['id'] ?>" class="action-btn" title="Quick View"><i
+                                            class="bi bi-eye"></i></a>
                                 </div>
 
                                 <div class="product-image">
@@ -86,13 +130,15 @@ $result = $con->query($sql);
 
                                     <div class="rating">
                                         <span class="stars">
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-half"></i>
+                                            <?php for ($i = 1; $i <= 5; $i++): ?>
+                                                <i class="bi <?= ($i <= floor($avgRating))
+                                                    ? 'bi-star-fill'
+                                                    : (($i - $avgRating < 1 && $i - $avgRating > 0)
+                                                        ? 'bi-star-half'
+                                                        : 'bi-star') ?>"></i>
+                                            <?php endfor; ?>
                                         </span>
-                                        <span class="review-count">(reviews 125)</span>
+                                        <span>(<?= $totalReviews ?> Reviews)</span>
                                     </div>
 
                                     <div class="price-container">
@@ -145,7 +191,7 @@ $result = $con->query($sql);
                 $deactive_offer = "SELECT end_date FROM offers WHERE end_date <= '$today'";
                 $res = mysqli_query($con, $deactive_offer);
 
-                if($res->num_rows > 0){
+                if ($res->num_rows > 0) {
                     mysqli_query($con, "UPDATE offers SET status = 'inactive' WHERE end_date <= '$today'");
                 }
 
@@ -176,7 +222,7 @@ $result = $con->query($sql);
                                     if ($interval->invert == 0) {
                                         echo "<p class='text-white mt-3'>Only {$interval->days} day(s) left!</p>";
                                     } else {
-                                        echo "<p class='text-muted'>Offer expired</p>";
+                                        echo "<p class='text-white mt-3'>Only {$interval->days} day(s) left!</p>";
                                     }
                                 }
                                 ?>
@@ -211,25 +257,7 @@ $result = $con->query($sql);
                         only fresh but also full of authentic flavor.
                     </p>
 
-                    <div class="farmer-stats">
-                        <div class="stat-item text-center">
-                            <i class="bi bi-calendar-check"></i>
-                            <h5>30+ Years</h5>
-                            <p>Experience</p>
-                        </div>
-                        <div class="stat-item text-center">
-                            <i class="bi bi-tree"></i>
-                            <h5>100% Natural</h5>
-                            <p>Farming</p>
-                        </div>
-                        <div class="stat-item text-center">
-                            <i class="bi bi-geo-alt"></i>
-                            <h5>Local Saurashtra</h5>
-                            <p>Produce</p>
-                        </div>
-                    </div>
-
-                    <a href="#" class="btn btn-story mt-4">
+                    <a href="about.php" class="btn btn-story mt-4">
                         Learn Our Story <i class="bi bi-arrow-right ms-2"></i>
                     </a>
                 </div>
@@ -242,41 +270,67 @@ $result = $con->query($sql);
             <h2 class="fw-bold mb-3 section-title">Trusted by Families in Rajkot</h2>
             <p class="lead section-subtitle mx-auto">Here’s what our happy customers have to say about our
                 commitment to freshness.</p>
+
             <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <div class="testimonial-card">
-                            <img src="https://uifaces.co/our-content/donated/xP_YIYn2.jpg" class="testimonial-img"
-                                alt="Priya S.">
-                            <div class="rating-stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                    class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                    class="bi bi-star-fill"></i></div>
-                            <p>"The quality is consistently amazing and the service is always so quick!"</p>
-                            <h6 class="customer-name">- Priya S.</h6><small class="customer-location">University
-                                Road, Rajkot</small>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="testimonial-card">
-                            <img src="https://randomuser.me/api/portraits/men/32.jpg" class="testimonial-img"
-                                alt="Rohan P.">
-                            <div class="rating-stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                    class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                    class="bi bi-star-fill"></i></div>
-                            <p>"FreshPick is a lifesaver. Their Navratri essentials I ordered were top-notch. Highly
-                                recommended!"</p>
-                            <h6 class="customer-name">- Rohan P.</h6><small class="customer-location">Kalawad Road,
-                                Rajkot</small>
-                        </div>
-                    </div>
+                    <?php
+                    if ($testimonialResult  && $testimonialResult ->num_rows > 0) {
+                        $isActive = true;
+                        while ($row = $testimonialResult ->fetch_assoc()):
+
+                            $rating = isset($row['rating']) ? (int) $row['rating'] : 0;
+                            $firstname = isset($row['firstname']) ? $row['firstname'] : '';
+                            $lastname = isset($row['lastname']) ? $row['lastname'] : '';
+                            $address = isset($row['address']) ? $row['address'] : '';
+                            $review_text = isset($row['review_text']) ? $row['review_text'] : '';
+                            $image = isset($row['image']) && !empty($row['image']) ? 'images/profile_pictures/' . $row['image'] : 'images/default-user.png';
+
+                            $stars = '';
+                            for ($i = 1; $i <= 5; $i++) {
+                                $stars .= $i <= $rating ? '<i class="bi bi-star-fill text-warning"></i>' : '<i class="bi bi-star text-muted"></i>';
+                            }
+
+                            $userFullName = htmlspecialchars($firstname . ' ' . $lastname);
+                            $userAddress = htmlspecialchars($address);
+                            $reviewText = htmlspecialchars($review_text);
+                            ?>
+                            <div class="carousel-item <?= $isActive ? 'active' : '' ?>">
+                                <div class="testimonial-card text-center p-3">
+                                    <img src="<?= $image ?>" class="testimonial-img rounded-circle mb-3"
+                                        alt="<?= $userFullName ?>" width="100" height="100">
+
+                                    <div class="rating-stars mb-2 mt-5">
+                                        <?= $stars ?>
+                                    </div>
+
+                                    <p class="fst-italic">"<?= $reviewText ?>"</p>
+
+                                    <h6 class="customer-name">- <?= $userFullName ?></h6>
+                                    <small class="customer-location text-muted"><?= $userAddress ?></small>
+                                </div>
+                            </div>
+                            <?php
+                            $isActive = false;
+                        endwhile;
+                    } else {
+                        echo "<div class='carousel-item active text-center p-3'><p>No testimonials available yet.</p></div>";
+                    }
+                    ?>
                 </div>
+
                 <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel"
-                    data-bs-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span
-                        class="visually-hidden">Previous</span></button>
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+
                 <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel"
-                    data-bs-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span><span
-                        class="visually-hidden">Next</span></button>
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
+
         </div>
     </section>
 

@@ -119,7 +119,7 @@
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label class="form-label">Product Name</label>
-                        <input type="text" name="product_name" class="form-control" data-validation="required alpha"
+                        <input type="text" name="product_name" class="form-control" data-validation="required"
                             value="<?= $product['product_name'] ?>">
                         <div class="error" id="product_nameError"></div>
                     </div>

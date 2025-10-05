@@ -1,10 +1,13 @@
 <?php
-include_once('db_connect.php');
 include_once('header.php');
 
 if (!isset($_SESSION['user'])) {
-    header("Location: login.php");
-    exit();
+    setcookie('error', 'Please log in to access this page.', time() + 2, '/');
+?>
+    <script>
+        window.location.href = 'login.php';
+    </script>
+<?php
 }
 
 $email = $_SESSION['user'];

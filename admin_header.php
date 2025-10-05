@@ -2,6 +2,7 @@
 include_once('db_connect.php');
 session_start();
 if (!isset($_SESSION['admin'])) {
+    setcookie('error', 'Please log in to access this page.', time() + 2, '/');
 ?>
     <script>
         window.location.href = 'login.php';
@@ -67,13 +68,13 @@ if (!isset($_SESSION['admin'])) {
                 <li class="sidebar-item"><a href="admin_product.php" class="sidebar-link"><i class="bi bi-box"></i><span>Product</span></a></li>
                 <li class="sidebar-item"><a href="admin_review_rating.php" class="sidebar-link"><i class="bi bi-star"></i><span>Review & Rating</span></a></li>
                 <li class="sidebar-item"><a href="admin_offer.php" class="sidebar-link"><i class="bi bi-gift"></i><span>Offers</span></a></li>
-                <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-cart"></i><span>Orders</span></a></li>
+                <li class="sidebar-item"><a href="admin_order.php" class="sidebar-link"><i class="bi bi-cart"></i><span>Orders</span></a></li>
                 <li class="sidebar-item"><a href="admin_category.php" class="sidebar-link"><i class="bi bi-tag"></i><span>Category</span></a></li>
                 <li class="sidebar-item"><a href="admin_contact_query.php" class="sidebar-link"><i class="bi bi-info-circle"></i><span>Contact Query</span></a></li>
-                <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-tools"></i><span>Service</span></a></li>
+                <li class="sidebar-item"><a href="admin_service.php" class="sidebar-link"><i class="bi bi-tools"></i><span>Service</span></a></li>
                 <li class="sidebar-item"><a href="sale_report.php" class="sidebar-link"><i class="fa-solid fa-chart-line"></i><span>Product Sales Report</span></a></li>
             </ul>
-        </aside>         
+        </aside>
 
 
         <!-- Main Content -->

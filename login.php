@@ -97,7 +97,7 @@
 
                             <!-- Forgot Password -->
                             <div class="text-end mb-4">
-                                <a href="forget_paasword.php" class="login-link">Forgot Password?</a>
+                                <a href="forget_password.php" class="login-link">Forgot Password?</a>
                             </div>
 
                             <!-- Submit -->

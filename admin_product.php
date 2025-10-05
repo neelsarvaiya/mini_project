@@ -106,27 +106,33 @@
                     </thead>
                     <tbody>
                         <?php
-                        $sql = "SELECT * FROM products";
-                        $result = mysqli_query($con, $sql);
+                        // ✅ Fetch products with category name
+                        $sql = "SELECT p.*, c.category_name 
+                                FROM products p 
+                                LEFT JOIN categories c 
+                                ON p.category_id = c.id
+                                ORDER BY p.id DESC";
 
+                        $result = mysqli_query($con, $sql);
                         $sr_no = 1;
-                        if ($result->num_rows > 0) {
-                            while ($row = $result->fetch_assoc()) {
+
+                        if ($result && mysqli_num_rows($result) > 0) {
+                            while ($row = mysqli_fetch_assoc($result)) {
                         ?>
                                 <tr>
-                                    <td><?php echo $sr_no++; ?></td>
+                                    <td><?= $sr_no++; ?></td>
                                     <td>
-                                        <img src="images/products/<?= $row['main_image']; ?>"
+                                        <img src="images/products/<?= htmlspecialchars($row['main_image']); ?>"
                                             height="80px" width="80px"
                                             class="rounded shadow-sm">
                                     </td>
-                                    <td><?php echo $row['product_name']; ?></td>
-                                    <td><?php echo $row['category_id']; ?></td>
-                                    <td>₹<?php echo number_format($row['price'], 2); ?></td>
-                                    <td><?php echo $row['unit']; ?></td>
-                                    <td><?php echo $row['quantity']; ?></td>
-                                    <td><?php echo $row['discount']; ?>%</td>
-                                    <td>₹<?php echo $row['discounted_price']; ?></td>
+                                    <td><?= htmlspecialchars($row['product_name']); ?></td>
+                                    <td><?= htmlspecialchars($row['category_name'] ?? 'Uncategorized'); ?></td>
+                                    <td>₹<?= number_format($row['price'], 2); ?></td>
+                                    <td><?= htmlspecialchars($row['unit']); ?></td>
+                                    <td><?= htmlspecialchars($row['quantity']); ?></td>
+                                    <td><?= htmlspecialchars($row['discount']); ?>%</td>
+                                    <td>₹<?= number_format($row['discounted_price'], 2); ?></td>
                                     <td>
                                         <?php if ($row['status'] == 'active') { ?>
                                             <span class="badge badge-status badge-active">Active</span>
@@ -139,47 +145,44 @@
                                             class="btn btn-sm btn-outline-info me-1">
                                             Edit
                                         </a>
+
                                         <form method="post" style="display:inline;">
-                                            <input type="hidden" name="id" value="<?= $row['id'] ?>">
-                                            <input type="submit" name="deleteProduct" class="btn btn-sm btn-outline-danger" value="Delete">
+                                            <input type="hidden" name="id" value="<?= $row['id']; ?>">
+                                            <button type="submit" name="deleteProduct" class="btn btn-sm btn-outline-danger">Delete</button>
                                         </form>
-
-                                        <?php
-                                        if (isset($_POST['deleteProduct'])) {
-                                            $productId = $_POST['id'];
-
-                                            $result = mysqli_query($con, "SELECT main_image FROM products WHERE id = $productId");
-                                            $product = mysqli_fetch_assoc($result);
-
-                                            $delete_query = "DELETE FROM products WHERE id = $productId";
-                                            if (mysqli_query($con, $delete_query)) {
-                                                if (!empty($product['main_image'])) {
-                                                    if (file_exists("img/products/" . $product['main_image'])) {
-                                                        unlink("img/products/" . $product['main_image']);
-                                                    }
-                                                }
-                                        ?>
-                                                <script>
-                                                    alert('Product deleted Successfull.');
-                                                    window.location.href = 'admin_product.php';
-                                                </script>
-                                            <?php
-                                            } else {
-                                            ?>
-                                                <script>
-                                                    alert('Failed to Delete Product.');
-                                                    window.location.href = 'admin_product.php';
-                                                </script>
-                                        <?php
-                                            }
-                                        }
-                                        ?>
                                     </td>
                                 </tr>
-                        <?php
+                            <?php
                             }
                         } else {
-                            echo "<tr><td colspan='9' class='text-center'>No products found</td></tr>";
+                            echo "<tr><td colspan='11' class='text-center'>No products found</td></tr>";
+                        }
+
+                        // ✅ Handle delete product
+                        if (isset($_POST['deleteProduct'])) {
+                            $productId = $_POST['id'];
+                            $result = mysqli_query($con, "SELECT main_image FROM products WHERE id = $productId");
+                            $product = mysqli_fetch_assoc($result);
+
+                            $delete_query = "DELETE FROM products WHERE id = $productId";
+                            if (mysqli_query($con, $delete_query)) {
+                                if (!empty($product['main_image']) && file_exists("img/products/" . $product['main_image'])) {
+                                    unlink("img/products/" . $product['main_image']);
+                                }
+                            ?>
+                                <script>
+                                    alert('Product deleted successfully.');
+                                    window.location.href = 'admin_product.php';
+                                </script>
+                            <?php
+                            } else {
+                            ?>
+                                <script>
+                                    alert('Failed to delete product.');
+                                    window.location.href = 'admin_product.php';
+                                </script>
+                        <?php
+                            }
                         }
                         ?>
                     </tbody>
@@ -187,6 +190,6 @@
             </div>
         </div>
     </div>
-
 </div>
+
 <?php include_once('admin_footer.php') ?>

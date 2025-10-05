@@ -2,12 +2,39 @@
 
 <?php
 
-$sql = "SELECT p.*,c.category_name FROM products p 
-        JOIN categories c ON p.category_id = c.id 
-        WHERE p.status='active' AND c.category_status = 'active' AND
-        p.product_name IN('Banana (Robusta)','Potato','Mango (Alphonso)','Amul Milk (Toned)','Croissant','Tata Salt')";
+$sql = "SELECT 
+    p.id, 
+    p.product_name, 
+    p.price, 
+    p.discount, 
+    p.main_image, 
+    p.quantity, 
+    p.unit,
+    p.description,
+    p.category_id,
+    c.category_name,
+    AVG(r.rating) AS avg_rating,
+    COUNT(r.id) AS total_reviews
+FROM products p
+JOIN categories c ON p.category_id = c.id
+LEFT JOIN reviews r ON p.id = r.product_id
+WHERE p.status = 'active' 
+    AND p.product_name IN('Banana (Robusta)', 'Potato', 'Mango (Alphonso)', 'Amul Milk (Toned)', 'Croissant', 'Tata Salt')
+GROUP BY 
+    p.id, 
+    p.product_name, 
+    p.price, 
+    p.discount, 
+    p.main_image, 
+    p.quantity, 
+    p.unit, 
+    p.description, 
+    p.category_id, 
+    c.category_name";
+
 
 $result = $con->query($sql);
+
 
 ?>
 
@@ -49,6 +76,9 @@ $result = $con->query($sql);
                             $discountedPrice[] = round($finalPrice);
                             $save = $originalPrice - $finalPrice;
                         }
+
+                        $avgRating = round($product['avg_rating'] ?? 0, 1);
+                        $totalReviews = $product['total_reviews'] ?? 0;
                         ?>
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="product-card">
@@ -64,7 +94,8 @@ $result = $con->query($sql);
                                     <?php endif; ?>
                                     <a href="add_to_wishlist.php?id=<?= $product['id'] ?>" class="action-btn"
                                         title="Add to Wishlist"><i class="bi bi-heart"></i></a>
-                                    <a href="#" class="action-btn" title="Quick View"><i class="bi bi-eye"></i></a>
+                                    <a href="details.php?id=<?= $product['id'] ?>" class="action-btn" title="Quick View"><i
+                                            class="bi bi-eye"></i></a>
                                 </div>
 
                                 <div class="product-image">
@@ -86,13 +117,15 @@ $result = $con->query($sql);
 
                                     <div class="rating">
                                         <span class="stars">
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-half"></i>
+                                            <?php for ($i = 1; $i <= 5; $i++): ?>
+                                                <i class="bi <?= ($i <= floor($avgRating))
+                                                    ? 'bi-star-fill'
+                                                    : (($i - $avgRating < 1 && $i - $avgRating > 0)
+                                                        ? 'bi-star-half'
+                                                        : 'bi-star') ?>"></i>
+                                            <?php endfor; ?>
                                         </span>
-                                        <span class="review-count">(reviews 125)</span>
+                                        <span>(<?= $totalReviews ?> Reviews)</span>
                                     </div>
 
                                     <div class="price-container">
@@ -145,7 +178,7 @@ $result = $con->query($sql);
                 $deactive_offer = "SELECT end_date FROM offers WHERE end_date <= '$today'";
                 $res = mysqli_query($con, $deactive_offer);
 
-                if($res->num_rows > 0){
+                if ($res->num_rows > 0) {
                     mysqli_query($con, "UPDATE offers SET status = 'inactive' WHERE end_date <= '$today'");
                 }
 
@@ -176,7 +209,7 @@ $result = $con->query($sql);
                                     if ($interval->invert == 0) {
                                         echo "<p class='text-white mt-3'>Only {$interval->days} day(s) left!</p>";
                                     } else {
-                                        echo "<p class='text-muted'>Offer expired</p>";
+                                        echo "<p class='text-white mt-3'>Only {$interval->days} day(s) left!</p>";
                                     }
                                 }
                                 ?>
@@ -211,25 +244,7 @@ $result = $con->query($sql);
                         only fresh but also full of authentic flavor.
                     </p>
 
-                    <div class="farmer-stats">
-                        <div class="stat-item text-center">
-                            <i class="bi bi-calendar-check"></i>
-                            <h5>30+ Years</h5>
-                            <p>Experience</p>
-                        </div>
-                        <div class="stat-item text-center">
-                            <i class="bi bi-tree"></i>
-                            <h5>100% Natural</h5>
-                            <p>Farming</p>
-                        </div>
-                        <div class="stat-item text-center">
-                            <i class="bi bi-geo-alt"></i>
-                            <h5>Local Saurashtra</h5>
-                            <p>Produce</p>
-                        </div>
-                    </div>
-
-                    <a href="#" class="btn btn-story mt-4">
+                    <a href="about.php" class="btn btn-story mt-4">
                         Learn Our Story <i class="bi bi-arrow-right ms-2"></i>
                     </a>
                 </div>

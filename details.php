@@ -133,7 +133,8 @@ $totalReviews = $avgData['total_reviews'];
                 $interval = $todayDT->diff($endDT);
                 if ($interval->invert == 0): ?>
                     <p class="text-danger fw-bold">Offer ends in <?= $interval->days ?> day(s)!</p>
-                <?php endif; endif; ?>
+            <?php endif;
+            endif; ?>
 
             <div class="mt-4">
                 <?php if ($product['quantity'] > 0): ?>
@@ -150,26 +151,121 @@ $totalReviews = $avgData['total_reviews'];
 
     <div class="row">
         <div class="col-md-8 mx-auto">
-            <h4 class="mb-4">Customer Reviews</h4>
+            <h3 class="fw-bold text-center mb-5 text-gradient">✨ Customer Reviews ✨</h3>
 
             <?php if ($totalReviews > 0): ?>
                 <?php while ($review = $reviewResult->fetch_assoc()): ?>
-                    <div class="review-box">
-                        <strong><?= htmlspecialchars(string: $review['firstname']." ".$review['lastname']) ?></strong>
-                        <div class="rating">
-                            <?php for ($i = 1; $i <= 5; $i++): ?>
-                                <i class="bi <?= ($i <= $review['rating']) ? 'bi-star-fill' : 'bi-star' ?>"></i>
-                            <?php endfor; ?>
+                    <div class="review-card mb-4 shadow-sm p-4 rounded-4 bg-white position-relative">
+                        <div class="d-flex align-items-start">
+                            <!-- User Image -->
+                            <img src="<?= !empty($review['user_image']) ? 'images/profile_pictures/' . htmlspecialchars($review['user_image']) : 'images\profile_pictures\68dd6bdac9591_1758786535_u3.jpg' ?>"
+                                alt="User Image"
+                                class="rounded-circle me-3 review-user-img">
+
+                            <div class="flex-grow-1">
+                                <!-- User Name -->
+                                <h5 class="mb-1 fw-semibold text-dark"><?= htmlspecialchars($review['firstname'] . " " . $review['lastname']) ?></h5>
+
+                                <!-- Star Rating -->
+                                <div class="rating mb-2">
+                                    <?php for ($i = 1; $i <= 5; $i++): ?>
+                                        <i class="bi <?= ($i <= $review['rating']) ? 'bi-star-fill text-warning' : 'bi-star text-muted' ?>"></i>
+                                    <?php endfor; ?>
+                                </div>
+
+                                <!-- Review Text -->
+                                <p class="mb-2 review-text text-secondary fst-italic">
+                                    “<?= htmlspecialchars($review['review_text']) ?>”
+                                </p>
+
+                                <!-- Review Date -->
+                                <small class="text-muted">
+                                    <i class="bi bi-clock me-1"></i>
+                                    <?= date('d M Y', strtotime($review['created_at'])) ?>
+                                </small>
+                            </div>
                         </div>
-                        <p><?= htmlspecialchars($review['review_text']) ?></p>
-                        <small class="text-muted"><?= date('d M Y', strtotime($review['created_at'])) ?></small>
+
+                        <!-- Floating Quote Icon -->
+                        <div class="quote-icon">
+                            <i class="bi bi-chat-quote-fill text-danger opacity-25"></i>
+                        </div>
                     </div>
                 <?php endwhile; ?>
             <?php else: ?>
-                <p>No reviews yet. Be the first to review!</p>
+                <div class="text-center text-muted">
+                    <i class="bi bi-emoji-smile display-4 d-block mb-3"></i>
+                    <h5>No reviews yet.</h5>
+                    <p>Be the first to share your experience!</p>
+                </div>
             <?php endif; ?>
         </div>
     </div>
+
+    <style>
+        /* === Review Section Styling === */
+        .text-gradient {
+            background: linear-gradient(90deg, #ff416c, #ff4b2b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .review-card {
+            position: relative;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            background: linear-gradient(145deg, #ffffff, #f8f9fa);
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(145deg, #fff8f8, #ffffff);
+        }
+
+        .review-user-img {
+            width: 65px;
+            height: 65px;
+            object-fit: cover;
+            border: 3px solid #ff4b2b;
+            padding: 2px;
+            box-shadow: 0 4px 10px rgba(255, 75, 43, 0.2);
+        }
+
+        .review-text {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .rating i {
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        .rating i:hover {
+            color: #ffc107;
+        }
+
+        .quote-icon {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2rem;
+        }
+
+        @media (max-width: 576px) {
+            .review-user-img {
+                width: 55px;
+                height: 55px;
+            }
+
+            .review-card {
+                padding: 1.2rem;
+            }
+        }
+    </style>
+
 </div>
 
 <?php include 'footer.php'; ?>

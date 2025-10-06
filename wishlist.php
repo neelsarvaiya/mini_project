@@ -143,7 +143,7 @@ $wishlist_rows = mysqli_num_rows($wishlist_result1);
                     $product_data = "select * from products where id='$product_id'";
                     $product_result = mysqli_fetch_assoc(mysqli_query($con, $product_data));
             ?>
-                    <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="col-lg-4 mt-5 col-md-6 col-sm-6">
                         <div class="product-card">
                             <?php
                             $originalPrice = $product_result['price'];

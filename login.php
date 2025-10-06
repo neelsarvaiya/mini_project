@@ -1,4 +1,7 @@
-<?php include_once('header.php'); ?>
+<?php
+include_once('header.php');
+?>
+
 <style>
     body {
         background: linear-gradient(135deg, #f8fff6, #e6f9ee);
@@ -61,6 +64,30 @@
         transform: scale(1.03);
     }
 
+    .btn-google {
+        background: #fff;
+        border: 1px solid #dcdcdc;
+        border-radius: 50px;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        margin-bottom: 15px;
+    }
+
+    .btn-google:hover {
+        background: #f7f7f7;
+        transform: scale(1.02);
+        text-decoration: none;
+    }
+
+    .btn-google img {
+        width: 20px;
+        margin-right: 10px;
+    }
+
     .login-link {
         color: #28a745;
         text-decoration: none;
@@ -81,32 +108,78 @@
                         <h3 class="text-center mb-3">Login to Your Account</h3>
                         <p class="text-center text-muted mb-4">Enter your credentials to access your profile.</p>
 
-                        <form action="login.php" method="POST">
+                        <form action="" method="POST">
                             <div class="mb-3">
                                 <input type="text" class="form-control" id="email" name="email"
                                     placeholder="Email Address" data-validation="required email">
                                 <div class="error" id="emailError"></div>
                             </div>
 
-                            <!-- Password -->
                             <div class="mb-3">
                                 <input type="password" class="form-control" id="password" name="password"
                                     placeholder="Password" data-validation="required strongPassword">
                                 <div class="error" id="passwordError"></div>
                             </div>
 
-                            <!-- Forgot Password -->
                             <div class="text-end mb-4">
                                 <a href="forget_password.php" class="login-link">Forgot Password?</a>
                             </div>
 
-                            <!-- Submit -->
                             <div class="d-grid mb-3">
                                 <button type="submit" class="btn btn-success w-100" name="login">Login</button>
                             </div>
                         </form>
+                        <div class="or-divider text-center mb-3">
+                            <span>OR</span>
+                        </div>
+                        <!-- Google Login Button -->
+                        <a href="google_login.php" class="btn-google w-100 mb-3">
+                            <img src="images/products/g-logo.png"
+                                alt="Google"
+                                style="width:20px; height:20px; margin-right:10px; vertical-align:middle;">
+                            Login with Google
+                        </a>
 
-                        <!-- Signup Link -->
+                        <style>
+                            .or-divider {
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                color: #999;
+                                font-weight: 500;
+                                position: relative;
+                                text-transform: uppercase;
+                            }
+
+                            .or-divider::before,
+                            .or-divider::after {
+                                content: "";
+                                flex: 1;
+                                height: 1px;
+                                background: #ddd;
+                                margin: 0 10px;
+                            }
+
+                            .btn-google {
+                                display: inline-flex;
+                                align-items: center;
+                                justify-content: center;
+                                background-color: #fff;
+                                color: #444;
+                                border: 1px solid #ddd;
+                                font-weight: 500;
+                                padding: 10px;
+                                border-radius: 50px;
+                                transition: 0.3s;
+                                text-decoration: none;
+                            }
+
+                            .btn-google:hover {
+                                background-color: #f7f7f7;
+                                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                            }
+                        </style>
+
                         <p class="text-center mt-4">
                             Don’t have an account?
                             <a href="register.php" class="login-link fw-bold">Sign up</a>
@@ -121,7 +194,7 @@
 <?php include_once('footer.php'); ?>
 
 <?php
-
+// ** Existing Email/Password Login **
 if (isset($_POST['login'])) {
     $email = trim($_POST['email']);
     $password = trim($_POST['password']);
@@ -136,42 +209,22 @@ if (isset($_POST['login'])) {
             if ($user['password'] == $password) {
                 if ($user['role'] === 'user') {
                     $_SESSION['user'] = $user['email'];
-?>
-                    <script>
-                        window.location.href = 'index.php';
-                    </script>
-                <?php
+                    echo "<script>window.location.href = 'index.php';</script>";
                 } else {
                     $_SESSION['admin'] = $user['email'];
-                ?>
-                    <script>
-                        window.location.href = 'admin_dashboard.php';
-                    </script>
-                <?php
+                    echo "<script>window.location.href = 'admin_dashboard.php';</script>";
                 }
             } else {
                 setcookie("error", "Incorrect Password...", time() + 2, "/");
-                ?>
-                <script>
-                    window.location.href = "login.php";
-                </script>
-            <?php
+                echo "<script>window.location.href = 'login.php';</script>";
             }
         } else {
             setcookie("error", "Your account is Inactive....", time() + 2, "/");
-            ?>
-            <script>
-                window.location.href = "login.php";
-            </script>
-        <?php
+            echo "<script>window.location.href = 'login.php';</script>";
         }
     } else {
         setcookie("error", "Email is not verified", time() + 2, "/");
-        ?>
-        <script>
-            window.location.href = "login.php";
-        </script>
-<?php
+        echo "<script>window.location.href = 'login.php';</script>";
     }
 }
 ?>

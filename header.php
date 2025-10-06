@@ -936,8 +936,17 @@ $con->query($remove_otp);
                                 </li>
                                 <li><a class="dropdown-item mb-2" href="profile.php"><i class="bi bi-person me-2"></i> My
                                         Profile</a></li>
-                                <li><a class="dropdown-item mb-2" href="change_password.php"><i class="bi bi-key me-2"></i>
-                                        Change Password</a></li>
+                                <?php
+                                $email = $_SESSION['user'];
+                                $sql = "SELECT * FROM registration WHERE email='$email'";
+                                $result = $con->query($sql);
+                                $row = mysqli_fetch_assoc($result);
+                                if ($row['password'] != '') {
+                                    echo '<li><a class="dropdown-item mb-2" href="change_password.php">
+                                        <i class="bi bi-key me-2"></i> Change Password
+                                    </a></li>';
+                                }
+                                ?>
                                 <li><a class="dropdown-item mb-2" href="wishlist.php"><i class="bi bi-heart me-2"></i>
                                         Wishlist</a></li>
                                 <li><a class="dropdown-item mb-2" href="order_history.php"><i class="bi bi-receipt me-2"></i> Orders</a>

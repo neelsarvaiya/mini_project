@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$client_id = "652671025707-pl2232vbckj2224jk6fg2cl5v67aoi3p.apps.googleusercontent.com";
+$client_id = "";  //YOUR_GOOGLE_CLIENT_ID
 $redirect_uri = "http://localhost/mini_project/google_callback.php";
 $scope = "email profile";
 

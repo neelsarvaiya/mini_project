@@ -2,8 +2,8 @@
 session_start();
 include_once('db_connect.php');
 
-$client_id = "652671025707-pl2232vbckj2224jk6fg2cl5v67aoi3p.apps.googleusercontent.com";
-$client_secret = "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";
+$client_id = ""; //YOUR_GOOGLE_CLIENT_ID
+$client_secret = ""; //YOUR_GOOGLE_CLIENT_SECRET
 $redirect_uri = "http://localhost/mini_project/google_callback.php";
 
 if (isset($_GET['code'])) {

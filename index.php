@@ -47,7 +47,7 @@ $testimonialQuery  = "SELECT
             ORDER BY r.created_at DESC
             LIMIT 5";
 
-$testimonialResult  = $con->query($testimonialQuery );
+$testimonialResult  = $con->query($testimonialQuery);
 
 ?>
 
@@ -92,7 +92,7 @@ $testimonialResult  = $con->query($testimonialQuery );
 
                         $avgRating = round($product['avg_rating'] ?? 0, 1);
                         $totalReviews = $product['total_reviews'] ?? 0;
-                        ?>
+                ?>
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="product-card">
                                 <?php if ($discountPercent > 0): ?>
@@ -132,10 +132,10 @@ $testimonialResult  = $con->query($testimonialQuery );
                                         <span class="stars">
                                             <?php for ($i = 1; $i <= 5; $i++): ?>
                                                 <i class="bi <?= ($i <= floor($avgRating))
-                                                    ? 'bi-star-fill'
-                                                    : (($i - $avgRating < 1 && $i - $avgRating > 0)
-                                                        ? 'bi-star-half'
-                                                        : 'bi-star') ?>"></i>
+                                                                    ? 'bi-star-fill'
+                                                                    : (($i - $avgRating < 1 && $i - $avgRating > 0)
+                                                                        ? 'bi-star-half'
+                                                                        : 'bi-star') ?>"></i>
                                             <?php endfor; ?>
                                         </span>
                                         <span>(<?= $totalReviews ?> Reviews)</span>
@@ -163,7 +163,7 @@ $testimonialResult  = $con->query($testimonialQuery );
                                 </div>
                             </div>
                         </div>
-                        <?php
+                <?php
                     }
                 } else {
                     echo "<p class='text-center mt-5 fw-600'>No products found in this category.</p>";
@@ -205,7 +205,7 @@ $testimonialResult  = $con->query($testimonialQuery );
                 $offer_result = mysqli_query($con, $offer_query);
 
                 while ($offer = mysqli_fetch_assoc($offer_result)) {
-                    ?>
+                ?>
                     <div class="col-lg-6">
                         <div class="offer-card">
                             <div class="offer-image"
@@ -230,7 +230,7 @@ $testimonialResult  = $con->query($testimonialQuery );
                             </div>
                         </div>
                     </div>
-                    <?php
+                <?php
                 }
                 ?>
 
@@ -242,20 +242,20 @@ $testimonialResult  = $con->query($testimonialQuery );
         <div class="container">
             <div class="row align-items-center g-5">
                 <div class="col-lg-6">
+                    <?php
+                    $about_query = "SELECT * FROM contact_us LIMIT 1";
+                    $about_result = mysqli_query($con, $about_query);
+                    $about = mysqli_fetch_assoc($about_result);
+                    ?>
                     <div class="farmer-img-wrapper">
-                        <img src="https://uifaces.co/our-content/donated/xP_YIYn2.jpg"
-                            alt="Ramesh Bhai, a local farmer from near Gondal, Gujarat" class="farmer-img">
+                        <img src="images/products/<?= $about['about_image']; ?>"
+                            alt="" class="farmer-img">
                     </div>
                 </div>
                 <div class="col-lg-6 farmer-content">
                     <h5 class="subtitle">Farmer Spotlight</h5>
                     <h2 class="fw-bold">Straight From the Farm to Your Family</h2>
-                    <p class="text-muted mt-3">
-                        We believe in transparency and quality. That's why we partner directly with local farmers
-                        like **Ramesh Bhai from near Gondal**, who has been cultivating the land for over 30 years.
-                        His passion for natural farming ensures that the groundnuts and garlic you receive are not
-                        only fresh but also full of authentic flavor.
-                    </p>
+                    <p class="text-muted mt-3"><?= nl2br($about['about_text']); ?></p>
 
                     <a href="about.php" class="btn btn-story mt-4">
                         Learn Our Story <i class="bi bi-arrow-right ms-2"></i>
@@ -274,9 +274,9 @@ $testimonialResult  = $con->query($testimonialQuery );
             <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <?php
-                    if ($testimonialResult  && $testimonialResult ->num_rows > 0) {
+                    if ($testimonialResult  && $testimonialResult->num_rows > 0) {
                         $isActive = true;
-                        while ($row = $testimonialResult ->fetch_assoc()):
+                        while ($row = $testimonialResult->fetch_assoc()):
 
                             $rating = isset($row['rating']) ? (int) $row['rating'] : 0;
                             $firstname = isset($row['firstname']) ? $row['firstname'] : '';
@@ -293,7 +293,7 @@ $testimonialResult  = $con->query($testimonialQuery );
                             $userFullName = htmlspecialchars($firstname . ' ' . $lastname);
                             $userAddress = htmlspecialchars($address);
                             $reviewText = htmlspecialchars($review_text);
-                            ?>
+                    ?>
                             <div class="carousel-item <?= $isActive ? 'active' : '' ?>">
                                 <div class="testimonial-card text-center p-3">
                                     <img src="<?= $image ?>" class="testimonial-img rounded-circle mb-3"
@@ -309,7 +309,7 @@ $testimonialResult  = $con->query($testimonialQuery );
                                     <small class="customer-location text-muted"><?= $userAddress ?></small>
                                 </div>
                             </div>
-                            <?php
+                    <?php
                             $isActive = false;
                         endwhile;
                     } else {

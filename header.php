@@ -162,8 +162,42 @@ $con->query($remove_otp);
             .navbar-toggler:focus {
                 box-shadow: none;
             }
-    </style>
+        }
 
+
+        @media (max-width: 767.98px) {
+            .banner-sec {
+                background-position: top center;
+                min-height: auto;
+                padding: 60px 0;
+            }
+
+            .header-main-text {
+                text-align: left;
+
+            }
+
+            .header-main-text h3 {
+                font-size: 12px;
+                padding: 6px 15px;
+                margin-bottom: 1rem;
+            }
+
+            .header-main-text h1 {
+                font-size: 15px;
+                line-height: 1.3;
+            }
+
+            .header-main-text p {
+                font-size: 12px;
+            }
+
+            .nav-btn a {
+                padding: 12px 30px;
+                font-size: 15px;
+            }
+        }
+    </style>
 
     <!-- product -->
     <style>
@@ -760,7 +794,7 @@ $con->query($remove_otp);
             margin-bottom: 1.25rem;
             padding-bottom: 0.5rem;
             border-bottom: 2px solid rgba(255, 255, 255, 0.15);
-            display: inline-block;
+            /* Keeps border only under text */
         }
 
         .freshpick-footer h3 i {
@@ -822,21 +856,44 @@ $con->query($remove_otp);
             border-color: rgba(255, 255, 255, 0.2) !important;
         }
 
+
+        /* --------------------------------------------------- */
+        /* ------------ MOBILE RESPONSIVE STYLES ------------- */
+        /* --------------------------------------------------- */
         @media (max-width: 767.98px) {
 
+            /* Center-align all content within the footer columns */
             .freshpick-footer .col-md-4,
             .freshpick-footer .col-md-2,
             .freshpick-footer .col-md-3 {
                 text-align: center;
             }
 
-            .freshpick-footer .col-md-3 ul,
-            .freshpick-footer .col-md-2 ul {
-                /* Allows the list to be centered as a block, while keeping text left-aligned */
-                display: inline-block;
-                text-align: left;
+            /* Add vertical spacing between stacked columns for readability */
+            /* This targets every column except the first one */
+            .freshpick-footer .row>[class^="col-"]:not(:first-child) {
+                margin-top: 2rem;
             }
 
+            /* For the columns with lists, center the list block itself */
+            /* but keep the text inside the list left-aligned for readability. */
+            .freshpick-footer .col-md-3 ul,
+            .freshpick-footer .col-md-2 ul {
+                display: inline-block;
+                /* Allows the block to be centered */
+                text-align: center;
+                /* Aligns the text within the block to the left */
+                padding-left: 0;
+                /* Removes default list padding that can offset centering */
+            }
+
+            /* Ensure the contact list icons and text align correctly */
+            .freshpick-footer .col-md-3 ul li {
+                justify-content: flex-start;
+                /* Aligns items to the start (left) of the list item */
+            }
+
+            /* Center the social icons container */
             .social-icons {
                 justify-content: center;
             }
@@ -913,7 +970,7 @@ $con->query($remove_otp);
                         $result = $con->query($q);
                         $row = mysqli_fetch_assoc($result);
 
-                    ?>
+                        ?>
                         <div class="dropdown profile-dropdown me-3">
                             <a href="#"
                                 class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle px-3 rounded"
@@ -949,7 +1006,8 @@ $con->query($remove_otp);
                                 ?>
                                 <li><a class="dropdown-item mb-2" href="wishlist.php"><i class="bi bi-heart me-2"></i>
                                         Wishlist</a></li>
-                                <li><a class="dropdown-item mb-2" href="order_history.php"><i class="bi bi-receipt me-2"></i> Orders</a>
+                                <li><a class="dropdown-item mb-2" href="order_history.php"><i
+                                            class="bi bi-receipt me-2"></i> Orders</a>
                                 </li>
                                 <li>
                                     <hr class="dropdown-divider">
@@ -974,19 +1032,19 @@ $con->query($remove_otp);
 
     <?php
     if (isset($_COOKIE['success'])) {
-    ?>
+        ?>
         <div class="alert alert-success alert-dismissible mt-5 fade show" role="alert">
             <strong>Success!</strong> <?php echo " " . $_COOKIE['success']; ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    <?php
+        <?php
     }
     if (isset($_COOKIE['error'])) {
-    ?>
+        ?>
         <div class="alert alert-danger alert-dismissible mt-5 fade show" role="alert">
             <strong>Error!</strong><?php echo " " . $_COOKIE['error']; ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    <?php
+        <?php
     }
     ?>
